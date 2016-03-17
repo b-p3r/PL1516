@@ -70,24 +70,90 @@ yylex();
 
 //ListItems
 
-//printf("number of identifiers = %d\n", count);
+printf("<!DOCTYPE html>                     \n");
+printf("<html>                              \n");
+printf("<head>                              \n");
+printf("   <style>                          \n"); 
+printf("     table, th, td {                \n"); 
+printf("      border: 1px solid black;      \n"); 
+printf("      border-collapse: collapse;    \n"); 
+printf("    }                               \n");  
+printf("   </style>                         \n");  
+printf("</head>                             \n");
 
-printf("Article       %d \n ", atoi(counter[ARTICLE      ])); 
-printf("Booklet       %d \n ", atoi(counter[BOOKLET      ])); 
-printf("Book          %d \n ", atoi(counter[BOOK         ])); 
-printf("Conference    %d \n ", atoi(counter[CONFERENCE   ])); 
-printf("Inbook        %d \n ", atoi(counter[INBOOK       ])); 
-printf("Incollection  %d \n ", atoi(counter[INCOLLECTION ])); 
-printf("Inproceedings %d \n ", atoi(counter[INPROCEEDINGS])); 
-printf("Manual        %d \n ", atoi(counter[MANUAL       ])); 
-printf("Mastersthesis %d \n ", atoi(counter[MASTERSTHESIS])); 
-printf("Misc          %d \n ", atoi(counter[MISC         ])); 
-printf("Phdthesis     %d \n ", atoi(counter[PHDTHESIS    ])); 
-printf("Proceedings   %d \n ", atoi(counter[PROCEEDINGS  ])); 
-printf("Techreport    %d \n ", atoi(counter[TECHREPORT   ])); 
-printf("Unpublished   %d \n ", atoi(counter[UNPUBLISHED  ])); 
+printf("<body>                              \n");
+
+printf("   <table width=400>                \n");
+
+printf("       <tr>\n");
+printf("           <td>Article</td>         \n");      
+printf("           <td> %d </td>            \n", counter[ARTICLE      ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Booklet</td>         \n");         
+printf("           <td> %d </td>            \n", counter[BOOKLET      ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Book</td>            \n");       
+printf("           <td> %d </td>            \n", counter[BOOK         ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Conference</td>      \n"); 
+printf("           <td> %d </td>            \n", counter[CONFERENCE   ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Inbook</td>          \n"); 
+printf("           <td> %d </td>            \n", counter[INBOOK       ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Incollection</td>    \n"); 
+printf("           <td> %d </td>            \n", counter[INCOLLECTION ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Inproceedings</td>   \n"); 
+printf("           <td> %d </td>            \n", counter[INPROCEEDINGS]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Manual</td>          \n"); 
+printf("           <td> %d </td>            \n", counter[MANUAL       ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Master's Thesis</td> \n"); 
+printf("           <td> %d </td>            \n", counter[MASTERSTHESIS]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Misc                 \n"); 
+printf("           <td> %d </td>            \n", counter[MISC         ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Phd Thesis</td>      \n"); 
+printf("           <td> %d </td>            \n", counter[PHDTHESIS    ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Proceedings</td>     \n"); 
+printf("           <td> %d </td>            \n", counter[PROCEEDINGS  ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Techreport</td>      \n"); 
+printf("           <td> %d </td>            \n", counter[TECHREPORT   ]); 
+printf("       <tr>                         \n");
+printf("       </tr>                        \n");
+printf("           <td>Unpublished</td>     \n"); 
+printf("           <td> %d  </td>           \n", counter[UNPUBLISHED  ]); 
+printf("       </tr>                        \n");
 
 
+/**
+TODO: Adicionar código para parte genérica 
+
+**/
+
+
+
+printf("   </table>                         \n");
+printf("</body>                             \n");
+
+printf("</html>                             \n");
 //Fim da página
 
 
