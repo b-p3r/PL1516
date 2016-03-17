@@ -7,10 +7,9 @@ Repositório para os trabalhos práticos de Processamento de Linguagens
   2. Pygments instalado, de uma das seguintes formas:
 	* $ sudo apt-get install python-pygments
 	* $ sudo easy_install Pygments
-	* $ pip install Pygments (caso for necessŕio $ sudo apt-get install pip)
+	* $ pip install Pygments (caso for necessŕio $ sudo apt-get install pip).
   3. Ter o pacote mint instalado (usualmente já está na instalação do TeX). Se
      não estiver instalado:
-
-     	* $ sudo apt-get install texlive-latex-extra
+	* $ sudo apt-get install texlive-latex-extra
 
 	
