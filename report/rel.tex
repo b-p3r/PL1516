@@ -1,0 +1,185 @@
+\documentclass[pdftex,12pt,a4paper]{report}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+\usepackage{fancyvrb}
+\fvset{xleftmargin=2em}
+
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+\usepackage{tikzscale}
+\usepackage{pgfplotstable}
+\usepackage{booktabs}
+\usepackage[font=small,labelfont=bf,tableposition=top]{caption}
+
+\usepackage[utf8]{inputenc}
+\usepackage[portuges]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+%\usepackage{lmodern}
+\usepackage[obeyspaces,spaces]{url}
+\usepackage[left=20mm,right=20mm,top=25mm,bottom=25mm]{geometry}
+\usepackage{titlesec}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+
+%identa 1Âº paragrafo de capitulos e secÃ§Ãµes
+\usepackage{indentfirst}
+\usepackage{url}
+%\usepackage{alltt}
+\usepackage[]{hyperref}
+\usepackage{xspace}
+
+\hypersetup{
+%pdftitle={Trabalho 1 - GestÃ£o de Projeto},
+%pdfauthor={Bruno Pereira},
+%pdfsubject={InvestigaÃ§Ã£o Operacional},
+%pdfkeywords={keyword1, keyword2}},
+bookmarksnumbered=true,     
+bookmarksopen=true,         
+bookmarksopenlevel=1,       
+colorlinks=true,            
+pdfstartview=Fit,           
+pdfpagemode=UseOutlines, % this is the option you were lookin for
+pdfpagelayout=TwoPageRight
+		}
+
+\usepackage{minted}
+\usemintedstyle{borland}
+\setminted{frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos, 
+breaklines,
+breakautoindent=false,
+autogobble
+}
+\usepackage{caption}
+\newenvironment{longlisting}{\captionsetup{type=listing}}{}
+\def\darius{\textsf{Darius}\xspace}
+
+\def\java{\texttt{Java}\xspace}
+
+\def\pe{\emph{Publicação Eletrónica}\xspace}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+
+\begin{document}
+
+\input{./report/title.tex}
+\begin{abstract}
+Isto é um resumo do relatório de \pe focando o contexto do trb (muito
+sucinto),os objetivos concretos e os resultados atingidos.
+
+Algum texto curto mas que entusiasme a leitura do relatório de \pe.
+
+\end{abstract}
+
+\tableofcontents
+
+\input{./report/chapters/cap1_introducao}
+
+\input{./report/chapters/cap2_analise_especificao}
+
+\input{./report/chapters/cap3_concecao_ou_desenho_resolucao}
+
+\input{./report/chapters/cap4_codificacao_e_testes}
+
+\input{./report/chapters/cap5_conclusao}
+
+\appendix
+
+\chapter{Código do Programa}
+
+
+
+Lista-se a seguir o código \java~\cite{citeulike:4677363} do programa
+\darius~\cite{FCH11a} que foi desenvolvido.
+
+\begin{verbatim}
+
+public class Aula()
+
+  {
+
+    int n, m;
+
+    int max(int a, int b)
+
+      {
+
+       ......
+
+       return(max);
+
+      }
+
+  }
+
+\end{verbatim}
+
+
+
+\begin{verbatim}
+
+llll sanjdb c kjnjcnjnjj mmmmmmmmmmmmm hhhhhhhhhhhhhhhhhhhhhhhh
+jjjjjjjjjjjjjjjjjjjjjjjjjjjj kkkkkkkkkkkkkkkkkk
+
+      aqui deve aparecer o código do programa,
+
+      tal como está formato no ficheiro-fonte "darius.java"
+
+      caso indesejável $\varepsilon$
+
+\end{verbatim}
+
+
+
+\begin{minted}{c}
+
+#include <stdio.h>
+#define N 10
+/* Block
+ * comment */
+
+ int main()
+ {
+     int i;
+	 
+	   // Line comment.
+		 puts("Hello world!");
+			     
+		 for (i = 0; i < N; i++)
+		 {
+		 puts("LaTeX is also great for programmers!");
+		 }
+										 
+	   return 0;
+				
+}
+\end{minted}
+
+
+E ainda possível importar diretamente o ficheiro:
+
+
+\begin{longlisting}
+	\inputminted{c}{Exercicio2/exe2_1.l}
+	\caption{Ficheiro fonte do exercício 2.1}
+	\label{listing:3}
+\end{longlisting}
+
+
+
+
+
+\bibliographystyle{alpha}
+
+\bibliography{./report/bibs/pl}
+
+\end {document}
+
+
