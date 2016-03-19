@@ -20,7 +20,7 @@
 <AUT>([ ]|[-])+[A-Z][A-Za-z]+        {printf("%s", yytext);}
 <AUT>[A-Z][A-Za-z]+            {printf("%c.", yytext[0]);}
 
-<CHAV>(.|\n)                   {ECHO;}
+<CHAV>(.|\n)                   {ECHO;BEGIN INITIAL;}
 (.|\n)                         {ECHO;}
 
 %%
