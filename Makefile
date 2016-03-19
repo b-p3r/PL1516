@@ -42,6 +42,12 @@ relatorio.pdf:  report/rel.tex
 #	@echo "Preparar ficheiro Bzip para entrega...."
 #	tar jcf PLg039-et2.tar.bz2 identificacao code doc
 
+############################### - Exercício 2.2  ###########################################
+
+
+exe2_2: ./Exercicio2/exe2_2.l
+	flex -o ./Exercicio2/lex.yy.c ./Exercicio2/exe2_2.l 
+	$(CC) $(CFLAGS) -o filter_exe2_2 ./Exercicio2/lex.yy.c
 
 
 ############################### - Exercício 2.1  ###########################################
