@@ -12,4 +12,6 @@ Repositório para os trabalhos práticos de Processamento de Linguagens
      não estiver instalado:
 	* $ sudo apt-get install texlive-latex-extra
 
-	
+
+
+**TODO** Para não esquecer de corrigir grupo na expressão regular do autor
