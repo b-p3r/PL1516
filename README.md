@@ -17,7 +17,7 @@ Repositório para os trabalhos práticos de Processamento de Linguagens
 **TODO** Para não esquecer de corrigir grupo na expressão regular do autor
 **TODO** Adicionar código para tabela de hash e trie
 **TODO** Adicionar resolução de caracteres de escape, bem como **tratamento de
-maísculas nos títulos e nomes**
+maísculas nos títulos e nomes, bem como em \\~{} e \\.**
 
 
 
@@ -25,7 +25,7 @@ maísculas nos títulos e nomes**
 
 |Comando LaTeX  | Exemplo   |     Descrição
 |---            |---        |---                                                                     |
-|\`{o}          |   ò       |      grave accent                                                      |     
+|\\`{o}          |   ò       |      grave accent                                                      |     
 |\'{o}          |   ó       |      acute accent                                                      |        
 |\^{o}          |   ô       |      circumflex                                                        |      
 |\"{o}          |   ö       |      umlaut, trema or dieresis                                         |     
@@ -36,7 +36,7 @@ maísculas nos títulos e nomes**
 |\l{}           |   ł       |      barred l (l with stroke)                                          |  
 |\={o}          |   ō       |      macron accent (a bar over the letter)                             |      
 |\b{o}          |   o       |      bar under the letter                                              |    
-|\.{o}          |   ȯ       |      dot over the letter                                               |  
+|\\.{o}          |   ȯ       |      dot over the letter                                               |  
 |\d{u}          |   ụ       |      dot under the letter                                              | 
 |\r{a}          |   å       |      ring over the letter (for å there is also the special command \aa)|  
 |\u{o}          |   ŏ       |      breve over the letter                                             |  
@@ -47,8 +47,8 @@ maísculas nos títulos e nomes**
 
 To place a diacritic on top of an i or a j, its dot has to be removed. The dotless version of these letters is accomplished by typing \i and \j. For example:
 
-    \^{\i} should be used for i circumflex 'î';
-    \"{\i} should be used for i umlaut 'ï'.
+   \^{\i} should be used for i circumflex 'î';
+   \"{\i} should be used for i umlaut 'ï'.
 
 ### Caracteres concretizados 
   {á}{{\'a}}1 
