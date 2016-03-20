@@ -45,10 +45,13 @@ relatorio.pdf:  report/rel.tex
 ############################### - Exercício 2.2  ###########################################
 
 
-exe2_2: ./Exercicio2/exe2_2.l
-	flex -o ./Exercicio2/lex.yy.c ./Exercicio2/exe2_2.l 
-	$(CC) $(CFLAGS) -o filter_exe2_2 ./Exercicio2/lex.yy.c
+exe2_2a: ./Exercicio2/exe2_2a.l
+	flex -o ./Exercicio2/lex.yy.c ./Exercicio2/exe2_2a.l 
+	$(CC) $(CFLAGS) -o filter_exe2_2a ./Exercicio2/lex.yy.c
 
+exe2_2b: ./Exercicio2/exe2_2b.l
+	flex -o ./Exercicio2/lex.yy.c ./Exercicio2/exe2_2b.l 
+	$(CC) $(CFLAGS) -o filter_exe2_2b ./Exercicio2/lex.yy.c
 
 ############################### - Exercício 2.1  ###########################################
 
