@@ -14,7 +14,7 @@ LATEXMKBIBTEX=-bibtex
 
 all: exe2_1 relatorio.pdf clean 
 
-clean: 
+clean: clean_exec 
 	@echo "A limpar diretoria...."
 	rm -rf *.o
 	rm -rf Exercicio2/*.o
@@ -24,6 +24,7 @@ clean:
 clean_exec:
 	@echo "A eliminar executáveis...."
 	rm -f filter_*
+	rm -fr relatorio.pdf 
 
 ############################# - Documentação - #########################################
 
@@ -41,6 +42,17 @@ relatorio.pdf:  report/rel.tex
 #compress: identificacao  ./code ./doc
 #	@echo "Preparar ficheiro Bzip para entrega...."
 #	tar jcf PLg039-et2.tar.bz2 identificacao code doc
+
+
+############################### - Exercício 2.3 ###########################################
+exe2_3: ./Exercicio2/exe2_3.l
+	flex -o ./Exercicio2/lex.yy.c ./Exercicio2/exe2_3.l 
+	$(CC) $(CFLAGS) -c ./Exercicio2/structures/trie.c -o trie.o
+	$(CC) $(CFLAGS) -c ./Exercicio2/lex.yy.c -o filter.o
+	$(CC) $(CFLAGS) -g filter.o trie.o -o filter_exe2_3
+
+
+
 
 ############################### - Exercício 2.2  ###########################################
 
