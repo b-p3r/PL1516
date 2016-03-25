@@ -1,9 +1,0 @@
-   int j;
-                                   if(strstr(yyval.autor, str)){
-                                    yyless(0);
-                                    ECHO;
-                                   }
-                                    i=0;
-                                
-                                /*printf("\n");*/
- yyval.autor[i++]=yytext[0];
