@@ -2,58 +2,51 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
- #include <ctype.h>
 #include "../Exercicio2/structures/trie.h"
+#define  ARRAY_SIZE  64
 
+char autor[ARRAY_SIZE];
+int i = 0;
 
-
-
-union {
-
-char autor[64];
-int density;
-
-} yyval;
 
 
 TRIE * dicionario;
-int i, ocurrences = 0;
 
 char * str = "Tim Teitelbaum";
 
 %}
 
-%S AUT2 AUT
+%S AUT AUT2
 
 %%
 
-[ ]*"author"[  ]*"="[  ]*[{"][ ]* {i=0; ocurrences = 0;BEGIN AUT;}
+[ ]*"author"[ ]*"="[ ]*[{"][ ]* {i=0; BEGIN AUT;}
 
 
-
-
-<AUT>[ ]*[}"]                	 {i = 0;
-				 BEGIN INITIAL;
-				 }
-<AUT>((and)?[ ]*[A-Z]((\.)|([a-z\-]+))[ ]*)+   {char *mystr;
-                                               int j;
-					       char c;
-                                               mystr =  strdup(yytext);
-                                               if(strstr(mystr, str)){
-                         			printf("%s", yytext);
-
-					       }
+<AUT>[ ]*[}"]                	 { BEGIN INITIAL;}
+  /** Dúvidas em relação a esta linha por causa da eficiência **/
+<AUT>((and)?[ ]*[A-Z]((\.)|([a-z\-]+))[ ]*)+   {
                                                 
+                                               if(strstr(yytext, str)){
 
+						yyless(0);
+
+						BEGIN AUT2;
+					       }
 				               }
-
-
-
-<AUT>(.|\n)                      {;}
-
-
-(.|\n)                          {;}
+<AUT2>[ ]*[}"]                   { autor[i+1]='\0'; 
+                                   TRIE_insert(dicionario, strdup(autor));
+				   i=0;
+			          BEGIN INITIAL;}
+<AUT2>[ ]+(and)[ ]+              {
+                                  autor[i+1]='\0';
+                                  TRIE_insert(dicionario, strdup(autor));
+				  i = 0; 
+				  }
+<AUT2>(.|\n)                     {autor[i++]= yytext[0];
+				  
+					}
+(.|\n)                           {;}
 %%
 
 
@@ -67,9 +60,8 @@ dicionario = TRIE_init();
 
 yylex();
 
-printf("%d\n", ocurrences);
 
-//TRIE_getAllKeys(dicionario);
+TRIE_getAllKeys(dicionario);
 
 return (0); }
 
