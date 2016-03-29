@@ -12,8 +12,9 @@ int i = 0;
 
 TRIE * dicionario;
 
-char * str = "Tim Teitelbaum";
+//char * str = "Tim Teitelbaum";
 
+char * str;
 %}
 
 %S AUT AUT2
@@ -52,16 +53,27 @@ char * str = "Tim Teitelbaum";
 
 int yywrap(){ return 1; } 
 
-int main (){
+int main (int argc, char *argv[]){
 
+if(argv[1]==NULL)
+return -1;
 
+str = argv[1];
 dicionario = TRIE_init();
+
+printf("strict digraph G {\n");
+printf("  ratio=fill;\n");
+printf("  size=\"7.5,10\"\n");
+printf("  center=true;\n");
+printf("  rankdir=LR;\n");
 
 
 yylex();
+if(TRIE_getTotalKeys(dicionario))
+TRIE_getAllKeys_GRAPH(dicionario, str);
 
+printf("}\n");
 
-TRIE_getAllKeys(dicionario);
 
 return (0); }
 

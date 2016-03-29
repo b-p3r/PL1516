@@ -22,7 +22,7 @@ typedef struct NODO
 } TRIE;
 
 
-NODO *novoNodo()
+static NODO *novoNodo()
 {   int i;
     NODO *a = ( NODO * ) malloc ( sizeof ( NODO ) );
 
@@ -34,24 +34,6 @@ NODO *novoNodo()
     return a;
 }
 
-
-static int nodoLivre ( NODO *nodo )
-{   int i;
-
-    for ( i=0; i < MAX_ALPH; i++ )
-        if ( nodo->nodo[i] )
-            return 0;
-
-    return 1;
-}
-
-static int append_char2str ( char a , char *buff, int buff_index )
-{   buff[buff_index] = a;
-    buff[buff_index + 1] = '\0';
-    buff_index++;
-    return buff_index;
-}
-
 TRIE *TRIE_init()    /*cria a raiz*/
 {   TRIE *raiz= ( TRIE * ) malloc ( sizeof ( TRIE ) );
     TRIE *root=NULL;
@@ -60,6 +42,15 @@ TRIE *TRIE_init()    /*cria a raiz*/
     root = raiz;
     return root;
 }
+
+
+static int append_char2str ( char a , char *buff, int buff_index )
+{   buff[buff_index] = a;
+    buff[buff_index + 1] = '\0';
+    buff_index++;
+    return buff_index;
+}
+
 
 
 TRIE *TRIE_insert ( TRIE *trie, char *key )
@@ -90,11 +81,11 @@ TRIE *TRIE_insert ( TRIE *trie, char *key )
 
 
 int TRIE_getTotalKeys ( TRIE *t )
-{   TRIE *raiz = ( TRIE * ) t;
+{   TRIE *raiz = t;
     return raiz->total_keys;
 }
 
-static void get_Keys ( NODO *t, char *intern_buff, int buff_index )
+static void get_Keys ( NODO *t, char *intern_buff, int buff_index , int format , const char *name )
 {   NODO *ap = t;
     int nivel = 0;
 
@@ -102,38 +93,85 @@ static void get_Keys ( NODO *t, char *intern_buff, int buff_index )
         return;
 
     if ( ap->control )
-    {
-	    printf("%s\n", intern_buff);
+    {   switch ( format )
+        {   case 0 :
+		if(strcmp(intern_buff, name))
+                printf ( "\"%s\" -> \"%s\" [label = %d ];\n", name, intern_buff, ap->control );
+                break;
+
+            case 1 :
+                printf ( "<tr>\n" );
+                printf ( "	<td> %s </td>\n", intern_buff );
+                printf ( "	<td> %d </td>\n", ap->control );
+                printf ( "</tr>\n" );
+                break;
+
+            case 2 :
+                printf ( "%s %d\n", intern_buff, ap->control );
+                break;
+        }
     }
 
     for ( ; nivel < MAX_ALPH; nivel++ )
     {   if ( ap->nodo[nivel] != NULL )
-        {   buff_index = append_char2str ( OFFSET(nivel) , intern_buff, buff_index );
-            get_Keys ( ap->nodo[nivel] , intern_buff, buff_index );
+        {   buff_index = append_char2str ( OFFSET ( nivel ) , intern_buff, buff_index );
+            get_Keys ( ap->nodo[nivel] , intern_buff, buff_index , format, name );
             buff_index--;
         }
     }
 }
 
-void TRIE_getAllKeys ( TRIE *trie )
-{   
-    char intern_buff[ARRAY_SIZE];
-    int buff_index = 0;
-    NODO *aux = trie->raiz;
-    get_Keys ( aux, intern_buff, buff_index );
+
+
+
+int TRIE_lookup ( TRIE *trie, char *key, NODO *aux )
+{   TRIE *raiz= trie;
+    NODO *ap = raiz->raiz;
+    int i, nivel, tam;
+
+    if ( ap == NULL )
+    {   return 0;
+    }
+
+    tam = strlen ( key );
+
+    for ( nivel = 0; nivel < tam; nivel++ )
+    {   i = OFFSET ( key[nivel] );
+
+        if ( ap->nodo[i] == NULL )
+        {   *aux;
+            return 0;
+        }
+
+        ap = ap->nodo[i];
+    }
+
+    if ( ap&&ap->control )
+        *aux= *ap;
+
+    return ( ap&&ap->control );
 }
 
-//int main()
-//{   char line[BUFSIZ];
-//    TRIE *trie = TRIE_init();
-//
-//
-//    while ( fgets ( line,BUFSIZ,stdin ) != NULL )
-//    {   line[strlen ( line )-1]='\0';
-//	    TRIE_insert(trie, line);
-//    }
-//
-//   TRIE_getAllKeys(trie);
-//
-//    return 0;
-//}
+
+
+
+void TRIE_getAllKeys_HTML ( TRIE *trie )
+{   char intern_buff[ARRAY_SIZE];
+    int buff_index = 0;
+    NODO *aux = trie->raiz;
+    get_Keys ( aux, intern_buff, buff_index, 1, NULL );
+}
+void TRIE_getAllKeys_GRAPH ( TRIE *trie , const char *name )
+{   char intern_buff[ARRAY_SIZE];
+    int buff_index = 0;
+    NODO *aux = trie->raiz;
+    get_Keys ( aux, intern_buff, buff_index, 0, name );
+}
+
+void TRIE_getAllKeys ( TRIE *trie )
+{   char intern_buff[ARRAY_SIZE];
+    int buff_index = 0;
+    NODO *aux = trie->raiz;
+    get_Keys ( aux, intern_buff, buff_index, 2, NULL );
+}
+
