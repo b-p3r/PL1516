@@ -2,74 +2,78 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
- #include <ctype.h>
 #include "../Exercicio2/structures/trie.h"
+#define  ARRAY_SIZE  64
 
+char autor[ARRAY_SIZE];
+int i = 0;
 
-
-
-union {
-
-char autor[64];
-int density;
-
-} yyval;
 
 
 TRIE * dicionario;
-int i, ocurrences = 0;
 
-char * str = "Tim Teitelbaum";
+//char * str = "Tim Teitelbaum";
 
+char * str;
 %}
 
-%S AUT2 AUT
+%S AUT AUT2
 
 %%
 
-[ ]*"author"[  ]*"="[  ]*[{"][ ]* {i=0; ocurrences = 0;BEGIN AUT;}
+[ ]*"author"[ ]*"="[ ]*[{"][ ]* {i=0; BEGIN AUT;}
 
 
-
-
-<AUT>[ ]*[}"]                	 {i = 0;
-				 BEGIN INITIAL;
-				 }
-<AUT>((and)?[ ]*[A-Z]((\.)|([a-z\-]+))[ ]*)+   {char *mystr;
-                                               int j;
-					       char c;
-                                               mystr =  strdup(yytext);
-                                               if(strstr(mystr, str)){
-                         			printf("%s", yytext);
-
-					       }
+<AUT>[ ]*[}"]                	 { BEGIN INITIAL;}
+  /** Dúvidas em relação a esta linha por causa da eficiência **/
+<AUT>((and)?[ ]*[A-Z]((\.)|([a-z\-]+))[ ]*)+   {
                                                 
+                                               if(strstr(yytext, str)){
 
+						yyless(0);
+
+						BEGIN AUT2;
+					       }
 				               }
-
-
-
-<AUT>(.|\n)                      {;}
-
-
-(.|\n)                          {;}
+<AUT2>[ ]*[}"]                   { autor[i+1]='\0'; 
+                                   TRIE_insert(dicionario, strdup(autor));
+				   i=0;
+			          BEGIN INITIAL;}
+<AUT2>[ ]+(and)[ ]+              {
+                                  autor[i+1]='\0';
+                                  TRIE_insert(dicionario, strdup(autor));
+				  i = 0; 
+				  }
+<AUT2>(.|\n)                     {autor[i++]= yytext[0];
+				  
+					}
+(.|\n)                           {;}
 %%
 
 
 int yywrap(){ return 1; } 
 
-int main (){
+int main (int argc, char *argv[]){
 
+if(argv[1]==NULL)
+return -1;
 
+str = argv[1];
 dicionario = TRIE_init();
+
+printf("strict digraph G {\n");
+printf("  ratio=fill;\n");
+printf("  size=\"7.5,10\"\n");
+printf("  center=true;\n");
+printf("  rankdir=LR;\n");
 
 
 yylex();
+if(TRIE_getTotalKeys(dicionario))
+TRIE_getAllKeys_GRAPH(dicionario, str);
 
-printf("%d\n", ocurrences);
+printf("}\n");
 
-//TRIE_getAllKeys(dicionario);
 
 return (0); }
 

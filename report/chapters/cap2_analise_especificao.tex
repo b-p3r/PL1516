@@ -13,3 +13,51 @@
 \subsection{Relações}
 
 
+
+2     Enunciados
+Para sistematizar o trabalho que se pede em cada uma das propostas seguintes, considere que deve, em qualquer um
+dos casos, realizar a seguinte lista de tarefas:
+
+    1. Especificar os padrões de frases que quer encontrar no texto-fonte, através de ERs.
+    2. Identificar as acções semânticas a realizar como reacção ao reconhecimento de cada um desses padrões.
+    3. Identificar as Estruturas de Dados globais que possa eventualmente precisar para armazenar temporariamente a
+       informação que vai extraindo do texto-fonte ou que vai construindo à medida que o processamento avança.
+    4. Desenvolver um Filtro de Texto para fazer o reconhecimento dos padrões identificados e proceder à transformação
+       pretendida, com recurso ao Gerador Flex.
+
+2.2    Normalizador de ficheiros BibTeX
+BibTeX é uma ferramenta de formatação de citações bibliográficas em documentos LATEX, criada com o objectivo de
+facilitar a separação da base de dados com a bibliografia consultada da sua apresentação no fim do documento LATEX
+em edição. BibTeX foi criada por Oren Patashnik e Leslie Lamport em 1985, tendo cada entrada nessa base de dados
+textual o aspecto que se ilustra a seguir:
+@InProceedings{CPBFH07e,
+  author =    {Daniela da Cruz and Maria Joao Varanda Pereira
+               and Mario Beron and Ruben Fonseca and
+               Pedro Rangel Henriques},
+  title =     {Comparing Generators for Language-based Tools},
+  booktitle = {Proceedings of the 1.st Conference on Compiler
+               Related Technologies and Applications, CoRTA’07
+               --- Universidade da Beira Interior, Portugal},
+  year =      {2007},
+  editor =    {},
+  month =     {Jul},
+}
+
+De modo a familiarizar-se com o formato do BibTeX poderá consultar o ficheiro lp.bib disponı́vel em http://www.
+di.uminho.pt/~prh/lp.bib e ainda a página oficial do formato referido (http://www.bibtex.org/), devendo para
+já saber que a primeira palavra (logo a seguir ao caracter ”@”) designa a categoria da referência (havendo em BibTeX
+pelo menos 14 diferentes).
+As tarefas que deverá executar neste trabalho prático são:
+
+a) Analise o documento BibTeX referido acima e faça a contagem das categorias (phDThesis, Misc, InProceeding,
+    etc.), que ocorrem no documento. No final, deverá produzir um documento em formato HTML com o nome das
+    categorias encontradas e respectivas contagens.
+b) Desenvolva uma ferramenta de normalização (sempre que um campo está entre aspas, troque para chavetas e
+    escreva o nome dos autores no formato ”N. Apelido”) e faça uma ferramenta de pretty-printing que indente
+    corretamente cada campo, escreva um autor por linha e coloque sempre no inı́cio os campos autor e tı́tulo.
+c) Construa um Grafo que mostre, para um dado autor (escolhido pelo utilizador) todos os autores que publicam
+     normalmente com o autor em causa.
+     Recorrendo à linguagem Dot do GraphViz2 , gere um ficheiro com esse grafo de modo a que possa, posteriormente,
+     usar uma das ferramentas que processam Dot 3 para desenhar o dito grafo de associações de autores.
+
+2.3    From treebanks to probablilistic grammar

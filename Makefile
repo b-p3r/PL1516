@@ -14,17 +14,7 @@ LATEXMKBIBTEX=-bibtex
 
 all: exe2_1 relatorio.pdf clean 
 
-clean: clean_exec 
-	@echo "A limpar diretoria...."
-	rm -rf *.o
-	rm -rf Exercicio2/*.o
-	rm -rf Exercicio2/lex.yy.c
-	#rm -rf ./doc
 
-clean_exec:
-	@echo "A eliminar executáveis...."
-	rm -f filter_*
-	rm -fr relatorio.pdf 
 
 ############################# - Documentação - #########################################
 
@@ -45,7 +35,7 @@ relatorio.pdf:  report/rel.tex
 
 
 ############################### - Exercício 2.3 ###########################################
-exe2_3: ./Exercicio2/exe2_3.l
+exe2_3: ./Exercicio2/exe2_3.l clean
 	flex -o ./Exercicio2/lex.yy.c ./Exercicio2/exe2_3.l 
 	$(CC) $(CFLAGS) -c ./Exercicio2/structures/trie.c -o trie.o
 	$(CC) $(CFLAGS) -c ./Exercicio2/lex.yy.c -o filter.o
@@ -73,3 +63,14 @@ exe2_1: ./Exercicio2/exe2_1.l
 	$(CC) $(CFLAGS) -o filter_exe2_1 ./Exercicio2/lex.yy.c
 
 
+clean: clean_exec 
+	@echo "A limpar diretoria...."
+	rm -rf *.o
+	rm -rf Exercicio2/*.o
+	rm -rf Exercicio2/lex.yy.c
+	#rm -rf ./doc
+
+clean_exec:
+	@echo "A eliminar executáveis...."
+	rm -f filter_*
+	rm -fr relatorio.pdf 
