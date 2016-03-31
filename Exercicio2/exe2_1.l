@@ -71,7 +71,7 @@ dicionario=TRIE_init();
 
 yylex();
 
-//Criação do output em HTML
+//Criacao do output em HTML
 
 
 printf("<!DOCTYPE html>                  \n");
@@ -154,7 +154,7 @@ printf("   </table>                         \n");
 printf("</body>                             \n");
 
 printf("</html>                             \n");
-//Fim da página
+//Fim da pagina
 
 
 

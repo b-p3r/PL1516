@@ -1,4 +1,3 @@
-
 %{
 #include <stdlib.h>
 #include <stdio.h>
@@ -9,25 +8,25 @@ int state_caller = 0;
 
 %S AUT TITLE FIELD SPEC URL 
 %%
-[ ]*"organization"[ ]*"="[ ]*[{"] {printf("Organização----:\t"); BEGIN FIELD;}
+[ ]*"organization"[ ]*"="[ ]*[{"] {printf("Organizacao----:\t"); BEGIN FIELD;}
 [ ]*"howpublished"[ ]*"="[ ]*[{"] {printf("Pulicado como -:\t"); BEGIN FIELD;}
-[ ]*"institution"[ ]*"="[ ]*[{"]  {printf("Instituição ---:\t"); BEGIN FIELD;}
-[ ]*"publisher"[ ]*"="[ ]*[{"]    {printf("Publicação ----:\t"); BEGIN FIELD;}
+[ ]*"institution"[ ]*"="[ ]*[{"]  {printf("Instituicao ---:\t"); BEGIN FIELD;}
+[ ]*"publisher"[ ]*"="[ ]*[{"]    {printf("Publicacao ----:\t"); BEGIN FIELD;}
 [ ]*"booktitle"[ ]*"="[ ]*[{"]    {printf("Titulo do livro:\t"); BEGIN FIELD;}  
 [ ]*"journal"[ ]*"="[ ]*[{"]      {printf("Jornal --------:\t"); BEGIN FIELD;}
-[ ]*"edition"[ ]*"="[ ]*[{"]      {printf("Edição --------:\t"); BEGIN FIELD;}
-[ ]*"chapter"[ ]*"="[ ]*[{"]      {printf("Capítulo ------:\t"); BEGIN FIELD;}
+[ ]*"edition"[ ]*"="[ ]*[{"]      {printf("Edicao --------:\t"); BEGIN FIELD;}
+[ ]*"chapter"[ ]*"="[ ]*[{"]      {printf("Capitulo ------:\t"); BEGIN FIELD;}
 [ ]*"address"[ ]*"="[ ]*[{"]      {printf("Morada --------:\t"); BEGIN FIELD;}
 [ ]*"volume"[ ]*"="[ ]*[{"]       {printf("Volume --------:\t"); BEGIN FIELD;}
 [ ]*"series"[ ]*"="[ ]*[{"]       {printf("Serie  --------:\t"); BEGIN FIELD;}
 [ ]*"school"[ ]*"="[ ]*[{"]       {printf("Escola --------:\t"); BEGIN FIELD;}
-[ ]*"number"[ ]*"="[ ]*[{"]       {printf("Número --------:\t"); BEGIN FIELD;}
+[ ]*"number"[ ]*"="[ ]*[{"]       {printf("Numero --------:\t"); BEGIN FIELD;}
 [ ]*"editor"[ ]*"="[ ]*[{"]       {printf("Editor --------:\t"); BEGIN FIELD;}
 [ ]*"author"[ ]*"="[ ]*[{"]       {printf("\n\n\n################\n");
 				   printf("Autor(es) -----:\t"); BEGIN AUT;}
-[ ]*"title"[ ]*"="[ ]*[{"]        {printf("Título --------:\t"); BEGIN TITLE;}
-[ ]*"pages"[ ]*"="[ ]*[{"]        {printf("Págs ----------:\t"); BEGIN FIELD;}
-[ ]*"month"[ ]*"="[ ]*[{"]        {printf("Mês ---------- :\t"); BEGIN FIELD;}
+[ ]*"title"[ ]*"="[ ]*[{"]        {printf("Titulo --------:\t"); BEGIN TITLE;}
+[ ]*"pages"[ ]*"="[ ]*[{"]        {printf("Pags ----------:\t"); BEGIN FIELD;}
+[ ]*"month"[ ]*"="[ ]*[{"]        {printf("Mes ---------- :\t"); BEGIN FIELD;}
 [ ]*"year"[ ]*"="[ ]*[{"]         {printf("Ano ---------- :\t"); BEGIN FIELD;}
 [ ]*"type"[ ]*"="[ ]*[{"]         {printf("Tipo ----------:\t"); BEGIN FIELD;}
 [ ]*[a-z]+[ ]*"="[ ]*[{"]         {;}

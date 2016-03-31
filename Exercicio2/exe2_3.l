@@ -25,7 +25,7 @@ char * str;
 
 
 <AUT>[ ]*[}"]                	 { BEGIN INITIAL;}
-  /** Dúvidas em relação a esta linha por causa da eficiência **/
+  /** Duvidas em relacao a esta linha por causa da eficiencia **/
 <AUT>((and)?[ ]*[A-Z]((\.)|([a-z\-]+))[ ]*)+   {
                                                 
                                                if(strstr(yytext, str)){
