@@ -1,0 +1,95 @@
+
+
+
+################
+Autor(es) -----:	Manfred Broy
+			Martin Wirsing
+Titulo --------:	Generalized Heterogeneous Algebras and Partial Interpretations
+Instituicao ---:	Institut fur Informatik, TUM
+
+
+
+################
+Autor(es) -----:	David Larochelle
+			David Evans
+Titulo --------:	Statically detecting likely buffer overflow vulnerabilities
+Titulo do livro:	SSYM'01: Proceedings of the 10th conference on USENIX Security Symposium
+Ano ---------- :	2001
+Pags ----------:	14--14
+Publicacao ----:	USENIX Association
+Morada --------:	Berkeley, CA, USA
+
+
+
+################
+Autor(es) -----:	Guy L. Steele
+Titulo --------:	Common Lisp -- The Language
+Edicao --------:	Second edition
+
+
+
+################
+Autor(es) -----:	A. V. Aho
+			R. Sethi
+			J. D. Ullman
+Titulo --------:	Compilers Principles, Techniques and Tools
+
+
+
+################
+Autor(es) -----:	William W. Pugh
+Titulo --------:	Incremental Computation and Incremental Evaluation of Function Programs
+Escola --------:	Cornell Univ., Dep. of Computer Science
+
+
+
+################
+Autor(es) -----:	Thomas Reps
+Titulo --------:	Scan Grammars: Parallel Attribute Evaluation Via Data-Parallelism
+Tipo ----------:	Research Report
+Instituicao ---:	University of Wisconsin - Madison
+
+
+
+################
+Autor(es) -----:	Thomas Reps
+			Tim Teitelbaum
+			A. Demers
+Titulo --------:	Incremental Context-Dependent Analysis for Language-based Editors
+Jornal --------:	ACM Trans. Programming Languages and Systems (TOPLAS)
+Pags ----------:	449--477
+
+
+
+################
+Autor(es) -----:	Kai Koskimies
+			Jukka Paakki
+Titulo --------:	TOOLS: An Unifying Approach to Object-Oriented Language Interpretation
+Tipo ----------:	Research Report
+Instituicao ---:	Univ. of Helsinki, Depart. of Computer Science
+
+
+
+################
+Autor(es) -----:	B. Courcelle
+			P. Deransart
+Titulo --------:	Proofs for Partial Correctness for Attribute Grammars with Applications to Recursive Procedures and Logic Programming
+Instituicao ---:	Univ. de Bordeaux I, U.E.R. de Mathematiques et	 Informatiques
+Numero --------:	I-8702
+
+
+
+################
+Autor(es) -----:	B. Courcelle
+			P. Franchi-Zannettacci
+Titulo --------:	Attribute Grammars and Recursive Program Schemes
+Tipo ----------:	rapport de recherche
+Instituicao ---:	Univ. de Bordeaux I
+Numero --------:	8008
+
+
+
+################
+Autor(es) -----:	GrammaTech
+Titulo --------:	Dependence Graphs and Program Slicing
+Ano ---------- :	2009
