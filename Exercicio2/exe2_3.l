@@ -1,81 +1,92 @@
-
 %{
 #include <stdlib.h>
 #include <stdio.h>
-#include "../Exercicio2/structures/trie.h"
+#include "../Exercicio2/structures/hashtable.h"
 #define  ARRAY_SIZE  64
+#define  AUTHORS  16
 
-char autor[ARRAY_SIZE];
-int i = 0;
+char author[ARRAY_SIZE];
+char * authors[AUTHORS];
+int i = 0, j = 0;
+
+void printArray ( char **array, int length )
+{
+    int i;
+    add_autor(array[0]);
+    for ( i=1; i < length; i++ )
+        add_coautor(array[0], array[i] );
+
+}
+void swap(char **ap_str1, char **ap_str2)
+{
+    char *temp = *ap_str1;
+    *ap_str1 = *ap_str2;
+    *ap_str2 = temp;
+}
 
 
+void permute ( char **array, int length )
+{
+    int j, i;
+    if(length==1)
+        {
+            printArray ( array, 1 );
+            return;
 
-TRIE * dicionario;
+        }
 
-//char * str = "Tim Teitelbaum";
 
-char * str;
+    for ( i = 0; i < length ; i++ )
+        {
+            swap( &array[0], &array[i] );
+            printArray ( array, length );
+        }
+
+    return;
+}
 %}
 
-%S AUT AUT2
+%S AUT 
 
 %%
 
-[ ]*"author"[ ]*"="[ ]*[{"][ ]* {i=0; BEGIN AUT;}
+[ ]*"author"[ ]*"="[ ]*[{"][ ]* {i=j=0; BEGIN AUT;}
 
 
-<AUT>[ ]*[}"]                	 { BEGIN INITIAL;}
-  /** Duvidas em relacao a esta linha por causa da eficiencia **/
-<AUT>((and)?[ ]*[A-Z]((\.)|([a-z\-]+))[ ]*)+   {
-                                                
-                                               if(strstr(yytext, str)){
-
-						yyless(0);
-
-						BEGIN AUT2;
-					       }
-				               }
-<AUT2>[ ]*[}"]                   { autor[i+1]='\0'; 
-                                   TRIE_insert(dicionario, strdup(autor));
-				   i=0;
-			          BEGIN INITIAL;}
-<AUT2>[ ]+(and)[ ]+              {
-                                  autor[i+1]='\0';
-                                  TRIE_insert(dicionario, strdup(autor));
-				  i = 0; 
-				  }
-<AUT2>(.|\n)                     {autor[i++]= yytext[0];
-				  
-					}
+<AUT>[ ]*[}"]                   {author[i]='\0';authors[j++]=strdup(author);
+				 permute(authors, j);BEGIN INITIAL;}
+<AUT>[ ]+(and)[ ]+              {author[i]='\0';authors[j++]=strdup(author);i = 0;}
+<AUT>(.|\n)                     {author[i++]=yytext[0];	}
 (.|\n)                           {;}
 %%
 
+int yywrap()
+{
+    return 1;
+}
 
-int yywrap(){ return 1; } 
+int main (int argc, char *argv[])
+{
+    char * str;
+    if(argv[1]==NULL)
+        return -1;
+    str = argv[1];
 
-int main (int argc, char *argv[]){
-
-if(argv[1]==NULL)
-return -1;
-
-str = argv[1];
-dicionario = TRIE_init();
-
-printf("strict digraph G {\n");
-printf("  ratio=fill;\n");
-printf("  size=\"7.5,10\"\n");
-printf("  center=true;\n");
-printf("  rankdir=LR;\n");
-
-
-yylex();
-if(TRIE_getTotalKeys(dicionario))
-TRIE_getAllKeys_GRAPH(dicionario, str);
-
-printf("}\n");
+    printf("strict digraph G {\n");
+    printf("  ratio=fill;\n");
+    printf("  size=\"7.5,10\"\n");
+    printf("  center=true;\n");
+    printf("  rankdir=LR;\n");
+    yylex();
+    print_autor(str);
 
 
-return (0); }
+
+    printf("}\n");
+
+
+    return (0);
+}
 
 
 

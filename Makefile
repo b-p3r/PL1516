@@ -35,11 +35,11 @@ relatorio.pdf:  report/rel.tex
 
 
 ############################### - Exercício 2.3 ###########################################
-exe2_3: ./Exercicio2/exe2_3.l clean
+exe2_3: ./Exercicio2/exe2_3.l 
 	flex -o ./Exercicio2/lex.yy.c ./Exercicio2/exe2_3.l 
-	$(CC) $(CFLAGS) -c ./Exercicio2/structures/trie.c -o trie.o
+	$(CC) $(CFLAGS) -c ./Exercicio2/structures/hashtable.c -o hashtable.o
 	$(CC) $(CFLAGS) -c ./Exercicio2/lex.yy.c -o filter.o
-	$(CC) $(CFLAGS) -g filter.o trie.o -o filter_exe2_3
+	$(CC) $(CFLAGS) -g filter.o hashtable.o -o filter_exe2_3
 
 
 
@@ -60,7 +60,9 @@ exe2_2b: ./Exercicio2/exe2_2b.l
 
 exe2_1: ./Exercicio2/exe2_1.l
 	flex -o ./Exercicio2/lex.yy.c ./Exercicio2/exe2_1.l 
-	$(CC) $(CFLAGS) -o filter_exe2_1 ./Exercicio2/lex.yy.c
+	$(CC) $(CFLAGS) -c ./Exercicio2/structures/trie.c -o trie.o
+	$(CC) $(CFLAGS) -c ./Exercicio2/lex.yy.c -o filter.o
+	$(CC) $(CFLAGS) -g filter.o trie.o -o filter_exe2_1
 
 
 clean: clean_exec 

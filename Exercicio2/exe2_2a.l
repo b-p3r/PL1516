@@ -5,34 +5,28 @@
 int state = 0;
 char * fullname[ARRAY_SIZE];
 int pos = 0;
-void swap (char ** array, int i, int j)
-{
 
-char * tmp = array[i];
-array[i]=array[j];
-array[j] = tmp;
-
-}
 void clean_array (char ** array)
 {
-int i;
+    int i;
 
-	for (i = 0; i < ARRAY_SIZE&&array[i]; array[i++]=NULL);
-
-
-}
-void print_array (char ** array){
-int i;
-
-for (i = 1; i < ARRAY_SIZE&&array[i]; i++){
-
-printf("%s ", array[i]);
-}
-printf("%s", array[0]);
+    for (i = 0; i < ARRAY_SIZE&&array[i]; array[i++]=NULL);
 
 
 }
+void print_array (char ** array)
+{
+    int i;
 
+    for (i = 1; i < ARRAY_SIZE&&array[i]; i++)
+        {
+
+            printf("%s ", array[i]);
+        }
+    printf("%s", array[0]);
+
+
+}
 
 %}
 
@@ -107,8 +101,8 @@ printf("%s", array[0]);
  /* Assim como nos autores, quando esta expressao regular captura uma chaveta ou
  as aspas determina o fim do campo, voltando a condicao inicial */
 <CHAV>[}"]                                  {printf("}"); BEGIN INITIAL;}
- /** Imprime tudo o que estiver dentro do campo, incluido o '\n' */
-<CHAV>(.|\n)                                {ECHO;}
+ /** Imprime tudo o que estiver dentro do campo, incluindo o '\n' */
+<CHAV>(.|\n)                                   {ECHO;}
 
 
  /*Deteta o final do texto entre chavetas, voltando para o contexto anterior */
@@ -125,12 +119,13 @@ printf("%s", array[0]);
 <PREFORMAT>(\}|\")                          {yyless(0); pos = 0; print_array(fullname); ;BEGIN state;}
 
  /** Deteta o final de um nome anterior ao ultimo nome da enumeracao, fazendo
- a captura do "and". Note-se que pode encontrar um ou mais mais espaco antes
- deste verbo, pelo que se imprime o mesmo apenas com um espaco, antes e depois*/
-<PREFORMAT>[ ]+(and)[ ]+                    {pos = 0; print_array(fullname); printf(" and ");}
+ a captura do "and". Note-se que pode encontrar um ou mais mais espacos, bem
+ como tabulacoes antes deste verbo, pelo que se imprime o mesmo apenas com um
+ espaco, antes e depois*/
+<PREFORMAT>[ \t]+(and)[ \t]+                    {pos = 0; print_array(fullname); printf(" and ");}
 
  /** Tratemento dos nomes com minusculas como anteriormente descrito */
-<PREFORMAT>[ ][a-z]+[ ]                     {;}
+<PREFORMAT>[ \t][a-z]+[ \t]                     {;}
 
  /** Caso encontre um nome ou uma inicial, se for o primeiro nome encontrado,
  guarda a 'string' e coloca o apontado na primeira posicao. Caso forem outros
@@ -138,7 +133,7 @@ printf("%s", array[0]);
  A funcao strdup apenas copia ate ao caractere nulo. */
 <PREFORMAT>[A-Z]((\.)|[a-z]+)               { 
                                                if(pos!=0){
-					       
+
                                                yytext[1]='.'; 
 					       yytext[2]='\0';
 					       }
@@ -146,8 +141,9 @@ printf("%s", array[0]);
 					       fullname[pos]=strdup(yytext);
 					      }
  /** Caso uma ou mais virgulas forem encontradas incrementa a posicao do vetor
- de de strings. De igual modo consome as virgulas e os espacos */
-<PREFORMAT>[, ]+                            {pos++;}
+ de de strings. De igual modo consome as virgulas, os espacos e possiveis
+ tabulacoes*/
+<PREFORMAT>[, \t]+                            {pos++;}
 
  /** Tudo o resto e ignorado */
 <PREFORMAT>(.|\n)                           {;}
@@ -157,13 +153,16 @@ printf("%s", array[0]);
 
 %%
 
-
-int yywrap(){ return 1; } 
+int yywrap()
+{
+return 1;
+}
 
 /** Assume-se para este exercicio que os nomes dos autores estao escritos em
 caracteres ASCII. Numa melhoria futura poder-se-a adicionar condicoes para
 manipulacao de carateres em UTF-8*/
-int main (){
+int main ()
+{
 
 
 yylex();
@@ -171,7 +170,8 @@ yylex();
 
 
 
-return (0); }
+return (0);
+}
 
 
 

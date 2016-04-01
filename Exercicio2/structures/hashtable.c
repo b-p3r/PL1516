@@ -5,7 +5,8 @@
 #include "hashtable.h"
 
 typedef struct item
-{   int id;
+{
+    int id;
     struct item *sub;
     char *nome_autor;
     UT_hash_handle hh;
@@ -14,64 +15,62 @@ typedef struct item
 AUTOR *autores = NULL;
 
 void add_autor ( char *nome_autor )
-{   AUTOR *s;
+{
+    AUTOR *s;
     HASH_FIND_STR ( autores, nome_autor, s );
-
     if ( s==NULL )
-    {   s = ( AUTOR * ) malloc ( sizeof ( AUTOR ) );
-        s->nome_autor = strdup ( nome_autor );
-        s->sub = NULL;
-        s->id = 0;
-        HASH_ADD_KEYPTR ( hh,  autores, s->nome_autor, strlen ( s->nome_autor ), s );
-    }
-
+        {
+            s = ( AUTOR * ) malloc ( sizeof ( AUTOR ) );
+            s->nome_autor = strdup ( nome_autor );
+            s->sub = NULL;
+            s->id = 0;
+            HASH_ADD_KEYPTR ( hh,  autores, s->nome_autor, strlen ( s->nome_autor ), s );
+        }
     s->id++;
 }
 void add_coautor ( char *nome_autor, char *nome_autor2 )
-{   AUTOR *i, *s;
+{
+    AUTOR *i, *s;
     HASH_FIND_STR ( autores, nome_autor, i );
-
     if ( i==NULL )
-    {   i = ( AUTOR * ) malloc ( sizeof ( AUTOR ) );
-        i->nome_autor = strdup ( nome_autor );
-        i->sub = NULL;
-        i->id = 0;
-        HASH_ADD_KEYPTR ( hh,  autores, i->nome_autor, strlen ( i->nome_autor ), i );
-    }
-
-    i->id++;
+        return;
     HASH_FIND_STR ( i->sub, nome_autor2, s );
-
     if ( s==NULL )
-    {   s = ( AUTOR * ) malloc ( sizeof ( AUTOR ) );
-        s->nome_autor = strdup ( nome_autor2 );
-        s->sub = NULL;
-        s->id = 0;
-        HASH_ADD_KEYPTR ( hh,  i->sub , s->nome_autor, strlen ( s->nome_autor ), s );
-    }
-
+        {
+            s = ( AUTOR * ) malloc ( sizeof ( AUTOR ) );
+            s->nome_autor = strdup ( nome_autor2 );
+            s->sub = NULL;
+            s->id = 0;
+            HASH_ADD_KEYPTR ( hh,  i->sub , s->nome_autor, strlen ( s->nome_autor ), s );
+        }
     s->id++;
 }
 
 AUTOR *find_autor ( char *nome_autor )
-{   AUTOR *s;
+{
+    AUTOR *s;
     HASH_FIND_STR ( autores, nome_autor, s );
     return s;
 }
 
 void delete_autor ( AUTOR *autor )
-{   AUTOR *item1, *tmp1;
+{
+    AUTOR *item1, *tmp1;
     HASH_ITER ( hh, autor, item1, tmp1 )
-    {   HASH_DEL ( autores, item1 );
+    {
+        HASH_DEL ( autores, item1 );
         free ( item1 );
     }
 }
 
 void delete_all()
-{   AUTOR *item1, *item2, *tmp1, *tmp2;
+{
+    AUTOR *item1, *item2, *tmp1, *tmp2;
     HASH_ITER ( hh, autores, item1, tmp1 )
-    {   HASH_ITER ( hh, item1->sub, item2, tmp2 )
-        {   HASH_DEL ( item1->sub, item2 );
+    {
+        HASH_ITER ( hh, item1->sub, item2, tmp2 )
+        {
+            HASH_DEL ( item1->sub, item2 );
             free ( item2 );
         }
         HASH_DEL ( autores, item1 );
@@ -80,23 +79,34 @@ void delete_all()
 }
 
 void print_autores()
-{   AUTOR *item1, *item2, *tmp1, *tmp2;
+{
+    AUTOR *item1, *item2, *tmp1, *tmp2;
     HASH_ITER ( hh, autores, item1, tmp1 )
-    {   HASH_ITER ( hh, item1->sub, item2, tmp2 )
-        {   printf ( "$items{%s}{%s} = %d\n", item1->nome_autor, item2->nome_autor, item2->id );
+    {
+        if(item1->sub==NULL)
+            printf ( "\"%s\";\n", item1->nome_autor);
+        HASH_ITER ( hh, item1->sub, item2, tmp2 )
+        {
+            printf("\"%s\" -> \"%s\" 	[label = %d	];",  item1->nome_autor, item2->nome_autor, item2->id);
+            printf ( "$items{%s}{%s} = %d\n", item1->nome_autor, item2->nome_autor, item2->id );
         }
     }
 }
 
 void print_autor ( char *nome_autor )
-{   AUTOR *s, *item1, *item2, *tmp1, *tmp2;
+{
+    AUTOR *s, *item1, *item2, *tmp1, *tmp2;
     s = find_autor ( nome_autor );
-
     if ( s )
-    {   HASH_ITER ( hh, s->sub, item1, tmp1 )
-        {   printf ( "$items{%s}{%s} = %d\n", s->nome_autor, item1->nome_autor, item1->id );
+        {
+            if(s->sub==NULL)
+                printf ( "\"%s\";\n", s->nome_autor);
+            else
+                HASH_ITER ( hh, s->sub, item1, tmp1 )
+                {
+                    printf("\"%s\" -> \"%s\"\t\t\[label = %d\t];\n",  s->nome_autor, item1->nome_autor, item1->id);
+                }
         }
-    }
 }
 
 
