@@ -5,7 +5,6 @@
 \usepackage{float}
 \usepackage{fancyvrb}
 \usepackage{dtklogos}
-
 \fvset{xleftmargin=2em}
 
 \usepackage{pgfplots}
@@ -49,16 +48,21 @@ pdfpagelayout=TwoPageRight
 
 \usepackage{minted}
 \usemintedstyle{borland}
-\setminted{frame=lines,
-framesep=2mm,
+\setminted{
+%frame=lines,
+%framesep=2mm,
 baselinestretch=1.2,
 fontsize=\footnotesize,
-linenos, 
-breaklines,
-breakautoindent=false,
+%linenos, 
+%breaklines,
+%breakautoindent=false,
 autogobble
 }
 \usepackage{caption}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
 \newenvironment{longlisting}{\captionsetup{type=listing}}{}
 \def\darius{\textsf{Darius}\xspace}
 
@@ -82,100 +86,20 @@ Algum texto curto mas que entusiasme a leitura do relatório de \pe.
 
 \tableofcontents
 
-\input{./report/chapters/cap1_introducao}
+\input{./report/chapters/intro}
 
-\input{./report/chapters/cap2_analise_especificao}
+\input{./report/chapters/parte1}
 
-\input{./report/chapters/cap3_concecao_ou_desenho_resolucao}
+\input{./report/chapters/parte2}
 
-\input{./report/chapters/cap4_codificacao_e_testes}
+\input{./report/chapters/parte3}
 
-\input{./report/chapters/cap5_conclusao}
+\input{./report/chapters/parte4}
 
-\appendix
-
-\chapter{Código do Programa}
+\input{./report/chapters/concl}
 
 
-
-Lista-se a seguir o código \java~\cite{citeulike:4677363} do programa
-\darius~\cite{FCH11a} que foi desenvolvido.
-
-\begin{verbatim}
-
-public class Aula()
-
-  {
-
-    int n, m;
-
-    int max(int a, int b)
-
-      {
-
-       ......
-
-       return(max);
-
-      }
-
-  }
-
-\end{verbatim}
-
-
-
-\begin{verbatim}
-
-llll sanjdb c kjnjcnjnjj mmmmmmmmmmmmm hhhhhhhhhhhhhhhhhhhhhhhh
-jjjjjjjjjjjjjjjjjjjjjjjjjjjj kkkkkkkkkkkkkkkkkk
-
-      aqui deve aparecer o código do programa,
-
-      tal como está formato no ficheiro-fonte "darius.java"
-
-      caso indesejável $\varepsilon$
-
-\end{verbatim}
-
-
-
-\begin{minted}{c}
-
-#include <stdio.h>
-#define N 10
-/* Block
- * comment */
-
- int main()
- {
-     int i;
-	 
-	   // Line comment.
-		 puts("Hello world!");
-			     
-		 for (i = 0; i < N; i++)
-		 {
-		 puts("LaTeX is also great for programmers!");
-		 }
-										 
-	   return 0;
-				
-}
-\end{minted}
-
-
-E ainda possível importar diretamente o ficheiro:
-
-
-\begin{longlisting}
-	\inputminted{c}{Exercicio2/exe2_1.l}
-	\caption{Ficheiro fonte do exercício 2.1}
-	\label{listing:3}
-\end{longlisting}
-
-
-
+\input{./report/chapters/apendice}
 
 
 \bibliographystyle{alpha}
