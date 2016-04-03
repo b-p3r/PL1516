@@ -1,28 +1,82 @@
-\chapter{Contagens de categorias de um ficheiro \BibTeX}
+\chapter{Ferramenta de normalização de um ficheiro \hologo{BibTeX}}
 \label{chap:b1}
+
+
 
 \section{Análise do Problema}
 \label{sec:b1p:b1}
+Para além dos tipos de entrada, é necessário especificar o conteúdo da entrada,
+como nomes de autor, títulos de obra, editora, etc. O \hologo{BibTeX} possui
+propriedades definidas para cada item como campo da entrada.  
+Para esta parte do trabalho, é pedido o desenvolvimento de uma ferramenta de
+normalização dos nomes dos autores no campo respetivo, no formato "N."(ome)
+"Apelido", que de igual modo normalize todos os campos entre aspas, com
+chavetas. 
 
-\section{Especificação dos requisitos}
+\subsection{Especificação dos requisitos}
 \label{sec:spec:b1}
 
 \subsection{Dados}
+Os nomes dos autores podem ter muitos formatos. Como por exemplo:
 
-\subsection{Relações}
+\begin{itemize}
+	\item \emph{Donald E. Knuth}
+	\item \emph{D. E. Knuth}
+	\item \emph{Knuth, Donald E.}
+	\item \emph{Knuth, PhD, Donald E.}
+	\item \emph{Nicollo Alighieri Franchi-Zanettachi}
+	\item \emph{Daniela da Cruz}
+\end{itemize}
+
+Assim, há uma necessidade de especializar um conjunto de \emph{ER's} para tratar
+cada caso, com especial atenção para os nomes no formato \emph{Apelido, Nome}.
+
+De igual modo, temos que cada campo pode começar com uma chaveta ou aspas,
+terminando de igual forma, com a chaveta fechada ou aspas correspondente.
+
+Um conceito importante no \TeX em geral, é que um documento está \emph{bem
+formado} se todas as chavetas abertas tiverem a chaveta fechada correspondente.
+De facto, existem estilos de bibliografias que convertem o primeiro caractere
+que compõe o valor do campo em maiúscula e os restantes em minusculas. Esta
+funcionalidade ocorre para nomes de um título ou outro campo, que não o do
+autor. Por vezes é necessário manter as maiúsculas, dado que existem valores de
+campo em que, por exemplo, o primeiro caractere de cada palava está
+capitalizado. O \hologo{BibTeX} permite ao utilizador abrir e fechar chavetas em
+torno do conjunto de caracteres onde se pretende manter a capitalização.
+A relevância deste contexto será explicada na secção seguinte.
 
 
 \section{Desenho e implementação da solução}
 \label{sec:des:b1}
 
-\subsection{Estruturas de dados}
+\subsection{\emph{INITIAL \emph{START CONDITIONS}}}
+\subsubsection{Expressões Regulares e Ações}
+\subsection{\emph{AUT \emph{START CONDITION}}}
+\subsubsection{Expressões Regulares e Ações}
+\subsection{\emph{PREFORMAT \emph{START CONDITION}}}
+\subsubsection{Expressões Regulares e Ações}
+\subsection{\emph{CHAV \emph{START CONDITION}}}
+\subsubsection{Expressões Regulares e Ações}
+\subsection{\emph{SPEC \emph{START CONDITION}}}
+\subsubsection{Expressões Regulares e Ações}
 
 \subsection{Algoritmos}
 
-\section{Codificação e Testes}
+\section{Testes e Resultados}
+\subsection{Resultados}
 \label{sec:ts:b1}
 
 \subsection{Alternativas, Decisões e Problemas de Implementação}
+
+Adicionalmente à solução descrita neste capitulo, poder-se-ia ter implementado
+ou mais uma \emph{START CONDITION} ou possivelmente mais algumas \emph{ER's}
+que tratassem de nomes de sufixo como em  \emph{Knuth, PhD, Donald E.}.
+
+Assumiu-se uma codificação \emph{ASCII}, pelo que não foram tratados caracteres
+em \emph{UTF-8} ou \emph{ISO 8859-1}. Para tal ter-se-ia que tratar os
+caracteres com o tamanho de dois \emph{bytes} e capturar sequências de escape
+para caracteres especiais em determinado ficheiro \hologo{BibTeX} e guardá-los
+como caracteres de dois \emph{bytes}. 
 
 \subsection{Testes e Resultados}
 %Mostram-se a seguir alguns testes feitos (valores introduzidos) e
