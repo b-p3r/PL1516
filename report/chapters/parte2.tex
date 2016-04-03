@@ -34,7 +34,7 @@ cada caso, com especial atenção para os nomes no formato \emph{Apelido, Nome}.
 De igual modo, temos que cada campo pode começar com uma chaveta ou aspas,
 terminando de igual forma, com a chaveta fechada ou aspas correspondente.
 
-Um conceito importante no \TeX em geral, é que um documento está \emph{bem
+Um conceito importante no \TeX{} em geral, é que um documento está \emph{bem
 formado} se todas as chavetas abertas tiverem a chaveta fechada correspondente.
 De facto, existem estilos de bibliografias que convertem o primeiro caractere
 que compõe o valor do campo em maiúscula e os restantes em minusculas. Esta
@@ -49,22 +49,344 @@ A relevância deste contexto será explicada na secção seguinte.
 \section{Desenho e implementação da solução}
 \label{sec:des:b1}
 
+
+
 \subsection{\emph{INITIAL \emph{START CONDITIONS}}}
+
+
+Qualquer campo no \hologo{BibTeX} tem sempre o identificador do campo
+(\emph{author}, \emph{title}, etc.) seguido de um '\texttt{=}', começando
+o valor do campo com a abertura de aspas ou chavetas. Todavia, entre os
+o identificador do campo, '\texttt{=}' e \texttt{\{}, pode não haver espaços, ou
+pode haver um ou mais espaços. Como a ferramente de normalização tem duas
+funcionalidades diferentes conforme os campos, é necessário ter duas
+\emph{ER's}: uma que trate de tudo o que é necessário fazer com o campo autor
+e outra, genérica, que trate dos restantes no contexto da normalização das
+chavetas. Dado que, a captura do campo autor e do processamento das chavetas são
+dois contextos diferentes, é necessário recorrer ao uso de \emph{START
+CONDITIONS}. Assim, para estes últimos implementou-se a \emph{START 
+CONDITION} \texttt{AUT} para tratar do autor, e a \emph{START
+CONDITION} \texttt{CHAV} para tratar das chavetas dos outros campos.
+
+
+
 \subsubsection{Expressões Regulares e Ações}
+Após o exposto atrás, temos duas expressões regulares, tais que:
+
+\begin{itemize}
+	\item Captura campo autor
+		\begin{minted}{text}
+			[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"]
+		\end{minted}
+A ação para esta expressão regular é colocar no último caractere capturado uma
+chaveta aberta, imprimir no \emph{stdout} e iniciar \texttt{AUT}.
+		
+
+	\item Captura qualquer outro campo;
+		\begin{minted}{text}
+		 [A-Za-z]+[ ]*"="[ ]*[{"]
+		\end{minted}
+A ação para esta expressão regular é colocar no último caractere capturado uma
+chaveta aberta, imprimir no \emph{stdout} e iniciar \texttt{CHAV}.
+\end{itemize}
+
+
 \subsection{\emph{AUT \emph{START CONDITION}}}
-\subsubsection{Expressões Regulares e Ações}
-\subsection{\emph{PREFORMAT \emph{START CONDITION}}}
-\subsubsection{Expressões Regulares e Ações}
-\subsection{\emph{CHAV \emph{START CONDITION}}}
-\subsubsection{Expressões Regulares e Ações}
-\subsection{\emph{SPEC \emph{START CONDITION}}}
+
+Nesta \emph{START CONDITION} faz-se a distinção dos nomes, conforme na
+\emph{Secção}~\ref{sec:spec:b1}. No entanto, é necessário distinguir o que é um
+nome de um autor. Um nome de uma autor pode-ser seguido de um \emph{and}, se
+houver mais que um autor, e também pode ser único e terminar em aspas ou numa
+chaveta. Dentro do nome, faz-se a distinção de um nome poder ser uma inicial, ou
+uma palavra que inicie com maiúscula, seguida de uma ou mais letras minúsculas
+--- por definição, um nome próprio ---, ou pode ser um nome composto (dois nomes
+próprios separados por um hífen). De igual modo, os nomes podem conter uma
+preposição dentro do nome, e podem ter vários espaços e/ou tabulações antes
+e depois do nome. Acresce também a condição especial de que os nomes podem estar
+no formato `Apelido, Nome' e neste caso é necessário uma novo contexto para
+tratar este caso especial. Para isso, criou-se a \emph{START CONDITION}
+\texttt{PREFORMAT}. 
+
+
+
+
 \subsubsection{Expressões Regulares e Ações}
 
+\begin{itemize}
+	\item Captura de aspas ou uma chaveta no final campo.
+		\mint{text}|[}"]|
+		Neste caso, como se poderá ver mais à frente, pode aparentar ser redundante.
+		Todavia, por uma questão de coerência e segurança, em caso de uma captura
+		para entrar nos estado da \emph{START CONDITION} \texttt{PREFORMAT}, no
+		final do processamento do campo nesta condição, volta-se sempre ao estado
+		anterior \texttt{AUT}. Assim, o final de campo é sempre processado no mesmo
+		contexto.
+
+		A ação nesta \emph{ER} é consumir o valor, imprimindo no \emph{stdout} uma
+		chaveta, voltando à \emph{START CONDITION} \texttt{INITIAL}.
+
+	\item Captura de 1 ou mais espaços ou tabulações.
+     \mint{text}|[ \t]+|
+		 Esta \emph{ER} garante que espaços ou tabulações em torno dos nomes são
+		 consumidos, de forma a ter apenas os caracteres correspondentes aos nomes.
+		 De igual modo, imprime um espaço no \emph{stdout}.
+	
+	 \item Captura de um espaço ou tabulação antes e depois de uma
+		 preposição, e a própria preposição.
+		\mint{text}|[ \t][a-z]+[\t ]|
+
+		 As preposições em nomes com \emph{Daniela da Silva} são ser ignorados.
+		 A ação é mesma que na \emph{ER} anterior.
+
+	 \item Captura de uma inicial ou um nome próprio, que não apelido.
+    \begin{minted}{text}
+		 [A-Z]((\.)?|[a-z]+)
+    \end{minted}
+
+	A ação neste caso é obter o primeiro caractere da captura da expressão,
+	e imprimir no \emph{stdout} o mesmo caractere seguido de um ponto.
+
+
+	 \item Captura de um nome próprio, que é apelido, pode ser composto
+		 e é o último da listagem ou único.
+    \begin{minted}{text}
+		((-)?[A-Z][a-z]+)+[ \t]*[}"]
+    \end{minted}
+ O nome pode ter ou não iniciar com um hífen, seguido do nome próprio. Estes
+ dois itens podem ocorrer uma ou mais vezes. Por exemplo, no apelido do nome
+ \emph{Nicollo Franchi-Zanettachi}. Neste caso o nome do autor é o último nome
+ listado ou o único. Assim, espaços e tabulações antes do final da linha são
+ capturados, O ou mais vezes ( apelido pode estar junto das aspas ou da chaveta
+ ).
+
+	A ação pretendida aqui é modificar o último caractere para uma chaveta,
+	imprimir o resultado para o \emph{stdout} e voltar a \emph{START CONDITION}
+	\texttt{INITIAL}.
+
+	 \item Captura de um nome próprio, que é apelido, pode ser composto
+		      mas não é p único na listagem de autores.
+    \begin{minted}{text}
+		 ((-)?[A-Z][a-z]+)+[ \t]+(and)[ \t]+
+    \end{minted}
+
+		A ação correspondente é em quase tudo semelhante à ação anterior, no
+		entanto, captura todos os espaços e tabulações antes e depois do separador
+		`and', e o separador `and'. Neste caso imprime para o \emph{stdout}
+		a captura. Assim o próximo fica livre de espaços no inicio.
+
+
+	 \item Captura de uma linha com a formatação Apelido, Nome.
+    \begin{minted}{text}
+		 ((-)?[A-Z][a-z]+)+[,]+[ \t]
+    \end{minted}
+A captura deteta se existem pelo menos uma vírgula, depois do nome e que este
+seja seguido de espaços. Se a formatação no primeiro nome possui vírgulas, logo
+a restante está na mesma formatação. A ação é colocar o apontador de leitura do
+\emph{Flex} no inicio da linha, colocar uma variável inteira para um índice de
+um vetor a 0, inicializar um vetor de apontadores para \emph{strings} a 
+\texttt{NULL}\footnote{Algoritmo e código será apresentado na secção seguinte}.
+Em seguida inicia a \emph{START CONDITION} \texttt{PREFORMAT}.
+
+
+	 \item Captura tudo o resto incluindo \emph{newline}.
+    \begin{minted}{text}
+		(.|\n)
+    \end{minted}
+	A ação é ignorar tudo.
+
+
+\end{itemize}
+
+
+
+
+\subsection{\emph{PREFORMAT \emph{START CONDITION}}}
+
+Esta \emph{START CONDITION} tem as \emph{ER's} iguais, exceto a \emph{ER} \verb|[, \t]+| e 
+o separador \emph{and} tem um tratamento diferente, bem como o final do valor do
+campo. A maior parte das ações foi redefinida para para este novo contexto.
+
+
+
+\subsubsection{Expressões Regulares e Ações}
+
+\begin{itemize}
+	\item Captura de aspas ou uma chaveta no final campo.
+		\mint{text}|[}"]|
+
+		Como foi anteriormente mencionado, quando capturado ou aspas ou uma chaveta,
+		obriga-se o \emph{Flex} a colocar a captura no \emph{stdin}
+		(\texttt{yyless(0)}). De seguida coloca-se o índice do \emph{array} de
+		\emph{strings} já mencionado, na posição inicial e executa-se uma função para
+		imprimir os valores contidos no \emph{array}.\footnote{Algoritmo e código
+		descrito na secção seguinte}
+
+	\item Captura de 1 ou mais espaços, tabulações ou vírgulas.
+     \mint{text}|[, \t]+|
+		 A semelhança da anterior \emph{ER} para além de garantir que espaços ou
+		 tabulações em torno dos nomes são consumidos, garante,de igual modo, que
+		 vírgulas sejam consumidas. No entanto, não imprime um espaço. No seu lugar
+		 o apontador para o índice do \emph{array} de \emph{strings} seja
+		 incrementado, uma vez que, todas as nomes são rodeados por um ou mais
+		 destes caracteres.
+		 \emph{stdout}.
+	 \item Captura de um espaço ou tabulação antes e depois de uma
+		 preposição, e a própria preposição.
+		\mint{text}|[ \t]+(and)+[\t ]+|
+		A ação definida captura o "and", caso exista mais que um autor, após
+		a ocorrência deste. Note-se que pode encontrar um ou mais mais espaços, bem
+		como tabulações antes e depois deste separador. De igial modo, coloca
+		o índice do apontador do \emph{array} de \emph{strings} auxiliar na posição
+		inicial, imprimindo os nomes próprios do autor pela ordem desejada. Após
+		este passo imprime no \emph{stdout} a \emph{string} \emph{and} com um espaço
+		de cada lado, iniciando a \emph{START CONDITION} \texttt{AUT}.
+		Note-se que o tratamento do conjunto de nomes é diferente da \emph{START
+		CONDITION} \texttt{AUT}, uma vez que, em \texttt{AUT}, não se podia saber
+		qual seria o último nome, a não ser uma implementação especializada na parte
+		da ação em \emph{C}. O intuito deste projeto foi sempre usar ao máximo
+		a funcionalidade do \emph{Flex}, e tentar usar ao máximo \emph{ER's}. Aqui,
+		como sabemos que o último nome do autor é logo o primeiro a ser listado.,
+
+	
+	 \item Captura de um espaço ou tabulação antes e depois de uma
+		 preposição, e a própria preposição.
+		\mint{text}|[ \t][a-z]+[\t ]|
+
+		 A ação é mesma que na \emph{ER} equivalente, descrita na secção anterior.
+
+	 \item Captura de uma inicial ou um nome próprio, que não apelido.
+
+	 \item Captura de um nome próprio, que é apelido, pode ser composto
+		 e é o último da listagem ou único.
+    \begin{minted}{text}
+		((-)?[A-Z]((\.)|[a-z]+))
+    \end{minted}
+		A \emph{ER} tem o mesmo intuito que a \emph{ER} equivalente da secção
+		anterior, no âmbito da captura. No entanto, a ação é diferente.
+		Esta passa por comparar a posição atual do índice do \emph{array} auxiliar
+		para identificar a ordem dos nomes. Assim, para cada ocorrência de um nome
+		próprio de um autor, se for diferente da posição $0$, é colocado no valor de
+		\texttt{yytext} na posição $1$ um um ponto e na posição seguinte,
+		o caractere \verb|'\0'|, copiando esse valor para o \emph{array} de
+		\emph{strings} auxiliar na posição atual do índice do \emph{array}. Caso
+		contrário copia o valor inteiro da \emph{string} para a posição $0$.
+
+	 \item Captura tudo o resto incluindo \emph{newline}.
+    \begin{minted}{text}
+		(.|\n)
+    \end{minted}
+	A ação é ignorar tudo.
+
+
+\end{itemize}
+
+
+\subsection{\emph{CHAV \emph{START CONDITION}}}
+
+No contexto \texttt{CHAV} apenas se faz a captura das aspas ou chavetas de todos
+os outros campos. As chavetas ou aspas do campo do autor já estão previstas  no
+devido contexto. No entanto, aqui pode ocorrer o novo contexto, já mencionado na
+secção \emph{Análise do Problema} deste capítulo. Deste modo, há a necessidade
+de se ter uma nova \emph{START CONDITION} \texttt{SPEC}.
+
+\subsubsection{Expressões Regulares e Ações}
+
+
+\begin{itemize}
+  \item Captura uma chaveta aberta.
+    \begin{minted}{text}
+			[{]
+    \end{minted}
+		A ação consiste imprimir para o \emph{stdout} a chaveta e iniciar
+		a \emph{START CONDITION} \texttt{SPEC}.
+
+  \item Captura do fim de campo, podendo ser uma chaveta ou aspas.
+    \begin{minted}{text}
+		[}"]
+    \end{minted}
+		Ação: imprimir a chaveta de fecho, e voltar para as \emph{START CONDITION}
+		\texttt{INITIAL}
+
+  \item Captura qualquer outro campo;
+    \begin{minted}{text}
+			(.|\n)
+    \end{minted}
+\end{itemize}
+Ação: imprimir tudo o resto, incluindo \emph{newlines} para \emph{stdout}.
+
+
+
+\subsection{\emph{SPEC \emph{START CONDITION}}}
+
+Há apenas acrescentar sobre esta \emph{START CONDITION}, que apenas é um
+\emph{workaroud} para evitar de capturar uma chaveta de a meio do valor do
+campo, e ser passível de ser considerada fim do valor de campo. 
+
+\subsubsection{Expressões Regulares e Ações}
+\begin{itemize}
+  \item Captura o fecho de chavetas.
+    \begin{minted}{text}
+		[}]
+    \end{minted}
+		Imprime para o \emph{stdout} a mesma chaveta.
+
+
+  \item Captura qualquer outro campo;
+    \begin{minted}{text}
+			(.|\n)
+    \end{minted}
+		Imprime tudo o resto no \emph{stdout}.
+	
+\end{itemize}
 \subsection{Algoritmos}
+\begin{Verbatim}
+     void print_array (char ** array)
+     {
+         int i;
+     	
+         for (i = 1; i < ARRAY_SIZE&&array[i]; i++)
+             {
+     						
+     	            printf("%s ", array[i]);
+             }
+         printf("%s", array[0]);
+     										
+     															
+     }
+
+\end{Verbatim}
+
+A função acima corresponde à função de impressão dos nomes próprios dos autores
+na \emph{START CONDITION} \texttt{PREFORMAT}. Note-se que apenas valores
+existentes no \emph{array} são imprimidos no \emph{stdout}, começando pela
+segunda posição. A primeira posição é imprimida no fim.
+
+\begin{Verbatim}
+	void clean_array (char ** array)
+	{
+	    int i;
+		
+			for (i = 0; i < ARRAY_SIZE&&array[i]; free(array[i]), array[i++]=NULL);
+			
+			
+	}
+
+\end{Verbatim}
+
+A função acima corresponde à função de inicialização do \emph{array} dos nomes
+próprios dos autores na \emph{START CONDITION} \texttt{PREFORMAT}. Note-se que
+liberta a memória e inicializa valores previamente existentes.
+
 
 \section{Testes e Resultados}
 \subsection{Resultados}
 \label{sec:ts:b1}
+
+O ficheiro de usado para este teste pode ser visto no
+\emph{Apêndice}~\ref{appendix:a1} na pág.~\pageref{appendix:a1}. 
+
+O resultado pode ser consultado no \emph{Apêndice}~\ref{appendix:b} na
+pág.~\pageref{appendix:b}
 
 \subsection{Alternativas, Decisões e Problemas de Implementação}
 
@@ -78,7 +400,8 @@ caracteres com o tamanho de dois \emph{bytes} e capturar sequências de escape
 para caracteres especiais em determinado ficheiro \hologo{BibTeX} e guardá-los
 como caracteres de dois \emph{bytes}. 
 
-\subsection{Testes e Resultados}
-%Mostram-se a seguir alguns testes feitos (valores introduzidos) e
-%%os respetivos resultados obtidos:
+
+
+
+
 
