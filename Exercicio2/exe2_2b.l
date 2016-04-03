@@ -6,7 +6,7 @@ int state_caller = 0;
 
 %}
 
-%S AUT TITLE FIELD SPEC URL 
+%S AUT TITLE FIELD SPEC 
 %%
 [ ]*[Oo][Rr][Gg][Aa][Nn][Ii][Zz][Aa][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]  {printf("Organizacao----:\t"); BEGIN FIELD;}
 [ ]*[Hh][Oo][Ww][Pp][Uu][Bb][Ll][Ii][Ss][Hh][Ee][Dd][ ]*"="[ ]*[{"]  {printf("Pulicado como -:\t"); BEGIN FIELD;}
@@ -32,7 +32,6 @@ int state_caller = 0;
 [ ]*[A-Za-z]+[ ]*"="[ ]*[{"]            {;}
 
 <AUT>[ \t]+"and"[ \t]+            {printf("\n\t\t\t");}
-<AUT>[{]                          { state_caller = YYSTATE; BEGIN SPEC;}
 <AUT>[}"]                         {printf("\n"); BEGIN INITIAL;}
 <AUT>(.|\n)                       {ECHO;}
 

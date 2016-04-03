@@ -9,7 +9,7 @@ char author[ARRAY_SIZE];
 char * authors[AUTHORS];
 int i = 0, j = 0;
 
-void printArray ( char **array, int length )
+void insertAuthors ( char **array, int length )
 {
     int i;
     add_autor(array[0]);
@@ -30,7 +30,7 @@ void permute ( char **array, int length )
     int j, i;
     if(length==1)
         {
-            printArray ( array, 1 );
+            insertAuthors ( array, 1 );
             return;
 
         }
@@ -39,7 +39,7 @@ void permute ( char **array, int length )
     for ( i = 0; i < length ; i++ )
         {
             swap( &array[0], &array[i] );
-            printArray ( array, length );
+            insertAuthors ( array, length );
         }
 
     return;
@@ -50,7 +50,7 @@ void permute ( char **array, int length )
 
 %%
 
-[ ]*"author"[ ]*"="[ ]*[{"][ ]* {i=j=0; BEGIN AUT;}
+[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"][ ]* {i=j=0; BEGIN AUT;}
 
 
 <AUT>[ ]*[}"]                   {author[i]='\0';authors[j++]=strdup(author);
