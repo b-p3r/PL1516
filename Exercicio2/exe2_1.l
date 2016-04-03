@@ -15,10 +15,9 @@
 #define UNPUBLISHED     13
 #include <stdlib.h>
 #include <stdio.h>
-#include "./structures/trie.h"
+#include "./structures/simple_hashtable.h"
 
 int counter[14];
-TRIE * dicionario;
 
 %}
 
@@ -54,7 +53,7 @@ TRIE * dicionario;
 \@[Uu][Nn][Pp][Uu][Bb][Ll][Ii][Ss][Hh][Ee][Dd] {counter[UNPUBLISHED]++;}
 
 \@[Ss][Tt][Rr][Ii][Nn][Gg]                       {;}
-\@[A-Za-z]+ {TRIE_insert(dicionario, strdup(yytext + 1));}
+\@[A-Za-z]+ {add_key(strdup(yytext + 1));}
 
 .|\n {;}
 
@@ -72,7 +71,6 @@ int main ()
     int i;
 
     for (i = 0; i < 14; counter[i++]=0);
-    dicionario=TRIE_init();
 
     yylex();
 
@@ -151,8 +149,8 @@ int main ()
     printf("           <td> %d  </td>        \n", counter[UNPUBLISHED  ]);
     printf("       </tr>                     \n");
 
-    if(TRIE_getTotalKeys(dicionario))
-        TRIE_getAllKeys_HTML(dicionario);
+    if(total_items())
+        print_items();
 
 
     printf("   </table>                         \n");

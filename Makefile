@@ -60,9 +60,10 @@ exe2_2b: ./Exercicio2/exe2_2b.l
 
 exe2_1: ./Exercicio2/exe2_1.l
 	flex -o ./Exercicio2/lex.yy.c ./Exercicio2/exe2_1.l 
-	$(CC) $(CFLAGS) -c ./Exercicio2/structures/trie.c -o trie.o
+	$(CC) $(CFLAGS) -c ./Exercicio2/structures/simple_hashtable.c -o \
+	simple_hashtable.o
 	$(CC) $(CFLAGS) -c ./Exercicio2/lex.yy.c -o filter.o
-	$(CC) $(CFLAGS) -g filter.o trie.o -o filter_exe2_1
+	$(CC) $(CFLAGS) -g filter.o simple_hashtable.o -o filter_exe2_1
 
 
 clean: clean_exec 
