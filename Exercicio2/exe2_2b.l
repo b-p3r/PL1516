@@ -2,6 +2,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
+#DEFINE PUBLICACAO 2
+#DEFINE JORNAL 3
+#DEFINE EDICAO 4
+#DEFINE CAPITULO 5
+#DEFINE MORADA 6
+#DEFINE VOLUME 7
+#DEFINE SERIE  8
+#DEFINE ESCOLA 9
+#DEFINE NUMERO 10
+#DEFINE EDITOR 11
+#DEFINE TITULO 12
+#DEFINE PAGS 13
+#DEFINE MES 14
+#DEFINE ANO 15
+#DEFINE TIPO 16
+
+
 int state_caller = 0, pos = 2, p2 = 2, i = 0;
 char ** fieldname;
 char ** fields;
@@ -11,22 +29,48 @@ void print_campos(char **field1, char **field2  ){
 int i, j;
 
 printf("###########################\n");
-for(j = 0; j < 16; j++)
-if(field2[j]&&field1[j])
-printf("%s %s", field1[j], field2[j]);
 
+
+printf("Publicação: %s", field2[PUBLICACAO]);
+printf("Jornal: %s", field2[JORNAL]);
+printf("Edição: %s", field2[EDICAO]);
+printf("Capítulo: %s", field2[CAPITULO]);
+printf("Morada: %s", field2[MORADA]);
+printf("Volume: %s", field2[VOLUME]);
+printf("Série: %s", field2[SERIE]);
+printf("Escola: %s", field2[ESCOLA]);
+printf("Número: %s", field2[NUMERO]);
+printf("Editor: %s", field2[EDITOR]);
+printf("Título: %s", field2[TITULO]);
+printf("Páginas: %s", field2[PAGS]);
+printf("Mês: %s", field2[MES]);
+printf("Ano: %s", field2[ANO]);
+printf("Tipo: %s", field2[TIPO]);
 
 }
 
 
+
+
+
+
+
 %}
+
+
+
+
 
 %x ENTRY AUT TITLE FIELD SPEC 
 %%
 
 
 
-\@[A-Za-z]+[ ]*[{]           {pos = 2; 
+
+
+
+
+\@[A-Za-z]+[ ]*[{]           	{pos = 2; 
 					fieldname =(char **)calloc(16,sizeof(char*)); 
 					fields =(char **)calloc(16,sizeof(char*)); 
 					BEGIN ENTRY;}
