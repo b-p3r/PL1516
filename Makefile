@@ -12,7 +12,7 @@ LATEXMKBIBTEX=-bibtex
 
 
 
-all: exe2_1 relatorio.pdf clean 
+all: exe2_1 exe2_2a exe2_2b exe2_3 test relatorio.pdf clean 
 
 
 
@@ -76,4 +76,9 @@ clean: clean_exec
 clean_exec:
 	@echo "A eliminar executáveis...."
 	rm -f filter_*
-	rm -fr relatorio.pdf 
+	rm -fr relatorio.pdf
+
+test: 
+	./filter_exe2_2a < testes/ex3.bib > testes/resNorm.bib
+	./filter_exe2_2b < testes/ex3.bib > testes/res_pretty_printing.txt
+
