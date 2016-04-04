@@ -1,19 +1,189 @@
-\chapter{Contagens de categorias de um ficheiro \BibTeX}
+\chapter{Ferramenta \emph{pretty-printing} de um ficheiro \hologo{BibTeX}}
 \label{chap:b2}
 
 \section{Análise do Problema}
 \label{sec:b2p:b2}
+Nesta parte, o desafio é elaborar uma ferramenta de \emph{pretty-printing} que
+indente corretamente cada campo, escreva um autor por linha e coloque sempre no
+início os campos autor e título.
 
 \section{Especificação dos requisitos}
 \label{sec:spec:b2}
 
 \subsection{Dados}
 
-\subsection{Relações}
+No \hologo{BibTeX}, cada tipo de entrada bibliográfica tem campos opcionais
+e obrigatórios. Na resolução deste problema apenas se centrou nos obrigatórios,
+dado que se quiser uma ferramenta genérica, que inclua outros pacotes, o número
+de campos é elevado. De igual modo, os campos obrigatórios podem ser opcionais
+para algum tipo de entrada, e vice---versa. Em extensões, como no
+\textsc{Bib}\LaTeX{}, alguns campos são são comuns, por uma questão de compatibilidade.
+
+Os campos considerados são:
+
+\begin{itemize}
+
+\item Instituição
+\item Publicação
+\item Jornal
+\item Edição
+\item Capitulo
+\item Morada
+\item Volume
+\item Serie
+\item Escola
+\item Numero
+\item Editor
+\item Titulo
+\item Págs
+\item Mês
+\item Ano
+\item Tipo
+
+\end{itemize}
+
+Note-se que estes campos podem ser tanto obrigatórios como opcionais.
+
 
 
 \section{Desenho e implementação da solução}
 \label{sec:des:b2}
+
+\subsubsection{\emph{START CONDITION} \texttt{INITIAL}}
+
+\begin{itemize}
+\item 
+
+\begin{verbatim}
+[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"][ ]*
+\end{verbatim}
+
+\item 
+
+\begin{verbatim}
+[[Ee][Dd][Ii][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]
+\end{verbatim}
+
+\item 
+\begin{verbatim}
+[Tt][Ii][Tt][Ll][Ee][ ]*"="[ ]*[{"]
+\end{verbatim}
+
+
+\item 
+\begin{verbatim}
+(.|\n)
+\end{verbatim}
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{\emph{START CONDITION} \texttt{AUT}}
+
+\begin{itemize}
+\item 
+\begin{verbatim}
+[ \t]+"and"[ \t]+
+\end{verbatim}
+
+\item 
+\begin{verbatim}
+[}"]
+\end{verbatim}
+
+\item 
+\begin{verbatim}
+(.|\n)
+\end{verbatim}
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{\emph{START CONDITION} \texttt{TITLE}}
+
+\begin{itemize}
+\item Captura dois ou mais espaços.
+\begin{verbatim}
+[ ]{2,}
+\end{verbatim}
+
+Apenas serve para consumir espaços a mais, imprimindo no \emph{stdout} um espaço.
+
+\item Captura qualquer chaveta aberta, que não a do fim de campo.
+\begin{verbatim}
+[{]
+\end{verbatim}
+
+A ação desta captura é devido ao que foi exposto em capítulos anteriores. No entanto, como foi anteriormente explicado, vários contextos utilizam a \emph{START CONDTION} \texttt{SPEC}. Assim, como em anteriores \emph{START CONDTIONS} o valor do estado é guardado numa varrável global, com a macro \texttt{YYSTATE}. O chaveta é consumida.
+
+\item Captura o final do campo caso seja aspas ou o fecho de chavetas.
+\begin{verbatim}
+[}"]
+\end{verbatim}
+
+\item Captura tudo o resto.
+\begin{verbatim}
+(.)
+\end{verbatim}
+A ação é imprimir no \emph{stdout} tudo o resto onde não houve captura com as \emph{ER's} anteriores.
+
+\item Captura do caractere \emph{newline}
+\begin{verbatim}
+(\n)
+\end{verbatim}
+
+A ação é não fazer nada. Apenas serve para consumir eliminar quebras de linha no campo do título.
+
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{\emph{START CONDITION} \texttt{FIELD}}
+
+\begin{itemize}
+\item 
+\begin{verbatim}
+\end{verbatim}
+
+\item 
+\begin{verbatim}
+\end{verbatim}
+
+\item 
+\begin{verbatim}
+\end{verbatim}
+
+\item 
+\begin{verbatim}
+\end{verbatim}
+\item 
+\begin{verbatim}
+\end{verbatim}
+
+\item 
+\begin{verbatim}
+(.|\n)
+\end{verbatim}
+
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{\emph{START CONDITION} \texttt{SPEC}}
+
+\begin{itemize}
+\item 
+
+\begin{verbatim}
+[}]
+\end{verbatim}
+
+\item 
+\begin{verbatim}
+(.|\n)
+\end{verbatim}
+\end{itemize}
+
+
 
 \subsection{Estruturas de dados}
 
@@ -27,4 +197,3 @@
 \subsection{Testes e Resultados}
 %Mostram-se a seguir alguns testes feitos (valores introduzidos) e
 %%os respetivos resultados obtidos:
-

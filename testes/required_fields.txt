@@ -1,11 +1,16 @@
-Required fields: author, title, journal, year
-Required fields: author or editor, title, publisher, year
-Required fields: author or editor, title, chapter and/or pages, publisher, year
-Required fields: author, title, booktitle, publisher, year
-Required fields: author, title, booktitle, year
-Required fields: author, title, school, year
-Required fields: none
-Required fields: author, title, school, year
-Required fields: title, year
-Required fields: author, title, institution, year
-Required fields: author, title, note
+Instituição
+Publicação
+Jornal
+Edição
+Capitulo
+Morada
+Volume
+Serie 
+Escola
+Numero
+Editor
+Titulo
+Págs
+Mês
+Ano
+Tipo

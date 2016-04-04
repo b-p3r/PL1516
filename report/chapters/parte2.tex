@@ -75,17 +75,17 @@ Após o exposto atrás, temos duas expressões regulares, tais que:
 
 \begin{itemize}
 	\item Captura campo autor
-		\begin{minted}{text}
+\begin{minted}{text}
 			[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"]
-		\end{minted}
+\end{minted}
 A ação para esta expressão regular é colocar no último caractere capturado uma
 chaveta aberta, imprimir no \emph{stdout} e iniciar \texttt{AUT}.
 		
 
 	\item Captura qualquer outro campo;
-		\begin{minted}{text}
+\begin{minted}{text}
 		 [A-Za-z]+[ ]*"="[ ]*[{"]
-		\end{minted}
+\end{minted}
 A ação para esta expressão regular é colocar no último caractere capturado uma
 chaveta aberta, imprimir no \emph{stdout} e iniciar \texttt{CHAV}.
 \end{itemize}
