@@ -2,54 +2,86 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int state_caller = 0;
+int state_caller = 0, pos = 2, i = 0;
+char * fields[2][16];
+char value [128];
+
+void print_campos(char *fields[][16]){
+int i, j;
+
+for(j = 0; j < 16; j++)
+if(fields[1][j]&&fields[0][j])
+printf("%s %s", fields[0][j], fields[1][j]);
+
+
+}
+
 
 %}
 
-%S AUT TITLE FIELD SPEC 
+%S ENTRY AUT TITLE FIELD SPEC 
 %%
-[ ]*[Oo][Rr][Gg][Aa][Nn][Ii][Zz][Aa][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]  {printf("Organizacao----:\t"); BEGIN FIELD;}
-[ ]*[Hh][Oo][Ww][Pp][Uu][Bb][Ll][Ii][Ss][Hh][Ee][Dd][ ]*"="[ ]*[{"]  {printf("Pulicado como -:\t"); BEGIN FIELD;}
-[ ]*[Ii][Nn][Ss][Tt][Ii][Tt][Uu][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]  {printf("Instituicao ---:\t"); BEGIN FIELD;}
-[ ]*[Pp][Uu][Bb][Ll][Ii][Ss][Hh][Ee][Rr][ ]*"="[ ]*[{"]  {printf("Publicacao ----:\t"); BEGIN FIELD;}
-[ ]*[Bb][Oo][Oo][Kk][Tt][Ii][Tt][Ll][Ee][ ]*"="[ ]*[{"]  {printf("Titulo do livro:\t"); BEGIN FIELD;}  
-[ ]*[Jj][Oo][Uu][Rr][Nn][Aa][Ll][ ]*"="[ ]*[{"]  {printf("Jornal --------:\t"); BEGIN FIELD;}
-[ ]*[Ee][Dd][Ii][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]  {printf("Edicao --------:\t"); BEGIN FIELD;}
-[ ]*[Cc][Hh][Aa][Pp][Tt][Ee][Rr][ ]*"="[ ]*[{"]  {printf("Capitulo ------:\t"); BEGIN FIELD;}
-[ ]*[Aa][Dd][Dd][Rr][Ee][Ss][Ss][ ]*"="[ ]*[{"]  {printf("Morada --------:\t"); BEGIN FIELD;}
-[ ]*[Vv][Oo][Ll][Uu][Mm][Ee][ ]*"="[ ]*[{"]  {printf("Volume --------:\t"); BEGIN FIELD;}
-[ ]*[Ss][Ee][Rr][Ii][Ee][Ss][ ]*"="[ ]*[{"]  {printf("Serie  --------:\t"); BEGIN FIELD;}
-[ ]*[Ss][Cc][Hh][Oo][Oo][Ll][ ]*"="[ ]*[{"]  {printf("Escola --------:\t"); BEGIN FIELD;}
-[ ]*[Nn][Uu][Mm][Bb][Ee][Rr][ ]*"="[ ]*[{"]  {printf("Numero --------:\t"); BEGIN FIELD;}
-[ ]*[Ee][Dd][Ii][Tt][Oo][Rr][ ]*"="[ ]*[{"]  {printf("Editor --------:\t"); BEGIN FIELD;}
-[ ]*[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"]  {printf("\n\n\n################\n");
-                              	               printf("Autor(es) -----:\t"); BEGIN AUT;}
-[ ]*[Tt][Ii][Tt][Ll][Ee][ ]*"="[ ]*[{"]  {printf("Titulo --------:\t"); BEGIN TITLE;}
-[ ]*[Pp][Aa][Gg][Ee][Ss][ ]*"="[ ]*[{"]  {printf("Pags ----------:\t"); BEGIN FIELD;}
-[ ]*[Mm][Oo][Nn][Tt][Hh][ ]*"="[ ]*[{"]  {printf("Mes ---------- :\t"); BEGIN FIELD;}
-[ ]*[Yy][Ee][Aa][Rr][ ]*"="[ ]*[{"]  {printf("Ano ---------- :\t"); BEGIN FIELD;}
-[ ]*[Tt][Yy][Pp][Ee][ ]*"="[ ]*[{"]  {printf("Tipo ----------:\t"); BEGIN FIELD;}
-[ ]*[A-Za-z]+[ ]*"="[ ]*[{"]            {;}
 
-<AUT>[ \t]+"and"[ \t]+            {printf("\n\t\t\t");}
-<AUT>[}"]                         {printf("\n"); BEGIN INITIAL;}
-<AUT>(.|\n)                       {ECHO;}
 
-<TITLE>[ ]{2,}                    {printf(" ");}
+
+\@[A-Za-z]+[ ]*[{]           {pos = 2;BEGIN ENTRY;}
+
+<ENTRY>[}]                               {print_campos(fields); BEGIN INITIAL;}
+<ENTRY>[Oo][Rr][Gg][Aa][Nn][Ii][Zz][Aa][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]? {i=0;fields[0][pos]=strdup("Organizacao----:\t"); BEGIN FIELD;}
+<ENTRY>[Hh][Oo][Ww][Pp][Uu][Bb][Ll][Ii][Ss][Hh][Ee][Dd][ ]*"="[ ]*[{"]? {i=0;fields[0][pos]=strdup("Pulicado como -:\t"); BEGIN FIELD;}
+<ENTRY>[Ii][Nn][Ss][Tt][Ii][Tt][Uu][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]?     {i=0;fields[0][pos]=strdup("Instituicao ---:\t"); BEGIN FIELD;}
+<ENTRY>[Pp][Uu][Bb][Ll][Ii][Ss][Hh][Ee][Rr][ ]*"="[ ]*[{"]?             {i=0;fields[0][pos]=strdup("Publicacao ----:\t"); BEGIN FIELD;}
+<ENTRY>[Bb][Oo][Oo][Kk][Tt][Ii][Tt][Ll][Ee][ ]*"="[ ]*[{"]?             {i=0;fields[0][pos]=strdup("Titulo do livro:\t"); BEGIN FIELD;}  
+<ENTRY>[Jj][Oo][Uu][Rr][Nn][Aa][Ll][ ]*"="[ ]*[{"]?                     {i=0;fields[0][pos]=strdup("Jornal --------:\t"); BEGIN FIELD;}
+<ENTRY>[Ee][Dd][Ii][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]?                     {i=0;fields[0][pos]=strdup("Edicao --------:\t"); BEGIN FIELD;}
+<ENTRY>[Cc][Hh][Aa][Pp][Tt][Ee][Rr][ ]*"="[ ]*[{"]?                     {i=0;fields[0][pos]=strdup("Capitulo ------:\t"); BEGIN FIELD;}
+<ENTRY>[Aa][Dd][Dd][Rr][Ee][Ss][Ss][ ]*"="[ ]*[{"]?                     {i=0;fields[0][pos]=strdup("Morada --------:\t"); BEGIN FIELD;}
+<ENTRY>[Vv][Oo][Ll][Uu][Mm][Ee][ ]*"="[ ]*[{"]?                         {i=0;fields[0][pos]=strdup("Volume --------:\t"); BEGIN FIELD;}
+<ENTRY>[Ss][Ee][Rr][Ii][Ee][Ss][ ]*"="[ ]*[{"]?                         {i=0;fields[0][pos]=strdup("Serie  --------:\t"); BEGIN FIELD;}
+<ENTRY>[Ss][Cc][Hh][Oo][Oo][Ll][ ]*"="[ ]*[{"]?                         {i=0;fields[0][pos]=strdup("Escola --------:\t"); BEGIN FIELD;}
+<ENTRY>[Nn][Uu][Mm][Bb][Ee][Rr][ ]*"="[ ]*[{"]?                         {i=0;fields[0][pos]=strdup("Numero --------:\t"); BEGIN FIELD;}
+<ENTRY>[Ee][Dd][Ii][Tt][Oo][Rr][ ]*"="[ ]*[{"]?                         {i=0;fields[0][pos]=strdup("Editor --------:\t"); BEGIN FIELD;}
+<ENTRY>[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"]?                         {
+                          	                                        i=0;fields[0][0]=strdup("Autor(es) -----:\t"); BEGIN AUT;}
+<ENTRY>[Tt][Ii][Tt][Ll][Ee][ ]*"="[ ]*[{"]                             {i=0;fields[0][1]=strdup("Titulo --------:\t"); BEGIN TITLE;}
+<ENTRY>[Pp][Aa][Gg][Ee][Ss][ ]*"="[ ]*[{"]?                             {i=0;fields[0][pos]=strdup("Pags ----------:\t"); BEGIN FIELD;}
+<ENTRY>[Mm][Oo][Nn][Tt][Hh][ ]*"="[ ]*[{"]?                             {i=0;fields[0][pos]=strdup("Mes ---------- :\t"); BEGIN FIELD;}
+<ENTRY>[Yy][Ee][Aa][Rr][ ]*"="[ ]*[{"]?                                 {i=0;fields[0][pos]=strdup("Ano ---------- :\t"); BEGIN FIELD;}
+<ENTRY>[Tt][Yy][Pp][Ee][ ]*"="[ ]*[{"]?                                 {i=0;fields[0][pos]=strdup("Tipo ----------:\t"); BEGIN FIELD;}
+<ENTRY>[A-Za-z]+[ ]*"="[ ]*[{"]?            {;}
+<ENTRY>(.|\n)                          {;}
+<AUT>[ \t]+"and"[ \t]+            {value[i++]='\n';
+				   value[i++]='\t';
+				   value[i++]='\t';
+				   }
+<AUT>[}"]                         {value[i++]='\n'; 
+                                   value[i++]='\0';
+				   fields[1][0]=strdup(value);
+                                   BEGIN ENTRY;}
+<AUT>(.|\n)                       {value[i++]=yytext[0];}
+
+<TITLE>[ ]{2,}                    {value[i++]=' ';}
 <TITLE>[{]                        { state_caller = YYSTATE; BEGIN SPEC;}
-<TITLE>[}"]                       {printf("\n");BEGIN INITIAL;}
-<TITLE>(.)                        {ECHO;}
+<TITLE>[}"]                       {value[i++]='\n';
+                                   value[i]='\0';
+				   fields[1][1]=strdup(value);
+                                   BEGIN ENTRY;}
+<TITLE>(.)                        {value[i++]=yytext[0];}
 <TITLE>(\n)                       {;}
 
 
 <FIELD>"\\url{"                   { state_caller = YYSTATE; BEGIN SPEC;}
-<FIELD>[ ]{2,}                    {printf(" ");}
+<FIELD>[ ]{2,}                    {value[i++]=' ';}
 <FIELD>[{]                        { state_caller = YYSTATE; BEGIN SPEC;}
-<FIELD>[}"]                       {printf("\n"); BEGIN INITIAL;}
-<FIELD>(.)                        {ECHO;}
+<FIELD>[}",]                       {value[i++]='\n';
+                                   value[i]='\0';
+				   fields[1][++pos]=strdup(value);
+                                   BEGIN ENTRY;}
+<FIELD>(.)                        {value[i++]=yytext[0];}
 <FIELD>(\n)                       {;}
+
 <SPEC>[}]                         {BEGIN state_caller;}
-<SPEC>(.|\n)                      {ECHO;}
+<SPEC>(.|\n)                      {value[i++]=yytext[0];}
 
 
 (.|\n)                          {;}
