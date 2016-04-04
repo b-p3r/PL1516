@@ -22,10 +22,13 @@ fields[1][j]=NULL;
 
 }
 
-
 %}
 
-%S ENTRY AUT TITLE FIELD SPEC 
+
+
+
+
+%x ENTRY AUT TITLE FIELD SPEC 
 %%
 
 
@@ -85,7 +88,7 @@ fields[1][j]=NULL;
 <FIELD>(.)                        {value[i++]=yytext[0];}
 <FIELD>(\n)                       {;}
 
-<SPEC>[}]                         {BEGIN state_caller;}
+<SPEC>[}]                         {yyless(0);BEGIN state_caller;}
 <SPEC>(.|\n)                      {value[i++]=yytext[0];}
 
 
