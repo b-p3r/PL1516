@@ -24,14 +24,14 @@
 
 \begin{itemize}
 \item 
-\begin{minted}{text}
+\begin{verbatim}
 [Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"][ ]*
-\end{minted}
+\end{verbatim}
 
 \item 
-\begin{minted}{text}
+\begin{verbatim}
 (.|\n)
-\end{minted}
+\end{verbatim}
 
 \end{itemize}
 
@@ -40,23 +40,24 @@
 
 \begin{itemize}
 	\item 
-\begin{minted}{text}
+
+\begin{verbatim}
 [ ]*[}"] 
-\end{minted}
-{author[i]='\0';authors[j++]=strdup(author);
+\end{verbatim}
+%{author[i]='\0';authors[j++]=strdup(author);
 
 \item 
-\begin{minted}{text}
+\begin{verbatim}
 [ ]+(and)[ ]+
-\end{minted}
-{author[i]='\0';authors[j++]=strdup(author);i = 0;}
+\end{verbatim}
+%{author[i]='\0';authors[j++]=strdup(author);i = 0;}
 
 \item 
-\begin{minted}{text}
+\begin{verbatim}
 (.|\n)
-\end{minted}
+\end{verbatim}
 
-{author[i++]=yytext[0];	}
+%{author[i++]=yytext[0];	}
 
 \end{itemize}
 
@@ -67,22 +68,20 @@
 
 \begin{Verbatim}
 void insertAuthors ( char **array, int length )
-{
-    int i;
-    add_autor(array[0]);
-    for ( i=1; i < length; i++ )
-        add_coautor(array[0], array[i] );
-						
+{int i;
+ add_autor(array[0]);
+ for ( i=1; i < length; i++ )
+     add_coautor(array[0], array[i] );
+ 				
 }
 \end{Verbatim}
 
 
 \begin{Verbatim}
 void swap(char **ap_str1, char **ap_str2)
-{
-    char *temp = *ap_str1;
-    *ap_str1 = *ap_str2;
-    *ap_str2 = temp;
+{char *temp = *ap_str1;
+*ap_str1 = *ap_str2;
+*ap_str2 = temp;
 }
 \end{Verbatim}
 
@@ -116,7 +115,7 @@ void permute ( char **array, int length )
 \subsection{Resultados}
 
 Utilizando o comando 
-dot -Tps res_dot.dot -o out.ps
+%dot -Tpng res_dot.dot -o out.png
 
 
 Utilizando o comando 
