@@ -43,16 +43,20 @@
 \begin{minted}{text}
 [ ]*[}"] 
 \end{minted}
+{author[i]='\0';authors[j++]=strdup(author);
 
 \item 
 \begin{minted}{text}
 [ ]+(and)[ ]+
 \end{minted}
+{author[i]='\0';authors[j++]=strdup(author);i = 0;}
 
 \item 
 \begin{minted}{text}
 (.|\n)
 \end{minted}
+
+{author[i++]=yytext[0];	}
 
 \end{itemize}
 
@@ -112,6 +116,7 @@ void permute ( char **array, int length )
 \subsection{Resultados}
 
 Utilizando o comando 
+dot -Tps res_dot.dot -o out.ps
 
 
 Utilizando o comando 

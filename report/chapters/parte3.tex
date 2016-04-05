@@ -23,8 +23,12 @@ Os campos considerados são:
 
 \begin{itemize}
 
+
+\item Organização
+\item \emph{How Published}
 \item Instituição
 \item Publicação
+\item Titulo do livro
 \item Jornal
 \item Edição
 \item Capitulo
@@ -34,6 +38,7 @@ Os campos considerados são:
 \item Escola
 \item Numero
 \item Editor
+\item Autor
 \item Titulo
 \item Págs
 \item Mês
@@ -43,11 +48,25 @@ Os campos considerados são:
 \end{itemize}
 
 Note-se que estes campos podem ser tanto obrigatórios como opcionais.
-
+A ordem com que os campos estão colocados não tem a obrigatoriedade de uma
+sequência. Por exemplo o campo autor pode ser colocado no final da enumeração
+dos campos, sem nenhum efeito colateral. O que decide a ordem dos elementos
+é sempre o estilo de bibliografia.
 
 
 \section{Desenho e implementação da solução}
 \label{sec:des:b2}
+
+A sugestão de solução apresentada, possui quatro \emph{START CONDITIONS}:
+a \emph{SC} \texttt{ENTRY}, \emph{SC} \texttt{AUT}, a \emph{SC} \texttt{FIELD}
+e, por último, a \emph{SPEC}. A necessidade de ter as primeiras \emph{SC}
+deve-se à necessidade de criar um contexto para tratar os autores, bem como
+o título, sendo estas ativadas dentro \emph{SC} \texttt{ENTRY}. O intuito \emph{SC}
+\texttt{SPEC} já foi descrita em secções anteriores --- capturar par de
+chavetas, para evitar conflitos com as outras \emph{ER's}.
+
+Assim , passas-se a descrever a especificação de cada \emph{SC}.
+
 
 \subsubsection{\emph{START CONDITION} \texttt{INITIAL}}
 
@@ -55,25 +74,68 @@ Note-se que estes campos podem ser tanto obrigatórios como opcionais.
 \item 
 
 \begin{verbatim}
-[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"][ ]*
+\@[A-Za-z]+
 \end{verbatim}
+
+{pos = 2; BEGIN ENTRY;printf("\n\n\n################\n");}
 
 \item 
 
 \begin{verbatim}
-[[Ee][Dd][Ii][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]
+[(.|\n)                            
+\end{verbatim}
+{;}
+
+
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsubsection{\emph{START CONDITION} \texttt{ENTRY}}
+
+\begin{itemize}
+\item 
+
+\begin{verbatim}
+ENTRY>[}] 
+\end{verbatim}
+{print_campos(); BEGIN INITIAL;}
+\item 
+
+\begin{verbatim}
+<ENTRY>[}][ ]*[,] {;} 
 \end{verbatim}
 
 \item 
 \begin{verbatim}
-[Tt][Ii][Tt][Ll][Ee][ ]*"="[ ]*[{"]
+<ENTRY>[Oo][Rr][Gg][Aa][Nn][Ii][Zz][Aa][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]? 
 \end{verbatim}
+{i=0; fields[0][pos]=strdup("Organizacao----:\t");BEGIN FIELD;}
 
+                        
+                            
+
+\item 
+\begin{verbatim}
+ENTRY>[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"] 
+\end{verbatim}
+{i=0; fields[0][0  ]=strdup("Autor(es) -----:\t");BEGIN AUT;}
+
+
+\item 
+\begin{verbatim}
+<ENTRY>[Tt][Ii][Tt][Ll][Ee][ ]*"="[ ]*[{"] 
+\end{verbatim}
+ {i=0; fields[0][1  ]=strdup("Titulo --------:\t");BEGIN TITLE;}
 
 \item 
 \begin{verbatim}
 (.|\n)
 \end{verbatim}
+
+
 
 \end{itemize}
 
@@ -86,16 +148,23 @@ Note-se que estes campos podem ser tanto obrigatórios como opcionais.
 \begin{verbatim}
 [ \t]+"and"[ \t]+
 \end{verbatim}
+ {strcpy(value+i, "\n\t\t\t "); i+=5;}
 
 \item 
 \begin{verbatim}
-[}"]
+<AUT>[}"][ ]*[ ]? 
 \end{verbatim}
+                                   strcpy(value+i,"\n"); i++; 
+                                   fields[1][0]=strdup(value); 
+				                   BEGIN ENTRY;}
 
 \item 
 \begin{verbatim}
 (.|\n)
 \end{verbatim}
+
+{value[i++]=yytext[0];}
+
 
 \end{itemize}
 
@@ -119,14 +188,14 @@ A ação desta captura é devido ao que foi exposto em capítulos anteriores. No
 
 \item Captura o final do campo caso seja aspas ou o fecho de chavetas.
 \begin{verbatim}
-[}"]
+[}"][ ]*[,]? 
 \end{verbatim}
 
 \item Captura tudo o resto.
 \begin{verbatim}
 (.)
 \end{verbatim}
-A ação é imprimir no \emph{stdout} tudo o resto onde não houve captura com as \emph{ER's} anteriores.
+{value[i++]=yytext[0];}
 
 \item Captura do caractere \emph{newline}
 \begin{verbatim}
@@ -144,26 +213,37 @@ A ação é não fazer nada. Apenas serve para consumir eliminar quebras de linh
 \begin{itemize}
 \item 
 \begin{verbatim}
+"\\url{"
+\end{verbatim}
+ { state_caller = YYSTATE; BEGIN SPEC;}
+
+\item 
+\begin{verbatim}
+[ ]{2,}
 \end{verbatim}
 
 \item 
 \begin{verbatim}
+[{]
 \end{verbatim}
 
 \item 
 \begin{verbatim}
+[}"]?[ ]*[,]
 \end{verbatim}
+strcpy(value+i,"\n"); i++;
+				                   fields[1][pos++]=strdup(value);
+				                   BEGIN ENTRY;}
 
 \item 
 \begin{verbatim}
+(.)
 \end{verbatim}
-\item 
-\begin{verbatim}
-\end{verbatim}
+ {value[i++]=yytext[0];}
 
 \item 
 \begin{verbatim}
-(.|\n)
+(\n)
 \end{verbatim}
 
 \end{itemize}
@@ -176,11 +256,14 @@ A ação é não fazer nada. Apenas serve para consumir eliminar quebras de linh
 \begin{verbatim}
 [}]
 \end{verbatim}
+yyless(0);BEGIN state_caller;
 
 \item 
 \begin{verbatim}
 (.|\n)
 \end{verbatim}
+{value[i++]=yytext[0];}
+
 \end{itemize}
 
 
@@ -188,6 +271,38 @@ A ação é não fazer nada. Apenas serve para consumir eliminar quebras de linh
 \subsection{Estruturas de dados}
 
 \subsection{Algoritmos}
+
+\begin{verbatim}
+void print_campos()
+{
+    int j;
+
+    for(j = 0; j < pos; j++){
+        printf("%s %s", fields[0][j], fields[1][j]);
+    	free(fields[0][j]);
+    	free(fields[1][j]);
+    	fields[0][j]=NULL;
+    	fields[1][j]=NULL;
+    }
+
+}
+\end{verbatim}
+
+
+\begin{verbatim}
+int j;
+
+    yylex();
+ for(j = 0; j < MAX_ENTRIES; j++)
+        {
+            if(fields[0][j])
+                free(fields[0][j]);
+            else if (fields[1][j])
+                free(fields[1][j]);
+
+        }
+
+\end{verbatim}
 
 \section{Codificação e Testes}
 \label{sec:ts:b2}
