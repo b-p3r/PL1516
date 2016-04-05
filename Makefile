@@ -12,7 +12,7 @@ LATEXMKBIBTEX=-bibtex
 
 
 
-all: exe2_1 exe2_2a exe2_2b exe2_3 test relatorio.pdf clean 
+all: exe2_1 exe2_2a exe2_2b exe2_3 test relatorio.pdf compress clean 
 
 
 
@@ -23,15 +23,15 @@ relatorio.pdf:  report/rel.tex
 		$(LATEXMKBIBTEX) $(CONTINUOUS) \
 		            -pdflatex="$(LATEX) $(LATEXOPT) %O %S" \
 			    report/rel.tex 
-	mv rel.pdf relatorio.pdf 
+	mv rel.pdf pl15TP1Gr07.pdf 
 	rm -fr rel.* 
 	rm -fr report/chapters/*.aux 
 	rm -fr _minted-rel
 
 
-#compress: identificacao  ./code ./doc
-#	@echo "Preparar ficheiro Bzip para entrega...."
-#	tar jcf PLg039-et2.tar.bz2 identificacao code doc
+compress:  ./Exercicio2 
+	@echo "Preparar ficheiro Zip para entrega...."
+	zip -r Tp1 ./Exercicio2/*
 
 
 ############################### - Exercício 2.3 ###########################################
@@ -77,8 +77,10 @@ clean_exec:
 	@echo "A eliminar executáveis...."
 	rm -f filter_*
 	rm -fr relatorio.pdf
+    rm -fr Tp1.zip
 
 test: 
 	./filter_exe2_2a < testes/ex3.bib > testes/resNorm.bib
 	./filter_exe2_2b < testes/ex3.bib > testes/res_pretty_printing.txt
+     #dot -Tps testes/res_dot.dot -o testes/out.ps
 
