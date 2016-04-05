@@ -76,11 +76,12 @@ clean: clean_exec
 clean_exec:
 	@echo "A eliminar executáveis...."
 	rm -f filter_*
-	rm -fr relatorio.pdf
-    rm -fr Tp1.zip
+	rm -fr pl15TP1Gr07.pdf
+	rm -fr Tp1.zip
 
 test: 
 	./filter_exe2_2a < testes/ex3.bib > testes/resNorm.bib
 	./filter_exe2_2b < testes/ex3.bib > testes/res_pretty_printing.txt
-     #dot -Tps testes/res_dot.dot -o testes/out.ps
+	#dot -Tpng testes/res_dot.dot -o testes/out.png
+
 
