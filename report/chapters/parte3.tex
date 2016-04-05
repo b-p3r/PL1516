@@ -61,30 +61,50 @@ A sugestão de solução apresentada, possui quatro \emph{START CONDITIONS}:
 a \emph{SC} \texttt{ENTRY}, \emph{SC} \texttt{AUT}, a \emph{SC} \texttt{FIELD}
 e, por último, a \emph{SPEC}. A necessidade de ter as primeiras \emph{SC}
 deve-se à necessidade de criar um contexto para tratar os autores, bem como
-o título, sendo estas ativadas dentro \emph{SC} \texttt{ENTRY}. O intuito \emph{SC}
-\texttt{SPEC} já foi descrita em secções anteriores --- capturar par de
-chavetas, para evitar conflitos com as outras \emph{ER's}.
-
-Assim , passas-se a descrever a especificação de cada \emph{SC}.
+o título, sendo estas ativadas dentro \emph{SC} \texttt{ENTRY}. O intuito
+\emph{SC} \texttt{SPEC} já foi descrita em secções anteriores --- capturar par
+de chavetas, para evitar conflitos com as outras \emph{ER's}. De igual modo,
+usaram-se três variáveis globais do tipo inteiro: uma para guardar o estado das
+\emph{SC} no caso da \texttt{SPEC}, dois contadores, um para um índice de uma
+\emph{string}, outro para guardar o índice de um \emph{array} de \emph{strings}
+multidimensional. Além, destas variáveis de valor inteiro, criaram-se, como já
+mencionado, uma \emph{string} e um \emph{array} multidimensional para guardar
+o resultado das ocorrências dos campos. Criou-se este último, com o intuito de
+guardar nas primeiras posições os valores do campos autor e título, seguido de
+tudo o resto. Assim, após a captura do fim da entrada bibliográfica, o resultado
+é passado ao \emph{stdout} pela ordem correta, iniciando o índice do
+\emph{array} multidimensional de cada vez que é encontrada uma entrada
+bibliográfica. Também, o \emph{array} é multidimensional dado que intenciona
+guardar na primeira linha a legenda do campo e na segunda o valor do campo.
+A especificação de cada \emph{SC}, que implementa estes conceitos segue-se nas
+seguintes secções.
 
 
 \subsubsection{\emph{START CONDITION} \texttt{INITIAL}}
 
 \begin{itemize}
-\item 
+
+	\item Captura o início de uma entrada, ou seja, um \texttt{@} seguido de uma
+		ou mais caracteres maiúsculos ou minúsculos.
 
 \begin{verbatim}
 \@[A-Za-z]+
 \end{verbatim}
 
-{pos = 2; BEGIN ENTRY;printf("\n\n\n################\n");}
+Como já foi anteriormente mencionado, a captura deste valor através da
+\emph{ER} descrita, despoleta uma ação, tal que a posição do \emph{array}
+multidimensional é inciada logo na terceira posição, uma vez as duas primeiras
+estão reservadas para o autor e o título. De igual modo, inicia a \emph{SC}
+\texttt{ENTRY}, imprimindo no \emph{stdout} uma pequeno separador composto por
+cardinais.
 
-\item 
+\item Captura tudo o resto, incluindo o caractere \emph{newline}.
 
 \begin{verbatim}
 [(.|\n)                            
 \end{verbatim}
-{;}
+
+A ação é ignorar o restante.
 
 
 
@@ -95,42 +115,65 @@ Assim , passas-se a descrever a especificação de cada \emph{SC}.
 
 \subsubsection{\emph{START CONDITION} \texttt{ENTRY}}
 
+A \emph{SC} \texttt{ENTRY} está no contexto da entrada bibliográfica, onde os
+vários campos são capturados. 
+
 \begin{itemize}
-\item 
+\item Captura chaveta correspondente ao final da entrada bibliográfica.
 
 \begin{verbatim}
-ENTRY>[}] 
+[}] 
 \end{verbatim}
-{print_campos(); BEGIN INITIAL;}
-\item 
+Aqui é invocada a função de impressão dos campos pela ordem desejada, voltando
+a \emph{SC} \texttt{INITIAL}.
+\item Captura uma chaveta seguida de 0 ou mais espaços, com uma vírgula
+	a seguir.
 
 \begin{verbatim}
-<ENTRY>[}][ ]*[,] {;} 
+[}][ ]*[,] {;} 
 \end{verbatim}
 
-\item 
+A ação aqui definida é ignorar a captura. Este \emph{ER} serve de artifício
+para não haver ambiguidade com o final dos campos, dado que a expressão
+é maior. Note-se que, caso não se recorresse a este artifício, a captura dos
+campos poderia terminar a meio.
+
+\item Captura o campo \emph{Organization}, \emph{case-insensitive}, seguido 0 ou
+	mais espaços, um \emph{=}, com 0 ou mais espaços de seguida, podendo terminar
+	ou não numa chaveta ou aspas.
 \begin{verbatim}
-<ENTRY>[Oo][Rr][Gg][Aa][Nn][Ii][Zz][Aa][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]? 
+[Oo][Rr][Gg][Aa][Nn][Ii][Zz][Aa][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]? 
 \end{verbatim}
-{i=0; fields[0][pos]=strdup("Organizacao----:\t");BEGIN FIELD;}
 
-                        
+Após a captura , o índice da \emph{string} auxiliar para armazenar
+temporariamente o valor dos caracteres capturados é inicializado, sendo guardada
+a legenda do campo na primeira linha, na coluna correspondente à posição da
+ocorrência. Em seguida é inicializado a \emph{SC} \texttt{FIELD}, correspondente
+ao contexto de manipulação de qualquer outro campo, que não o autor e o título.
                             
-
-\item 
+\item Captura similar a anterior, exceto a aspas ou chavetas de início do valor
+	do campo são obrigatórias. Neste caso a captura é do campo autor.
 \begin{verbatim}
 ENTRY>[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"] 
 \end{verbatim}
-{i=0; fields[0][0  ]=strdup("Autor(es) -----:\t");BEGIN AUT;}
+
+A ação é igual à de \emph{ER} anterior, com a exceção da posição do
+\emph{array} que é utilizada diretamente, e é iniciada a \emph{SC} \texttt{AUT}.
 
 
-\item 
+
+\item Captura igual à anterior, só que neste caso, a captura é do campo do
+	título. A \emph{SC} iniciada é a \texttt{TITLE}.
 \begin{verbatim}
 <ENTRY>[Tt][Ii][Tt][Ll][Ee][ ]*"="[ ]*[{"] 
 \end{verbatim}
- {i=0; fields[0][1  ]=strdup("Titulo --------:\t");BEGIN TITLE;}
 
-\item 
+Estas \emph{ER's} estão aqui a título exemplar, dado que existem \emph{ER's}
+para cada campo obrigatório mencionado na secção \emph{Análise do Problema}.
+
+
+\item Captura tudo o resto incluindo o caractere \emph{newline}, sendo a ação
+	ignorar a captura.
 \begin{verbatim}
 (.|\n)
 \end{verbatim}
