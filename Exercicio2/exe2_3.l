@@ -2,19 +2,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../Exercicio2/structures/hashtable.h"
-#define  ARRAY_SIZE  64
+#define  authors_SIZE  64
 #define  AUTHORS  16
 
-char author[ARRAY_SIZE];
+char author[authors_SIZE];
 char * authors[AUTHORS];
 int i = 0, j = 0;
 
-void insertAuthors ( char **array, int length )
+void insertAuthors ( int length )
 {
     int i;
-    add_autor(array[0]);
+    add_autor(authors[0]);
     for ( i=1; i < length; i++ )
-        add_coautor(array[0], array[i] );
+        add_coautor(authors[0], authors[i] );
 
 }
 void swap(char **ap_str1, char **ap_str2)
@@ -25,12 +25,12 @@ void swap(char **ap_str1, char **ap_str2)
 }
 
 
-void permute ( char **array, int length )
+void permute (int length )
 {
     int j, i;
     if(length==1)
         {
-            insertAuthors ( array, 1 );
+            insertAuthors ( 1 );
             return;
 
         }
@@ -38,8 +38,8 @@ void permute ( char **array, int length )
 
     for ( i = 0; i < length ; i++ )
         {
-            swap( &array[0], &array[i] );
-            insertAuthors ( array, length );
+            swap( &authors[0], &authors[i] );
+            insertAuthors ( length );
         }
 
     return;
@@ -54,8 +54,8 @@ void permute ( char **array, int length )
 
 
 <AUT>[ ]*[}"]                   {author[i]='\0';authors[j++]=strdup(author);
-				 permute(authors, j);BEGIN INITIAL;}
-<AUT>[ ]+(and)[ ]+              {author[i]='\0';authors[j++]=strdup(author);i = 0;}
+				 permute(j);BEGIN INITIAL;}
+<AUT>[ \t]+(and)[ \t]+          {author[i]='\0';authors[j++]=strdup(author);i = 0;}
 <AUT>(.|\n)                     {author[i++]=yytext[0];	}
 (.|\n)                           {;}
 %%

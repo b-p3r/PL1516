@@ -52,7 +52,9 @@ int counter[14];
 
 \@[Uu][Nn][Pp][Uu][Bb][Ll][Ii][Ss][Hh][Ee][Dd] {counter[UNPUBLISHED]++;}
 
-\@[Ss][Tt][Rr][Ii][Nn][Gg]                       {;}
+\@[Ss][Tt][Rr][Ii][Nn][Gg]                     {;}
+\@[Pp][Rr][Ee][Aa][Mm][Bb][Ll][Ee]             {;}
+\@[Cc][Oo][Mm][Mm][Ee][Nn][Tt]                 {;}
 \@[A-Za-z]+ {add_key(strdup(yytext + 1));}
 
 .|\n {;}
