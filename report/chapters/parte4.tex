@@ -1,37 +1,100 @@
-\chapter{Contagens de categorias de um ficheiro \BibTeX}
+\chapter{Grafo de associações de um autor em \emph{Dot} de um ficheiro \BibTeX}
 \label{chap:c}
 
 \section{Análise do Problema}
 \label{sec:cp:c}
+Nesta parte, requere-se que se faça o grafo de associações para um dado autor,
+dos autores que usualmente publicam com ele. A linguagem a ser usada é linguagem
+\emph{Dot} do \emph{GraphViz}, para renderizar o grafo, tendo que
+o filtro em \emph{Flex} gerar no \emph{stdout} o grafo nessa
+linguagem.   
 
 \section{Especificação dos requisitos}
 \label{sec:spec:c}
 
 \subsection{Dados}
 
+Em relação aos dados do problema, pouco mais há a acrescentar do que
+já se mencionou em capítulos anteriores, relativamente ao
+\hologo{BibTeX} --- o campo autor podes ter um ou mais autores, cada
+um separado por \emph{and}, podendo o campo estar dentro de chavetas
+ou aspas.
+
+Em relação ao \emph{Dot} existem algumas considerações a ter,
+nomeadamente no desenho do grafo através da linguagem. Pretende-se um
+grafo, de preferência orientado, onde numa única página seja possível
+mostrar todas as associações. Cada associação pode ter um peso,
+correspondente à densidade de publicação e existe uma, e uma só
+associação entre o autor escolhido e cada um dos seus co-autores. Além
+do mais, podem ocorrer os seguintes casos: o autor tem vários
+co-autores, o autor nunca publicou com ninguém, e o autor escolhido
+não existe. Acresce-se que o grafo é sempre produzido, estando vazio
+no caso de o autor não existir ou haver apenas um nodo com o nome do
+autor escolhido, no caso de autor ter sempre publicado sozinho.
+
 \subsection{Relações}
+
+Relativamente às associações, existem relações subjacentes que
+é preciso interpretar. Pretendendo-se todas as associações entre cada autor que
+ocorre no campo homólogo no ficheiro do \hologo{BibTeX}, é necessário
+construir um grafo com todas as associações entre todos os autores.
+Por exemplo, temos 2 entradas bibliográficas tal que: 
+
+\begin{itemize}
+	\item C and B 
+O autor C publica com B, por sua vez, B publica com C,
+	\item A and B and C
+O autor A publica com B e com C, e B publica com A e com C,
+e C publica com A e com B.
+\end{itemize}
+
+Ou seja, para uma linha com N autores, para cada autor
+exitem N associações. Para manter a consistência do grafo, e necessário inserir
+essas N associações, N vezes.
+
 
 
 \section{Desenho e implementação da solução}
 \label{sec:des:c}
+Na implementação usou-se para criar o grafo, uma tabela de \emph{hash}
+multi-nível, ou seja, uma tabela de \emph{hash} de tabelas de \emph{hash}, onde
+cada ocorrência de autor está presente no primeiro nível, e para cada ocorrência
+estão todas as ocorrências sem repetidos, com um contador associado. Além da
+tabela existem uma \emph{string} auxiliar, para guardar os caracteres capturados
+dos nomes dos autores. Cada nome é inserido num \emph{array} de \emph{strings}
+sendo depois inseridas todas as associações na tabela de \emph{hash}. No fim,
+é efetuada um procura na tabela de primeiro nível com o valor do autor
+escolhido, sendo depois percorrida a tabela de segundo nível desse autor,
+imprimindo no \emph{stdout} as associações já no formato \emph{Dot}. De igual
+modo, existem duas variáveis inteiras correspondentes a cada índice de cada
+\emph{array}. Por último, existe uma \emph{SC} com o nome \texttt{AUT} para
+manipulação do valor do campo autor, nesse contexto.  
 
 
 
 \subsection{Expressões Regulares}
+Antes de se iniciar a descrição, note-se que as \emph{ERs} estão ordenadas de
+forma a não haver ambiguidade.
 
 
 \subsubsection{\emph{START CONDITION} \texttt{INITIAL}}
 
 \begin{itemize}
-\item 
+	\item Captura campo autor (\emph{case insensitive}), de forma similar ao que
+		se fez em capítulos anteriores. 
 \begin{verbatim}
 [Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"][ ]*
 \end{verbatim}
 
-\item 
+A captura despoleta a inicialização dos índices na posição 0 e inicia
+\emph{SC} \texttt{AUT}.  
+
+\item Captura tudo o resto, incluindo o caractere \emph{newline}.  
 \begin{verbatim}
 (.|\n)
 \end{verbatim}
+
+A ação é ignorar as capturas da \emph{ER}.
 
 \end{itemize}
 
@@ -39,44 +102,64 @@
 \subsubsection{\emph{START CONDITION} \texttt{AUT}}
 
 \begin{itemize}
-	\item 
+	\item Captura fim de campo, a semelhança com \emph{ER's} de capítulos
+		anteriores.  
 
 \begin{verbatim}
 [ ]*[}"] 
 \end{verbatim}
-%{author[i]='\0';authors[j++]=strdup(author);
 
-\item 
+O procedimento associado a esta \emph{ER} é colocar o caractere \texttt{NULL}
+na última posição da \emph{string} auxiliar, e copiar o valor para
+o \emph{array} de \emph{strings} auxiliar. O índice deste último é incrementado,
+sendo de seguida invocada a função \texttt{permute} que tratara da reorganização
+do \emph{array} de \emph{strings} auxiliar, e da respetiva inserção na tabela de
+\emph{hash}. No fim, volta à \emph{SC} \texttt{INITIAL}.  
+
+\item Captura o separador \emph{and} rodeado de um ou mais espaços e tabulações.
 \begin{verbatim}
-[ ]+(and)[ ]+
+[ /t]+(and)[ /t]+
 \end{verbatim}
-%{author[i]='\0';authors[j++]=strdup(author);i = 0;}
 
-\item 
+Aqui é colocado o caractere \texttt{NULL}  na última posição da \emph{string}
+auxiliar, sendo copiada para a posição $j$ do \emph{array} de \emph{strings}
+auxiliar.  A posição $j$ é total de ocorrências de autores até ao momento.
+O índice da \emph{string} volta a primeira posição, pronto para a leitura de um
+novo nome. 
+
+\item Captura tudo o resto, incluindo o caractere \emph{newline}.  
 \begin{verbatim}
 (.|\n)
 \end{verbatim}
 
-%{author[i++]=yytext[0];	}
+Aqui é copiada a captura para a \emph{string} auxiliar, incrementado a sua
+posição. 
 
 \end{itemize}
 
 \subsection{Estruturas de dados}
 
+A estrutura de dados, como já foi mencionado atrás é uma tabela de \emph{hash}
+multi-nível. A estrutura de base é a mesma que foi utilizada no primeiro
+capítulo --- \emph{uthash}.  
+
 \subsection{Algoritmos}
 
+O código que se segue é o utilizado na inserção dos autores na tabela de
+\emph{hash}. 
 
 \begin{Verbatim}
-void insertAuthors ( char **array, int length )
+void insertAuthors ( int length )
 {int i;
- add_autor(array[0]);
+ add_autor(authors[0]);
  for ( i=1; i < length; i++ )
-     add_coautor(array[0], array[i] );
+     add_coautor(authors[0], authors[i] );
  				
 }
 \end{Verbatim}
 
-
+O código seguinte é a versão da função \texttt{swap} utilizada na reorganização
+do \emph{array} de \emph{strings}. 
 \begin{Verbatim}
 void swap(char **ap_str1, char **ap_str2)
 {char *temp = *ap_str1;
@@ -85,14 +168,18 @@ void swap(char **ap_str1, char **ap_str2)
 }
 \end{Verbatim}
 
-
+A função \texttt{permute}, caso haja apenas um autor, insere apenas o mesmo. Se
+houver mais para cada autor calcula-se uma permutação, tal que, o nome do autor
+para ser inserido no primeiro nível é colocado à cabeça do \emph{array},
+trocando de lugar com o autor seguinte da iteração. Assim obtém-se a permutação
+pretendida.
 \begin{Verbatim}
-void permute ( char **array, int length )
+void permute ( int length )
 {
     int j, i;
     if(length==1)
         {
-            insertAuthors ( array, 1 );
+            insertAuthors ( 1 );
             return;
 
         }
@@ -100,8 +187,8 @@ void permute ( char **array, int length )
 
     for ( i = 0; i < length ; i++ )
         {
-            swap( &array[0], &array[i] );
-            insertAuthors ( array, length );
+            swap( &authors[0], &authors[i] );
+            insertAuthors ( length );
         }
 
     return;
@@ -114,13 +201,25 @@ void permute ( char **array, int length )
 
 \subsection{Resultados}
 
-Utilizando o comando 
-%dot -Tpng res_dot.dot -o out.png
+Utilizando o nome de autor `Tim Teitelbaum', os resultados estão no
+apêndice~\ref{appendix:d1}, na pág.~\pageref{appendix:d1}. O ficheiro
+\hologo{BibTeX} utilizado está no apêndice~\ref{appendix:a1},
+pág~\pageref{listing:a2}.
 
+A imagem foi obtida através do comando \verb|dot -Tpng res_dot.dot -o out.png| 
 
-Utilizando o comando 
 
 \subsection{Alternativas, Decisões e Problemas de Implementação}
+
+Numa primeira abordagem, tentou-se implementar uma solução que utilizava
+o \texttt{strstr} do \texttt{libc}. A solução funcionava, no entanto, não era
+eficiente. Era necessário ler a linha três vezes: uma para verificar se o autor
+existia, outra para processar a linha, caso o autor existisse,
+e o \texttt{strstr}. Optou-se pela solução implementada, dado que percorre
+o documento uma vez, podendo demorar na função \texttt{permute} se houver muitos
+autores. Uma nota final: para poder utilizar esta ferramenta com eficiência,
+recomenda-se que se normalize primeiro o ficheiro com a ferramenta da parte 2,
+uma vez que o mesmo autor pode ter o seu nome escrito de diferentes formas.
 
 
 

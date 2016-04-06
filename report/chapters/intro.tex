@@ -1,36 +1,60 @@
 \chapter*{Introdução}\label{intro}
 
-\begin{description}
-  \item [Enquadramento] 
-  \item [Conteudo documento]
-  \item [Resultados --- pontos a evidenciar]
-  \item [Estrutura do documento]
-\end{description}
+
+O presente documento visa a documentação do processo de aprendizagem de
+especificações em \emph{Flex} e criação de filtros para diversos formatos de
+texto. No contexto escolhido, criações de filtros para ficheiros
+\hologo{BibTeX}. Numa primeira parte, o objetivo é a criação de uma filtro para
+contabilizar as entradas bibliográficas e criar um ficheiro \emph{HTML} com
+o resultado. Ficheiros deste género podem crescer muito em tamanho, por vezes
+uma contabilização pode ajudar a construir repositórios documentais sobre
+determinado assunto. De igual modo, a necessidade de normalização de um
+documento deste é importante, porque com o passar do tempo, o acrescentar novas
+entradas pode criar desvios de formatação, que pode prejudicar uma pesquisa no
+documento pelo nome, por exemplo. Um exemplo de um normalizador deste género
+figura na segunda parte (capítulo 2) deste documento.  Além do normalizador, na
+terceira parte (cap. 3), é apresentado a elaboração de um filtro para fazer um
+\emph{pretty-printing} de um documento \hologo{BibTeX}.  Por último, no quarto
+capítulo é apresentada uma ferramenta para criar um grafo com os coautores de
+determinado autor, onde os pesos das arestas são a densidade de publicação com
+cada coautor.
+
+
+\section*{Metas e objetivos} 
+
+O ambiente Linux é uma das metas deste trabalho. Existem diversas formas de
+fazer determinadas coisas para fazer em Linux, onde cada ferramenta tem o seu
+lugar e não faltam ferramentas.  O domínio deste sistema operativo é importante,
+dado que, um programador, com conhecimento suficiente sobre este sistema
+operativo, tem uma liberdade que falta a outros. De igual modo, dado que as
+ações das especificações no \emph{Flex} são programadas em linguagem C, um dos
+objetivos passa por refinar e aumentar o conhecimento da linguagem, bem como
+aprofundar o conhecimento em estruturas mais complexas. De igual modo,
+algoritmos e complexidade são serão revisitados, e a otimização será algo
+importante durante a elaboração do trabalho. Pretende-se, portanto, soluções
+eficientes. Por último, o grande objetivo é desenvolver a capacidade de escrita
+de \emph{ER's} e entender como o funcionamento de processadores de linguagens
+regulares funcionam, usando geradores de filtros de texto como o \emph{Flex}.
+Deste último objetivo será testemunha este documento.  
 
 
 \section*{Estrutura do Relatório} 
+O relatório está organizado em 4 capítulos: o primeiro capítulo é referente
+à alínea \emph{a}, o segundo e terceiros capítulos correspondem à alínea
+\emph{b} e o quarto capitulo corresponde à alínea \emph{c}.  Cada capítulo
+possui três secções: \emph{Análise do Problema}, \emph{Desenho e implementação
+da solução} e \emph{Testes e Resultados}.  Na secção \emph{Análise do Problema}
+expõe-se informalmente o problema, contendo conteúdo referentes aos dados,
+relações e possíveis abordagens à solução. Na secção \emph{Desenho
+e implementação da solução} descrevem-se as especificações e respetivas ações do
+\emph{Flex}, \emph{START CONDITION}, estruturas de dados e algoritmos e funções
+importantes. Em seguida a secção \emph{Testes e Resultados} apresenta os
+resultados e acrescenta uma breve discussão sobre problemas de implementação,
+alternativas e sugestões.  Note-se que neste documento, para mostrar
+a extensibilidade dos testes, muitos deles estão no \emph{Apêndice}. O documento
+encerra com a \emph{Conclusão} onde se avaliará a completude dos objetivos, bem
+como observações aos resultados obtidos.
 
 
-%Explicar como está organizado o documento, referindo os capítulos existentes
-%em~\cite{yu09} e a sua articulação explicando o conteúdo de cada um.  No
-%capitulo~\ref{ae} faz-se uma análise detalhada do problema proposto de modo
-%a poder-se especificar  as entradas, resultados e formas de transformação.
-%Etc. \ldots
-%
-%
-%No capitulo~\ref{concl} termina-se o relatório com uma síntese do que foi dito,
-%as conclusões e o trabalho futuro
-
-1     Objetivos e Organização
-Este trabalho pratico tem como principais objetivos:
-
-		Aumentar a experiencia de uso do ambiente Linux, da linguagem imperativa
-		C (para codificação das estruturas de dados e respetivos algoritmos de
-		manipulação), e de algumas ferramentas de apoio a programação;
-		Aumentar a capacidade de escrever Expressões Regulares (ER) para descrição
-		de padrões de frases;
-		Desenvolver, a partir de ERs, sistemática e automaticamente Processadores
-		de Linguagens Regulares, que filtrem ou transformem textos;
-    Utilizar geradores de filtros de texto, como o Flex
 
 

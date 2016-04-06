@@ -16,7 +16,7 @@ No \hologo{BibTeX}, cada tipo de entrada bibliográfica tem campos opcionais
 e obrigatórios. Na resolução deste problema apenas se centrou nos obrigatórios,
 dado que se quiser uma ferramenta genérica, que inclua outros pacotes, o número
 de campos é elevado. De igual modo, os campos obrigatórios podem ser opcionais
-para algum tipo de entrada, e vice---versa. Em extensões, como no
+para algum tipo de entrada, e vice-versa. Em extensões, como no
 \textsc{Bib}\LaTeX{}, alguns campos são são comuns, por uma questão de compatibilidade.
 
 Os campos considerados são:
@@ -79,6 +79,10 @@ guardar na primeira linha a legenda do campo e na segunda o valor do campo.
 A especificação de cada \emph{SC}, que implementa estes conceitos segue-se nas
 seguintes secções.
 
+\subsection{Expressões Regulares}
+Antes de se iniciar a descrição, note-se que as \emph{ERs} estão ordenadas de
+forma a não haver ambiguidade.
+
 
 \subsubsection{\emph{START CONDITION} \texttt{INITIAL}}
 
@@ -101,7 +105,7 @@ cardinais.
 \item Captura tudo o resto, incluindo o caractere \emph{newline}.
 
 \begin{verbatim}
-[(.|\n)                            
+(.|\n)                            
 \end{verbatim}
 
 A ação é ignorar o restante.
@@ -347,7 +351,6 @@ anterior.
 \end{verbatim}
 
 Ação: copiar a ocorrência do caractere da captura para \emph{string} auxiliar. 
-% {value[i++]=yytext[0];}
 
 \item Captura o caractere \emph{newline}.  
 \begin{verbatim}

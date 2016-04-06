@@ -12,14 +12,14 @@ manuais, etc. O resultado tem que constar num ficheiro \texttt{HTML}.
 \subsection{Especificação dos requisitos}
 \label{sec:spec:a}
 Existem pelo menos 14 tipos de entradas bibliográficas no \hologo{BibTeX},
-podendo haver algumas extensões ou pacotes que possuam outras--como por exemplo
+podendo haver algumas extensões ou pacotes que possuam outras --- como por exemplo
 o \textsc{Bib}\LaTeX{}.
 Note-se que, a distinção entre o formato de ficheiro \hologo{BibTeX}
 e o programa \hologo{BibTeX} é importante. O pacote \textsc{Bib}\LaTeX{} pode
 ser usado tanto pelo programa \hologo{BibTeX} como não, uma vez que
 o \emph{backend} por defeito do \textsc{Bib}\LaTeX{} --- o \emph{biber} ---
 suporta o formato de ficheiro \hologo{BibTeX} (\texttt{.bib}). Assim, os
-utilizadores do \textsc{Bib}\LaTeX podem usar o mesmo ficheiro \texttt{.bib} com
+utilizadores do \textsc{Bib}\LaTeX{} podem usar o mesmo ficheiro \texttt{.bib} com
 poucas alterações. Em consequência pode-se afirmar, que em cada ficheiro
 \texttt{.bib}, todos os tipos de entrada começam com \emph{\@}, ora usam
 o \hologo{BibTeX}, ora usem o \textsc{Bib}\LaTeX.
@@ -33,7 +33,7 @@ Os 14 tipos de entradas bibliográficas do \hologo{BibTeX} são:
 	\item\textbf{Article      } Um artigo de um jornal ou revista.
     
 	\item\textbf{Booklet      } Um livro não publicado por uma editora, mas que
-		é ipresso e encadernado.
+		é impresso e encadernado.
        
 	\item\textbf{Book         } Um livro publicado por uma editora.
        
@@ -73,6 +73,10 @@ comentários que não devem ser tidos em conta pelo \hologo{BibTeX}.
 \label{sec:des:a}
 
 \subsection{Expressões Regulares}
+Antes de se iniciar a descrição, note-se que as \emph{ERs} estão ordenadas de
+forma a não haver ambiguidade.
+
+
 Uma entrada de um ficheiro \hologo{BibTeX} começa sempre com \texttt{@}. De
 igual modo, os nomes de tipos de entrada podem ser escritos com maiúsculas ou
 minúsculas, bem como podem começar por uma maiúscula, seguidas de minúsculas. Em
@@ -94,16 +98,16 @@ Desta forma temos 4 \emph{ER's}:
 	\item Uma expressão regular para capturar ou \texttt{@STRING},
 		\texttt{@PREAMBLE} e \texttt{@COMMENT}, da seguinte forma:
 \begin{minted}{text}
-		@([Ss][Tt][Rr][Ii][Nn][Gg]
-		|[Pp][Rr][Ee][Aa][Mm][Bb][Ll][Ee]
-		|[Cc][Oo][Mm][Mm][Ee][Nn][Tt])
+		\@[Ss][Tt][Rr][Ii][Nn][Gg]
+		\@[Pp][Rr][Ee][Aa][Mm][Bb][Ll][Ee]
+		\@[Cc][Oo][Mm][Mm][Ee][Nn][Tt]
 \end{minted}
 
-A ação nesta expressão regular será para ignorar.
+A ação nestas expressões regulares é para ignorar.
 
 
 	\item Uma expressão regular para capturar uma entrada específica, por exemplo:
-		\mint{text}|@[Aa][Rr][Tt][Ii][Cc][Ll][Ee]| para capturar uma ocorrência de
+		\mint{text}|\@[Aa][Rr][Tt][Ii][Cc][Ll][Ee]| para capturar uma ocorrência de
 		\texttt{ARTICLE}.
 
 		A ação é contabilizar a ocorrência. Para a contabilização de \emph{ER's}
@@ -112,7 +116,7 @@ A ação nesta expressão regular será para ignorar.
 \newpage
 
 	\item Uma expressão regular para capturar uma entrada genérica, por exemplo:
-		\mint{text}|@[A-Za-z]+| onde o valor capturado é copiado a partir do
+		\mint{text}|\@[A-Za-z]+| onde o valor capturado é copiado a partir do
 		caractere \texttt{@} e inserido numa tabela de
 		\emph{hash}, contabilizando repetições.Especificações da tabela de
 			\emph{hash} encontram-se na secção seguinte.
@@ -134,7 +138,7 @@ utilização neste problema.  Esta possui uma complexidade em termos de tempo
 constante na adição, remoção e procura, bem como tem uma melhor gestão de
 memória. No entanto, embora haja tabelas mais rápidas, utilizou-se esta tabela
 por uma questão de conveniência, dada a simplicidade e ter \emph{performance}
-aceitável para este problema.  \footnote{\emph{Benchmarking} relativamente
+aceitável para este problema.\footnote{\emph{Benchmarking} relativamente
 a outras estruturas pode ser encontrado em
 \url{http://lh3lh3.users.sourceforge.net/udb.shtml.}}
 

@@ -9,8 +9,8 @@ Para além dos tipos de entrada, é necessário especificar o conteúdo da entra
 como nomes de autor, títulos de obra, editora, etc. O \hologo{BibTeX} possui
 propriedades definidas para cada item como campo da entrada.  
 Para esta parte do trabalho, é pedido o desenvolvimento de uma ferramenta de
-normalização dos nomes dos autores no campo respetivo, no formato "N."(ome)
-"Apelido", que de igual modo normalize todos os campos entre aspas, com
+normalização dos nomes dos autores no campo respetivo, no formato \emph{N.(ome)
+Apelido}, que de igual modo normalize todos os campos entre aspas, com
 chavetas. 
 
 \subsection{Especificação dos requisitos}
@@ -50,8 +50,12 @@ A relevância deste contexto será explicada na secção seguinte.
 \label{sec:des:b1}
 
 
+\subsection{Expressões Regulares}
 
-\subsection{\emph{INITIAL \emph{START CONDITIONS}}}
+Antes de se iniciar a descrição, note-se que as \emph{ERs} estão ordenadas de
+forma a não haver ambiguidade. 
+
+\subsubsection{\emph{INITIAL \emph{START CONDITIONS}}}
 
 
 Qualquer campo no \hologo{BibTeX} tem sempre o identificador do campo
@@ -69,8 +73,6 @@ CONDITION} \texttt{AUT} para tratar do autor, e a \emph{START
 CONDITION} \texttt{CHAV} para tratar das chavetas dos outros campos.
 
 
-
-\subsubsection{Expressões Regulares e Ações}
 Após o exposto atrás, temos duas expressões regulares, tais que:
 
 \begin{itemize}
@@ -91,7 +93,7 @@ chaveta aberta, imprimir no \emph{stdout} e iniciar \texttt{CHAV}.
 \end{itemize}
 
 
-\subsection{\emph{AUT \emph{START CONDITION}}}
+\subsubsection{\emph{AUT \emph{START CONDITION}}}
 
 Nesta \emph{START CONDITION} faz-se a distinção dos nomes, conforme na
 \emph{Secção}~\ref{sec:spec:b1}. No entanto, é necessário distinguir o que é um
@@ -108,9 +110,6 @@ tratar este caso especial. Para isso, criou-se a \emph{START CONDITION}
 \texttt{PREFORMAT}. 
 
 
-
-
-\subsubsection{Expressões Regulares e Ações}
 
 \begin{itemize}
 	\item Captura de aspas ou uma chaveta no final campo.
@@ -164,18 +163,18 @@ tratar este caso especial. Para isso, criou-se a \emph{START CONDITION}
 	\texttt{INITIAL}.
 
 	 \item Captura de um nome próprio, que é apelido, pode ser composto
-		      mas não é p único na listagem de autores.
+		      mas não é o único na listagem de autores.
     \begin{minted}{text}
 		 ((-)?[A-Z][a-z]+)+[ \t]+(and)[ \t]+
     \end{minted}
 
 		A ação correspondente é em quase tudo semelhante à ação anterior, no
 		entanto, captura todos os espaços e tabulações antes e depois do separador
-		`and', e o separador `and'. Neste caso imprime para o \emph{stdout}
+		\emph{and}, e o separador \emph{and}. Neste caso imprime para o \emph{stdout}
 		a captura. Assim o próximo fica livre de espaços no inicio.
 
 
-	 \item Captura de uma linha com a formatação Apelido, Nome.
+	\item Captura de uma linha com a formatação \emph{Apelido, Nome}.
     \begin{minted}{text}
 		 ((-)?[A-Z][a-z]+)+[,]+[ \t]
     \end{minted}
@@ -200,7 +199,7 @@ Em seguida inicia a \emph{START CONDITION} \texttt{PREFORMAT}.
 
 
 
-\subsection{\emph{PREFORMAT \emph{START CONDITION}}}
+\subsubsection{\emph{PREFORMAT \emph{START CONDITION}}}
 
 Esta \emph{START CONDITION} tem as \emph{ER's} iguais, exceto a \emph{ER} \verb|[, \t]+| e 
 o separador \emph{and} tem um tratamento diferente, bem como o final do valor do
@@ -208,7 +207,6 @@ campo. A maior parte das ações foi redefinida para para este novo contexto.
 
 
 
-\subsubsection{Expressões Regulares e Ações}
 
 \begin{itemize}
 	\item Captura de aspas ou uma chaveta no final campo.
@@ -233,7 +231,7 @@ campo. A maior parte das ações foi redefinida para para este novo contexto.
 	 \item Captura de um espaço ou tabulação antes e depois de uma
 		 preposição, e a própria preposição.
 		\mint{text}|[ \t]+(and)+[\t ]+|
-		A ação definida captura o "and", caso exista mais que um autor, após
+		A ação definida captura o \emph{and}, caso exista mais que um autor, após
 		a ocorrência deste. Note-se que pode encontrar um ou mais mais espaços, bem
 		como tabulações antes e depois deste separador. De igial modo, coloca
 		o índice do apontador do \emph{array} de \emph{strings} auxiliar na posição
@@ -281,15 +279,13 @@ campo. A maior parte das ações foi redefinida para para este novo contexto.
 \end{itemize}
 
 
-\subsection{\emph{CHAV \emph{START CONDITION}}}
+\subsubsection{\emph{CHAV \emph{START CONDITION}}}
 
 No contexto \texttt{CHAV} apenas se faz a captura das aspas ou chavetas de todos
 os outros campos. As chavetas ou aspas do campo do autor já estão previstas  no
 devido contexto. No entanto, aqui pode ocorrer o novo contexto, já mencionado na
 secção \emph{Análise do Problema} deste capítulo. Deste modo, há a necessidade
 de se ter uma nova \emph{START CONDITION} \texttt{SPEC}.
-
-\subsubsection{Expressões Regulares e Ações}
 
 
 \begin{itemize}
@@ -316,13 +312,13 @@ Ação: imprimir tudo o resto, incluindo \emph{newlines} para \emph{stdout}.
 
 
 
-\subsection{\emph{SPEC \emph{START CONDITION}}}
+\subsubsection{\emph{SPEC \emph{START CONDITION}}}
 
 Há apenas acrescentar sobre esta \emph{START CONDITION}, que apenas é um
 \emph{workaroud} para evitar de capturar uma chaveta de a meio do valor do
 campo, e ser passível de ser considerada fim do valor de campo. 
 
-\subsubsection{Expressões Regulares e Ações}
+
 \begin{itemize}
   \item Captura o fecho de chavetas.
     \begin{minted}{text}
@@ -366,7 +362,8 @@ segunda posição. A primeira posição é imprimida no fim.
 	{
 	    int i;
 		
-			for (i = 0; i < ARRAY_SIZE&&array[i]; free(array[i]), array[i++]=NULL);
+			for (i = 0; i < ARRAY_SIZE&&array[i]; 
+			           free(array[i]), array[i++]=NULL);
 			
 			
 	}
