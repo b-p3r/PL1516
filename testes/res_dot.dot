@@ -3,7 +3,7 @@ strict digraph G {
   size="7.5,10"
   center=true;
   rankdir=LR;
-"Thomas Reps" -> "Carla Marceau"		[label = 1	];
-"Thomas Reps" -> "Tim Teitelbaum"		[label = 5	];
-"Thomas Reps" -> "A. Demers"		[label = 1	];
+"Tim Teitelbaum" -> "Thomas Reps"		[label = 5	];
+"Tim Teitelbaum" -> "Carla Marceau"		[label = 1	];
+"Tim Teitelbaum" -> "A. Demers"		[label = 1	];
 }
