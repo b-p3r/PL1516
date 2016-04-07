@@ -46,7 +46,7 @@ void permute (int length )
 }
 %}
 
-%S AUT 
+%x AUT 
 
 %%
 
@@ -83,6 +83,8 @@ int main (int argc, char *argv[])
 
 
     printf("}\n");
+
+    delete_all();
 
 
     return (0);

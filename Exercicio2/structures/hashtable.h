@@ -8,3 +8,4 @@ void delete_autor(AUTOR *autor);
 void delete_all(void);
 void print_autores(void);
 void print_autor(char *nome_autor);
+int total_items(void);

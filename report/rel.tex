@@ -1,4 +1,7 @@
 \documentclass[pdftex,12pt,a4paper]{report}
+\usepackage[square,numbers]{natbib}
+\bibliographystyle{abbrvnat}
+\usepackage[nottoc]{tocbibind}
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
 \usepackage[dvipsnames]{xcolor}
@@ -105,14 +108,16 @@ autogobble
 \input{./report/chapters/parte4}
 
 \input{./report/chapters/concl}
+\nocite{*}
 
+%\bibliographystyle{alpha}
+%
+\bibliography{./report/bibs/pl}
 
 \input{./report/chapters/apendice}
 
 
-%\bibliographystyle{alpha}
-%
-%\bibliography{./report/bibs/pl}
+
 
 \end {document}
 

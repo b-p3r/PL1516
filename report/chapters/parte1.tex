@@ -5,8 +5,6 @@
 Neste primeiro problema, pretende-se analisar um documento \hologo{BibTeX} e fazer as
 contagens das respetivas categorias, tais como artigos, teses de mestrado,
 manuais, etc. O resultado tem que constar num ficheiro \texttt{HTML}.
-
-
 \label{sec:ap:a}
 
 \subsection{Especificação dos requisitos}
@@ -92,7 +90,7 @@ tipos comuns de entradas descritos na secção anterior. A razão desta última
 especialização justifica-se apenas por motivos de otimização e eficiência do
 filtro, que serão respondidos nas secções seguintes. 
 
-Desta forma temos 4 \emph{ER's}:
+Assim, temos as seguintes \emph{ER's}:
 
 \begin{itemize}
 	\item Uma expressão regular para capturar ou \texttt{@STRING},
@@ -103,7 +101,8 @@ Desta forma temos 4 \emph{ER's}:
 		\@[Cc][Oo][Mm][Mm][Ee][Nn][Tt]
 \end{minted}
 
-A ação nestas expressões regulares é para ignorar.
+A ação nestas expressões regulares é para ignorar.\footnote{Na especificação
+	\emph{Flex} estão separadas.}
 
 
 	\item Uma expressão regular para capturar uma entrada específica, por exemplo:

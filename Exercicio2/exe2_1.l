@@ -161,7 +161,7 @@ int main ()
     printf("</html>                             \n");
 //Fim da pagina
 
-
+    delete_all();
 
     return (0);
 }

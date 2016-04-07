@@ -98,16 +98,16 @@ chaveta aberta, imprimir no \emph{stdout} e iniciar \texttt{CHAV}.
 Nesta \emph{START CONDITION} faz-se a distinção dos nomes, conforme na
 \emph{Secção}~\ref{sec:spec:b1}. No entanto, é necessário distinguir o que é um
 nome de um autor. Um nome de uma autor pode-ser seguido de um \emph{and}, se
-houver mais que um autor, e também pode ser único e terminar em aspas ou numa
-chaveta. Dentro do nome, faz-se a distinção de um nome poder ser uma inicial, ou
-uma palavra que inicie com maiúscula, seguida de uma ou mais letras minúsculas
---- por definição, um nome próprio ---, ou pode ser um nome composto (dois nomes
-próprios separados por um hífen). De igual modo, os nomes podem conter uma
-preposição dentro do nome, e podem ter vários espaços e/ou tabulações antes
-e depois do nome. Acresce também a condição especial de que os nomes podem estar
-no formato `Apelido, Nome' e neste caso é necessário uma novo contexto para
-tratar este caso especial. Para isso, criou-se a \emph{START CONDITION}
-\texttt{PREFORMAT}. 
+houver mais que um autor, e também pode ser único ou o último, e terminar em
+aspas ou numa chaveta. Dentro do nome, faz-se a distinção de um nome poder ser
+uma inicial, ou uma palavra que inicie com maiúscula, seguida de uma ou mais
+letras minúsculas --- por definição, um nome próprio ---, ou pode ser um nome
+composto (dois nomes próprios separados por um hífen). De igual modo, os nomes
+podem conter uma preposição dentro do nome, e podem ter vários espaços e/ou
+tabulações antes e depois do nome. Acresce também a condição especial de que os
+nomes podem estar no formato \emph{Apelido, Nome} e neste caso é necessário uma novo
+contexto para tratar este caso especial. Para isso, criou-se a \emph{START
+CONDITION} \texttt{PREFORMAT}. 
 
 
 
@@ -115,9 +115,10 @@ tratar este caso especial. Para isso, criou-se a \emph{START CONDITION}
 	\item Captura de aspas ou uma chaveta no final campo.
 		\mint{text}|[}"]|
 		Neste caso, como se poderá ver mais à frente, pode aparentar ser redundante.
-		Todavia, por uma questão de coerência e segurança, em caso de uma captura
-		para entrar nos estado da \emph{START CONDITION} \texttt{PREFORMAT}, no
-		final do processamento do campo nesta condição, volta-se sempre ao estado
+		Ou seja, já existem \emph{ER's} que tratam da chaveta ou aspas como fim de
+		campo.  Todavia, por uma questão de coerência e segurança, em caso de uma
+		captura para entrar nos estado da \emph{START CONDITION} \texttt{PREFORMAT},
+		no final do processamento do campo nesta condição, volta-se sempre ao estado
 		anterior \texttt{AUT}. Assim, o final de campo é sempre processado no mesmo
 		contexto.
 
@@ -134,7 +135,7 @@ tratar este caso especial. Para isso, criou-se a \emph{START CONDITION}
 		 preposição, e a própria preposição.
 		\mint{text}|[ \t][a-z]+[\t ]|
 
-		 As preposições em nomes com \emph{Daniela da Silva} são ser ignorados.
+		 As preposições em nomes com \emph{Daniela da Silva} são ignorados.
 		 A ação é mesma que na \emph{ER} anterior.
 
 	 \item Captura de uma inicial ou um nome próprio, que não apelido.
@@ -153,9 +154,9 @@ tratar este caso especial. Para isso, criou-se a \emph{START CONDITION}
     \end{minted}
  O nome pode ter ou não iniciar com um hífen, seguido do nome próprio. Estes
  dois itens podem ocorrer uma ou mais vezes. Por exemplo, no apelido do nome
- \emph{Nicollo Franchi-Zanettachi}. Neste caso o nome do autor é o último nome
+ \emph{Nicollo Franchi-Zanettachi}. Neste caso, o nome do autor é o último nome
  listado ou o único. Assim, espaços e tabulações antes do final da linha são
- capturados, O ou mais vezes ( apelido pode estar junto das aspas ou da chaveta
+ capturados, 0 ou mais vezes ( apelido pode estar junto das aspas ou da chaveta
  ).
 
 	A ação pretendida aqui é modificar o último caractere para uma chaveta,
@@ -169,7 +170,7 @@ tratar este caso especial. Para isso, criou-se a \emph{START CONDITION}
     \end{minted}
 
 		A ação correspondente é em quase tudo semelhante à ação anterior, no
-		entanto, captura todos os espaços e tabulações antes e depois do separador
+		entanto, captura todos os espaços e tabulações, antes e depois do separador
 		\emph{and}, e o separador \emph{and}. Neste caso imprime para o \emph{stdout}
 		a captura. Assim o próximo fica livre de espaços no inicio.
 
@@ -178,20 +179,22 @@ tratar este caso especial. Para isso, criou-se a \emph{START CONDITION}
     \begin{minted}{text}
 		 ((-)?[A-Z][a-z]+)+[,]+[ \t]
     \end{minted}
-A captura deteta se existem pelo menos uma vírgula, depois do nome e que este
-seja seguido de espaços. Se a formatação no primeiro nome possui vírgulas, logo
-a restante está na mesma formatação. A ação é colocar o apontador de leitura do
-\emph{Flex} no inicio da linha, colocar uma variável inteira para um índice de
-um vetor a 0, inicializar um vetor de apontadores para \emph{strings} a 
-\texttt{NULL}\footnote{Algoritmo e código será apresentado na secção seguinte}.
-Em seguida inicia a \emph{START CONDITION} \texttt{PREFORMAT}.
+		A \emph{ER} captura, a além do nome, pelo menos uma vírgula depois do nome,
+		estando este seguido de espaços. Assume-se que. se a formatação no primeiro
+		nome possui vírgulas, logo a restante está na mesma formatação. A ação
+		é colocar o apontador de leitura do \emph{Flex} no inicio da linha, colocar
+		uma variável inteira para um índice de um vetor a 0, inicializar
+		\emph{array} de \emph{strings} a \texttt{NULL}\footnote{Algoritmo e código
+			será apresentado na \emph{Subsecção~\ref{subsec:des:algol} na
+			pág.~\pageref{subsec:des:algol}}.  Em seguida inicia a \emph{START
+			CONDITION} \texttt{PREFORMAT}.
 
 
 	 \item Captura tudo o resto incluindo \emph{newline}.
     \begin{minted}{text}
 		(.|\n)
     \end{minted}
-	A ação é ignorar tudo.
+		A ação é ignorar tudo, que seja capturado por esta \emph{ER}.
 
 
 \end{itemize}
@@ -215,33 +218,36 @@ campo. A maior parte das ações foi redefinida para para este novo contexto.
 		Como foi anteriormente mencionado, quando capturado ou aspas ou uma chaveta,
 		obriga-se o \emph{Flex} a colocar a captura no \emph{stdin}
 		(\texttt{yyless(0)}). De seguida coloca-se o índice do \emph{array} de
-		\emph{strings} já mencionado, na posição inicial e executa-se uma função para
+		\emph{strings}, mencionado anteriormente, na posição inicial e executa-se uma função para
 		imprimir os valores contidos no \emph{array}.\footnote{Algoritmo e código
-		descrito na secção seguinte}
+			descrito na \emph{Subsecção~\ref{subsec:des:algol}, na
+			pág.~\pageref{subsec:des:algol}}}
 
 	\item Captura de 1 ou mais espaços, tabulações ou vírgulas.
      \mint{text}|[, \t]+|
-		 A semelhança da anterior \emph{ER} para além de garantir que espaços ou
-		 tabulações em torno dos nomes são consumidos, garante,de igual modo, que
+		 A semelhança da anterior \emph{ER}, para além de garantir que espaços ou
+		 tabulações em torno dos nomes são consumidos, garante de igual modo que
 		 vírgulas sejam consumidas. No entanto, não imprime um espaço. No seu lugar
-		 o apontador para o índice do \emph{array} de \emph{strings} seja
-		 incrementado, uma vez que, todas as nomes são rodeados por um ou mais
-		 destes caracteres.
-		 \emph{stdout}.
+		 da ação de impressão de um espaço, a variável do tipo inteiro para o índice
+		 do \emph{array} de \emph{strings} é incrementada por uma unidade. Ou seja,
+		 por cada nova ocorrência de um novo nome, o índice do \emph{array} já se
+		 encontra na posição correta
+
 	 \item Captura de um espaço ou tabulação antes e depois de uma
 		 preposição, e a própria preposição.
 		\mint{text}|[ \t]+(and)+[\t ]+|
-		A ação definida captura o \emph{and}, caso exista mais que um autor, após
+		A ação definida captura o separador \emph{and}, caso exista mais que um autor, após
 		a ocorrência deste. Note-se que pode encontrar um ou mais mais espaços, bem
-		como tabulações antes e depois deste separador. De igial modo, coloca
+		como tabulações antes e depois deste separador. Além disso, coloca
 		o índice do apontador do \emph{array} de \emph{strings} auxiliar na posição
-		inicial, imprimindo os nomes próprios do autor pela ordem desejada. Após
-		este passo imprime no \emph{stdout} a \emph{string} \emph{and} com um espaço
+		inicial, imprimindo os nomes próprios do autor pela ordem desejada ---
+		\emph{N. Apelido} em troca de \emph{Apelido, Nome}. Após
+		este passo, imprime no \emph{stdout} a \emph{string} \emph{and} com um espaço
 		de cada lado, iniciando a \emph{START CONDITION} \texttt{AUT}.
-		Note-se que o tratamento do conjunto de nomes é diferente da \emph{START
+		Note-se que, o tratamento do conjunto de nomes é aqui diferente da \emph{START
 		CONDITION} \texttt{AUT}, uma vez que, em \texttt{AUT}, não se podia saber
 		qual seria o último nome, a não ser uma implementação especializada na parte
-		da ação em \emph{C}. O intuito deste projeto foi sempre usar ao máximo
+		da ação em linguagem \emph{C}. O intuito deste projeto foi sempre usar ao máximo
 		a funcionalidade do \emph{Flex}, e tentar usar ao máximo \emph{ER's}. Aqui,
 		como sabemos que o último nome do autor é logo o primeiro a ser listado.,
 
@@ -335,6 +341,7 @@ campo, e ser passível de ser considerada fim do valor de campo.
 	
 \end{itemize}
 \subsection{Algoritmos}
+\label{subsec:des:algol}
 \begin{Verbatim}
      void print_array (char ** array)
      {
@@ -376,8 +383,9 @@ liberta a memória e inicializa valores previamente existentes.
 
 
 \section{Testes e Resultados}
-\subsection{Resultados}
 \label{sec:ts:b1}
+\subsection{Resultados}
+
 
 O ficheiro de usado para este teste pode ser visto no
 \emph{Apêndice}~\ref{appendix:a1} na pág.~\pageref{appendix:a1}. 

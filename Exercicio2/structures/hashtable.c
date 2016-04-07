@@ -110,3 +110,12 @@ void print_autor ( char *nome_autor )
 }
 
 
+
+
+int total_items(){
+
+unsigned int num_items;
+num_items = HASH_COUNT(autores);
+return num_items;
+
+}

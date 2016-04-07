@@ -29,7 +29,7 @@ void print_array (char ** array)
 
 %}
 
-%S AUT CHAV SPEC PREFORMAT
+%x AUT CHAV SPEC PREFORMAT
 %%
 [Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"] {yytext[yyleng-1]='{'; ECHO; BEGIN AUT;}
 [A-Za-z]+[ ]*"="[ ]*[{"]                  {yytext[yyleng-1]='{';ECHO; BEGIN CHAV;}
