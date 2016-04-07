@@ -63,7 +63,7 @@ void print_campos()
 
 
 <AUT>[ \t]+"and"[ \t]+            {strcpy(value+i, "\n\t\t\t "); i+=5;}
-<AUT>[}"][ ]*[ ]?                 {strcpy(value+i,"\n"); i++; 
+<AUT>[}"]                         {strcpy(value+i,"\n"); i++; 
                                    fields[1][0]=strdup(value); 
 				                   BEGIN ENTRY;}
 
@@ -72,7 +72,7 @@ void print_campos()
 <TITLE>[ ]{2,}                    {value[i++]=' ';}
 
 <TITLE>[{]                        { state_caller = YYSTATE; BEGIN SPEC;}
-<TITLE>[}"][ ]*[,]?               {strcpy(value+i,"\n"); i++;
+<TITLE>[}"]                       {strcpy(value+i,"\n"); i++;
 				                   fields[1][1]=strdup(value);
                                    BEGIN ENTRY;}
 <TITLE>(.)                        {value[i++]=yytext[0];}
@@ -83,13 +83,18 @@ void print_campos()
 <FIELD>[ ]{2,}                    {value[i++]=' ';}
 <FIELD>[{]                        { state_caller = YYSTATE; BEGIN SPEC;}
 <FIELD>[}"]?[ ]*[,]               {strcpy(value+i,"\n"); i++;
-				                   fields[1][pos++]=strdup(value);
-				                   BEGIN ENTRY;}
+				   fields[1][pos++]=strdup(value);
+				   BEGIN ENTRY;}
+<FIELD>[}"]?[ ]*(\n)?[ ]*[}]      {strcpy(value+i,"\n"); i++;
+				  fields[1][pos++]=strdup(value);
+				  yyless(yyleng-1);
+				  BEGIN ENTRY;}
 <FIELD>(.)                        {value[i++]=yytext[0];}
 <FIELD>(\n)                       {;}
 
 <SPEC>[}]                         {yyless(0);BEGIN state_caller;}
-<SPEC>(.|\n)                      {value[i++]=yytext[0];}
+<SPEC>(.)                         {value[i++]=yytext[0];}
+<SPEC>(\n)                         {;}
 
 
 

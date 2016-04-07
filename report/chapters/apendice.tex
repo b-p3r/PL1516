@@ -6,19 +6,24 @@
 \begin{longlisting}
 	\inputminted{html}{testes/res_html.html}
 	\caption{Resultado do \emph{output} da aplicação do filtro na Parte 1}
-	\label{listing:1}
+	\label{listing:a}
 \end{longlisting}
 
 
-\chapter{Código do \hologo{BibTeX} para testes}
+\chapter{Código dos ficheiros do \hologo{BibTeX} para testes}
 \label{appendix:a1}
 
 \begin{longlisting}
 	\inputminted{tex}{testes/ex3.bib}
-	\caption{Ficheiro fonte \hologo{BibTeX} para testes}
-	\label{listing:2}
+	\caption{Ficheiro fonte \hologo{BibTeX} para testes --- parte 2 e 3}
+	\label{listing:a1}
 \end{longlisting}
 
+\begin{longlisting}
+	\inputminted{tex}{testes/ex4.bib}
+	\caption{Ficheiro fonte \hologo{BibTeX} para testes --- parte 4}
+	\label{listing:a2}
+\end{longlisting}
 
 \chapter{Resultado da Parte 2}
 \label{appendix:b}
@@ -27,7 +32,7 @@
 	\inputminted{tex}{testes/resNorm.bib}
 	\caption{Resultado do \emph{output} da aplicação do filtro na Parte 2}
 
-	\label{listing:3}
+	\label{listing:b}
 \end{longlisting}
 
 \chapter{Resultado da Parte 3}
@@ -37,7 +42,7 @@
 	\inputminted{tex}{testes/res_pretty_printing.txt}
 	\caption{Resultado do \emph{output} da aplicação do filtro na Parte 3}
 
-	\label{listing:3}
+	\label{listing:c}
 \end{longlisting}
 
 \chapter{Resultado da Parte 4}
@@ -46,40 +51,20 @@
 	\inputminted{tex}{testes/res_dot.dot}
 	\caption{Resultado do \emph{output} da aplicação do filtro na Parte 3}
 
-	\label{listing:3}
+	\label{listing:d1}
 \end{longlisting}
+\newpage
+
+\begin{figure}[hbtp]
+	\centering
+  \includegraphics[scale=0.5]{testes/out.png}
+	\caption{Grafo Resultante da aplicação do filtro da Parte 4}
+	\label{fig:d1}
+\end{figure}
 
 
-\includegraphics[scale=0.5]{chick}
 
 
-
-\begin{minted}{c}
-
-#include <stdio.h>
-#define N 10
-/* Block
- * comment */
-
- int main()
- {
-     int i;
-	 
-	   // Line comment.
-		 puts("Hello world!");
-			     
-		 for (i = 0; i < N; i++)
-		 {
-		 puts("LaTeX is also great for programmers!");
-		 }
-							 
-	   return 0;
-				
-}
-\end{minted}
-
-
-E ainda possível importar diretamente o ficheiro:
 
 
 

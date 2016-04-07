@@ -16,7 +16,7 @@ No \hologo{BibTeX}, cada tipo de entrada bibliográfica tem campos opcionais
 e obrigatórios. Na resolução deste problema apenas se centrou nos obrigatórios,
 dado que se quiser uma ferramenta genérica, que inclua outros pacotes, o número
 de campos é elevado. De igual modo, os campos obrigatórios podem ser opcionais
-para algum tipo de entrada, e vice---versa. Em extensões, como no
+para algum tipo de entrada, e vice-versa. Em extensões, como no
 \textsc{Bib}\LaTeX{}, alguns campos são são comuns, por uma questão de compatibilidade.
 
 Os campos considerados são:
@@ -61,30 +61,54 @@ A sugestão de solução apresentada, possui quatro \emph{START CONDITIONS}:
 a \emph{SC} \texttt{ENTRY}, \emph{SC} \texttt{AUT}, a \emph{SC} \texttt{FIELD}
 e, por último, a \emph{SPEC}. A necessidade de ter as primeiras \emph{SC}
 deve-se à necessidade de criar um contexto para tratar os autores, bem como
-o título, sendo estas ativadas dentro \emph{SC} \texttt{ENTRY}. O intuito \emph{SC}
-\texttt{SPEC} já foi descrita em secções anteriores --- capturar par de
-chavetas, para evitar conflitos com as outras \emph{ER's}.
+o título, sendo estas ativadas dentro \emph{SC} \texttt{ENTRY}. O intuito
+\emph{SC} \texttt{SPEC} já foi descrita em secções anteriores --- capturar par
+de chavetas, para evitar conflitos com as outras \emph{ER's}. De igual modo,
+usaram-se três variáveis globais do tipo inteiro: uma para guardar o estado das
+\emph{SC} no caso da \texttt{SPEC}, dois contadores, um para um índice de uma
+\emph{string}, outro para guardar o índice de um \emph{array} de \emph{strings}
+multidimensional. Além, destas variáveis de valor inteiro, criaram-se, como já
+mencionado, uma \emph{string} e um \emph{array} multidimensional para guardar
+o resultado das ocorrências dos campos. Criou-se este último, com o intuito de
+guardar nas primeiras posições os valores do campos autor e título, seguido de
+tudo o resto. Assim, após a captura do fim da entrada bibliográfica, o resultado
+é passado ao \emph{stdout} pela ordem correta, iniciando o índice do
+\emph{array} multidimensional de cada vez que é encontrada uma entrada
+bibliográfica. Também, o \emph{array} é multidimensional dado que intenciona
+guardar na primeira linha a legenda do campo e na segunda o valor do campo.
+A especificação de cada \emph{SC}, que implementa estes conceitos segue-se nas
+seguintes secções.
 
-Assim , passas-se a descrever a especificação de cada \emph{SC}.
+\subsection{Expressões Regulares}
+Antes de se iniciar a descrição, note-se que as \emph{ERs} estão ordenadas de
+forma a não haver ambiguidade.
 
 
 \subsubsection{\emph{START CONDITION} \texttt{INITIAL}}
 
 \begin{itemize}
-\item 
+
+	\item Captura o início de uma entrada, ou seja, um \texttt{@} seguido de uma
+		ou mais caracteres maiúsculos ou minúsculos.
 
 \begin{verbatim}
 \@[A-Za-z]+
 \end{verbatim}
 
-{pos = 2; BEGIN ENTRY;printf("\n\n\n################\n");}
+Como já foi anteriormente mencionado, a captura deste valor através da
+\emph{ER} descrita, despoleta uma ação, tal que a posição do \emph{array}
+multidimensional é inciada logo na terceira posição, uma vez as duas primeiras
+estão reservadas para o autor e o título. De igual modo, inicia a \emph{SC}
+\texttt{ENTRY}, imprimindo no \emph{stdout} uma pequeno separador composto por
+cardinais.
 
-\item 
+\item Captura tudo o resto, incluindo o caractere \emph{newline}.
 
 \begin{verbatim}
-[(.|\n)                            
+(.|\n)                            
 \end{verbatim}
-{;}
+
+A ação é ignorar o restante.
 
 
 
@@ -95,42 +119,65 @@ Assim , passas-se a descrever a especificação de cada \emph{SC}.
 
 \subsubsection{\emph{START CONDITION} \texttt{ENTRY}}
 
+A \emph{SC} \texttt{ENTRY} está no contexto da entrada bibliográfica, onde os
+vários campos são capturados. 
+
 \begin{itemize}
-\item 
+\item Captura chaveta correspondente ao final da entrada bibliográfica.
 
 \begin{verbatim}
-ENTRY>[}] 
+[}] 
 \end{verbatim}
-{print_campos(); BEGIN INITIAL;}
-\item 
+Aqui é invocada a função de impressão dos campos pela ordem desejada, voltando
+a \emph{SC} \texttt{INITIAL}.
+\item Captura uma chaveta seguida de 0 ou mais espaços, com uma vírgula
+	a seguir.
 
 \begin{verbatim}
-<ENTRY>[}][ ]*[,] {;} 
+[}][ ]*[,] {;} 
 \end{verbatim}
 
-\item 
+A ação aqui definida é ignorar a captura. Este \emph{ER} serve de artifício
+para não haver ambiguidade com o final dos campos, dado que a expressão
+é maior. Note-se que, caso não se recorresse a este artifício, a captura dos
+campos poderia terminar a meio.
+
+\item Captura o campo \emph{Organization}, \emph{case-insensitive}, seguido 0 ou
+	mais espaços, um \emph{=}, com 0 ou mais espaços de seguida, podendo terminar
+	ou não numa chaveta ou aspas.
 \begin{verbatim}
-<ENTRY>[Oo][Rr][Gg][Aa][Nn][Ii][Zz][Aa][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]? 
+[Oo][Rr][Gg][Aa][Nn][Ii][Zz][Aa][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]? 
 \end{verbatim}
-{i=0; fields[0][pos]=strdup("Organizacao----:\t");BEGIN FIELD;}
 
-                        
+Após a captura, o índice da \emph{string} auxiliar para armazenar
+temporariamente o valor dos caracteres capturados é inicializado, sendo guardada
+a legenda do campo na primeira linha, na coluna correspondente à posição da
+ocorrência. Em seguida é inicializado a \emph{SC} \texttt{FIELD}, correspondente
+ao contexto de manipulação de qualquer outro campo, que não o autor e o título.
                             
-
-\item 
+\item Captura similar a anterior, exceto a aspas ou chavetas de início do valor
+	do campo são obrigatórias. Neste caso a captura é do campo autor.
 \begin{verbatim}
-ENTRY>[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"] 
+[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"] 
 \end{verbatim}
-{i=0; fields[0][0  ]=strdup("Autor(es) -----:\t");BEGIN AUT;}
+
+A ação é igual à de \emph{ER} anterior, com a exceção da posição do
+\emph{array} que é utilizada diretamente, e é iniciada a \emph{SC} \texttt{AUT}.
 
 
-\item 
+
+\item Captura igual à anterior, só que neste caso, a captura é do campo do
+	título. A \emph{SC} iniciada é a \texttt{TITLE}.
 \begin{verbatim}
-<ENTRY>[Tt][Ii][Tt][Ll][Ee][ ]*"="[ ]*[{"] 
+[Tt][Ii][Tt][Ll][Ee][ ]*"="[ ]*[{"] 
 \end{verbatim}
- {i=0; fields[0][1  ]=strdup("Titulo --------:\t");BEGIN TITLE;}
 
-\item 
+Estas \emph{ER's} estão aqui a título exemplar, dado que existem \emph{ER's}
+para cada campo obrigatório mencionado na secção \emph{Análise do Problema}.
+
+
+\item Captura tudo o resto incluindo o caractere \emph{newline}, sendo a ação
+	ignorar a captura.
 \begin{verbatim}
 (.|\n)
 \end{verbatim}
@@ -142,28 +189,42 @@ ENTRY>[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{\emph{START CONDITION} \texttt{AUT}}
-
+Nesta \emph{SC} trata-se do campo do autor, de forma que cada autor apareça um
+por linha e tenha a devida indentação.
 \begin{itemize}
-\item 
+\item Captura um ou mais espaços ou tabulações, seguidas do separador
+	\emph{and}, sendo seguidas novamente, por um ou mais espaços ou tabulações.
 \begin{verbatim}
 [ \t]+"and"[ \t]+
 \end{verbatim}
- {strcpy(value+i, "\n\t\t\t "); i+=5;}
 
-\item 
+Nesta captura é copiado para a \emph{string} auxiliar, uma \emph{string} com
+o caractere \emph{newline}, para colocar um autor por linha, e três tabulações
+e um espaço para dar a indentação pretendida. O valor do índice é incrementado
+pelo o número de caracteres que é copiado, ou seja incrementado por 5.
+
+
+\item Captura aspas ou chavetas que correspondem ao final do valor do campo do
+	autor.
 \begin{verbatim}
-<AUT>[}"][ ]*[ ]? 
+[}"] 
 \end{verbatim}
-                                   strcpy(value+i,"\n"); i++; 
-                                   fields[1][0]=strdup(value); 
-				                   BEGIN ENTRY;}
 
-\item 
+Adiciona-se um \emph{newline} à \emph{string} auxiliar --- incrementando por um
+o valor do seu índice --- e o valor da \emph{string}, já com todos os autores,
+é copiada para a segunda linha, na coluna $0$ do \emph{array}
+multidimensional. Após este passo volta para a \emph{SC} que gerou a \emph{SC}
+\texttt{AUT}, neste caso \texttt{ENTRY}, 
+
+\item Captura tudo o resto, incluindo o caractere \emph{newline}.
 \begin{verbatim}
 (.|\n)
 \end{verbatim}
 
-{value[i++]=yytext[0];}
+Nesta captura, o valor contido na variável do \emph{Flex}, \texttt{yytext}
+é copiado para a \emph{string} auxiliar. Como a captura é caractere a caractere,
+copia-se apenas o primeiro caractere desta \emph{string}. Como em anteriores
+adições à \emph{string} auxiliar, a posição é incrementada.
 
 
 \end{itemize}
@@ -184,25 +245,36 @@ Apenas serve para consumir espaços a mais, imprimindo no \emph{stdout} um espa�
 [{]
 \end{verbatim}
 
-A ação desta captura é devido ao que foi exposto em capítulos anteriores. No entanto, como foi anteriormente explicado, vários contextos utilizam a \emph{START CONDTION} \texttt{SPEC}. Assim, como em anteriores \emph{START CONDTIONS} o valor do estado é guardado numa varrável global, com a macro \texttt{YYSTATE}. O chaveta é consumida.
+A ação desta captura é devido ao que foi exposto em capítulos anteriores. No
+entanto, como foi anteriormente explicado, vários contextos utilizam
+a \emph{START CONDTION} \texttt{SPEC}. Assim, como em anteriores \emph{START
+CONDTIONS} o valor do estado é guardado numa variável global, com a macro
+\texttt{YYSTATE}. O chaveta é consumida.
 
 \item Captura o final do campo caso seja aspas ou o fecho de chavetas.
 \begin{verbatim}
-[}"][ ]*[,]? 
+[}"] 
 \end{verbatim}
+A ação é copiar um caractere \emph{newline} para a \emph{string} auxiliar, para
+depois o valor desta \emph{string} ser copiado para a segunda linha e segunda
+coluna do \emph{array} multidimensional. Após este passo, regressa à \emph{SC}
+\texttt{ENTRY}.
+
 
 \item Captura tudo o resto.
 \begin{verbatim}
 (.)
 \end{verbatim}
-{value[i++]=yytext[0];}
+
+Copia o valor da ocorrência para a \emph{string} auxiliar.
 
 \item Captura do caractere \emph{newline}
 \begin{verbatim}
 (\n)
 \end{verbatim}
 
-A ação é não fazer nada. Apenas serve para consumir eliminar quebras de linha no campo do título.
+A ação é não fazer nada. Apenas serve para consumir eliminar quebras de linha no
+campo do título.
 
 
 \end{itemize}
@@ -210,67 +282,129 @@ A ação é não fazer nada. Apenas serve para consumir eliminar quebras de linh
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\emph{START CONDITION} \texttt{FIELD}}
 
+Na \emph{SC} \texttt{FIELD} é processado o conteúdo de todos os outros campos
+mencionado na primeira secção deste capítulo, que não o autor e o título.
 \begin{itemize}
-\item 
+	\item Captura campo com \emph{URL}.  
 \begin{verbatim}
 "\\url{"
 \end{verbatim}
- { state_caller = YYSTATE; BEGIN SPEC;}
 
-\item 
+À semelhança do descrito noutros capítulos, a \emph{tag}, começa com aspas tendo
+que terminar em aspas. Daí que se tenha usado o conceito da do capítulo anterior
+para capturar esta \emph{tag}. A ação tem por base consumir o valor desta
+captura, e iniciar a \emph{SC} \texttt{SPEC}, guardando o estado da \emph{SC} no
+processo da ação. 
+
+\item Captura dois ou mais espaços.
 \begin{verbatim}
 [ ]{2,}
 \end{verbatim}
 
-\item 
+O procedimento associado a esta captura é simplesmente acrescentar um espaço
+à \emph{string} auxiliar, consumindo os espaços em excesso. 
+
+\item Captura a abertura de chavetas.
 \begin{verbatim}
 [{]
 \end{verbatim}
 
-\item 
+À semelhança da \emph{ER} equivalente na \emph{SC} \texttt{TITLE}, na captura
+desta \emph{ER}, guarda-se o estado da \emph{SC} atual para iniciar
+a \emph{SC} \texttt{SPEC}, pelas mesmas razões.     
+
+\item Captura opcional de um fecho de chavetas ou aspas, seguido de 0 ou mais
+	espaços, terminados por uma vírgula. 
 \begin{verbatim}
 [}"]?[ ]*[,]
 \end{verbatim}
-strcpy(value+i,"\n"); i++;
-				                   fields[1][pos++]=strdup(value);
-				                   BEGIN ENTRY;}
 
-\item 
+Existem campos cujo valor não está delimitado nem por aspas nem por chavetas.
+Assim, é necessário definir o fim do valor de um campo de outra forma, ou seja,
+o campo tem que terminar por vírgula. No entanto, isto nem sempre acontece,
+porque, caso o campo seja o último há definir outra forma de o campo acabar.
+Esse é o intuito da \emph{ER} seguinte. O processo associado a esta \emph{ER}
+é uma cópia de caractere \emph{newline} para a \emph{string} auxiliar, sendo
+feita a cópia da \emph{string} auxiliar para o \emph{array} multidimensional, na
+segunda linha, na índice equivalente à contagem das ocorrências dos campos. No
+fim volta para a \emph{SC} \texttt{ENTRY}.  
+
+\item Captura opcional de um fecho de chavetas ou aspas, seguido de 0 ou mais
+	espaços, com um \emph{newline} opcional, seguido 0 ou mais espaços, terminado
+	por uma chaveta. 
+\begin{verbatim}
+[}"]?[ ]*(\n)?[ ]*[}]
+\end{verbatim}
+
+Esta \emph{ER} define a outra forma de de um campo terminar. Isto é quando
+o campo é o último. Note-se que, a chaveta que termina esta \emph{ER} tem um
+tratamento no contexto da \emph{ER} \texttt{ENTRY} --- o fim da entrada
+bibliográfica. Deste modo, é necessário uma manobra adicional: colocar
+o \emph{Flex} na posição para reler a chaveta no contexto correto. Para isso
+usa-se o \texttt{yyless (yyleng-1)}. Esta função é invocada antes de voltar para
+\emph{SC} \texttt{ENTRY}. O resto do processo é igual ao da especificação
+anterior.  
+
+\item Captura tudo, exceto o caractere \emph{newline}. 
 \begin{verbatim}
 (.)
 \end{verbatim}
- {value[i++]=yytext[0];}
 
-\item 
+Ação: copiar a ocorrência do caractere da captura para \emph{string} auxiliar. 
+
+\item Captura o caractere \emph{newline}.  
 \begin{verbatim}
 (\n)
 \end{verbatim}
+
+A operação associada é ignorar, ou seja, a \emph{string} auxiliar não terá
+quebras de linha. 
 
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\emph{START CONDITION} \texttt{SPEC}}
 
 \begin{itemize}
-\item 
+\item Captura uma chaveta aberta. 
 
 \begin{verbatim}
 [}]
 \end{verbatim}
-yyless(0);BEGIN state_caller;
 
-\item 
+A ação é similar a contextos descritos em capítulos anteriores --- caso o fecho
+de uma chaveta seja detetado neste contexto, coloca o \emph{Flex} na posição de
+releitura dessa chaveta para ser processado pelo contexto correspondente.
+Chama-se à atenção de que se usou a variável global de estado descrita
+anteriormente, para iniciar um novo contexto. Isto acontece, uma vez que tanto
+títulos e outros campos podem ter uma abertura de chavetas no meio do valor do
+campo, daí do uso de uma variável global.
+
+\item Captura tudo o resto.
 \begin{verbatim}
-(.|\n)
+(.)
 \end{verbatim}
-{value[i++]=yytext[0];}
+
+Na captura, ação é guardar o valor na \emph{string} auxiliar, ignorando
+a chaveta. 
+
+
+\item Captura o caractere \emph{newline}. 
+\begin{verbatim}
+(\n)
+\end{verbatim}
+
+Mantém-se a intenção de não ter quebras de linhas dentro dos campos, que não
+sejam autor. 
 
 \end{itemize}
 
 
-
-\subsection{Estruturas de dados}
-
 \subsection{Algoritmos}
+
+A função abaixo é a função utilizada para imprimir os valores guardados no
+\emph{array} multidimensional. A impressão vai até ao total de posições
+incrementadas na captura dos campos. Assim, não é necessário alocar memória para
+o \emph{array} 2D. 
 
 \begin{verbatim}
 void print_campos()
@@ -279,16 +413,16 @@ void print_campos()
 
     for(j = 0; j < pos; j++){
         printf("%s %s", fields[0][j], fields[1][j]);
-    	free(fields[0][j]);
-    	free(fields[1][j]);
-    	fields[0][j]=NULL;
-    	fields[1][j]=NULL;
+      free(fields[0][j]);
+      free(fields[1][j]);
+      fields[0][j]=NULL;
+      fields[1][j]=NULL;
     }
 
 }
 \end{verbatim}
 
-
+Na \texttt{main} todas as entradas não nulas são libertadas da memória. 
 \begin{verbatim}
 int j;
 
@@ -304,11 +438,29 @@ int j;
 
 \end{verbatim}
 
-\section{Codificação e Testes}
+\section{Testes e Resultados}
 \label{sec:ts:b2}
+
+\subsection{Resultados}
+
+Os resultados da aplicação deste filtro ao ficheiro no
+apêndice~\ref{appendix:a1} na pág.~\pageref{appendix:a1}, estão no
+apêndice~\ref{appendix:c} na pág.~\pageref{appendix:c}. 
 
 \subsection{Alternativas, Decisões e Problemas de Implementação}
 
-\subsection{Testes e Resultados}
-%Mostram-se a seguir alguns testes feitos (valores introduzidos) e
-%%os respetivos resultados obtidos:
+Houve diversos problemas na implementação dado à quantidade de exceções que
+podem ocorrer num ficheiro \hologo{BibTeX} e a intenção de usar uma solução
+completamente nativa do \emph{Flex}, isto apenas com \emph{ER's} e funções do
+\emph{Flex}. Logo, de forma a simplificar o problema, não se está a considerar
+caracteres especiais, nem escape de caracteres. Até à data de redação
+desconhece-se uma solução nativa que vá de encontro à especificação do enunciado
+--- ordem pré-definida dos campos na apresentação. No entanto houve várias
+tentativas, onde uma solução em particular, fazia o \emph{pretty-printing}, mas
+assumindo que o utilizador do ficheiro \hologo{BibTeX} colocava os campos
+autor e titulo em primeiro lugar. Esta solução não vai de encontro
+à especificação do enunciado.
+
+Numa melhoria futura, acrescentar suporte para caracteres especiais à semelhança
+de capítulos anteriores.
+
