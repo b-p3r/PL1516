@@ -9,7 +9,7 @@ Para além dos tipos de entrada, é necessário especificar o conteúdo da entra
 como nomes de autor, títulos de obra, editora, etc. O \hologo{BibTeX} possui
 propriedades definidas para cada item como campo da entrada.  
 Para esta parte do trabalho, é pedido o desenvolvimento de uma ferramenta de
-normalização dos nomes dos autores no campo respetivo, no formato \emph{N.(ome)
+normalização dos nomes dos autores no campo respetivo, no formato \emph{N. (ome)
 Apelido}, que de igual modo normalize todos os campos entre aspas, com
 chavetas. 
 
@@ -20,12 +20,12 @@ chavetas.
 Os nomes dos autores podem ter muitos formatos. Como por exemplo:
 
 \begin{itemize}
-	\item \emph{Donald E. Knuth}
-	\item \emph{D. E. Knuth}
-	\item \emph{Knuth, Donald E.}
-	\item \emph{Knuth, PhD, Donald E.}
-	\item \emph{Nicollo Alighieri Franchi-Zanettachi}
-	\item \emph{Daniela da Cruz}
+  \item \emph{Donald E. Knuth}
+  \item \emph{D. E. Knuth}
+  \item \emph{Knuth, Donald E.}
+  \item \emph{Knuth, PhD, Donald E.}
+  \item \emph{Nicollo Alighieri Franchi-Zanettachi}
+  \item \emph{Daniela da Cruz}
 \end{itemize}
 
 Assim, há uma necessidade de especializar um conjunto de \emph{ER's} para tratar
@@ -76,24 +76,25 @@ CONDITION} \texttt{CHAV} para tratar das chavetas dos outros campos.
 Após o exposto atrás, temos duas expressões regulares, tais que:
 
 \begin{itemize}
-	\item Captura campo autor
-\begin{minted}{text}
-			[Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"]
-\end{minted}
+  \item Captura campo autor
+\begin{verbatim}
+    [Aa][Uu][Tt][Hh][Oo][Rr][ ]*"="[ ]*[{"]
+\end{verbatim}
 A ação para esta expressão regular é colocar no último caractere capturado uma
 chaveta aberta, imprimir no \emph{stdout} e iniciar \texttt{AUT}.
-		
+    
 
-	\item Captura qualquer outro campo;
-\begin{minted}{text}
-		 [A-Za-z]+[ ]*"="[ ]*[{"]
-\end{minted}
+  \item Captura qualquer outro campo;
+\begin{verbatim}
+     [A-Za-z]+[ ]*"="[ ]*[{"]
+\end{verbatim}
 A ação para esta expressão regular é colocar no último caractere capturado uma
 chaveta aberta, imprimir no \emph{stdout} e iniciar \texttt{CHAV}.
 \end{itemize}
 
 
 \subsubsection{\emph{AUT \emph{START CONDITION}}}
+\label{subsubsection:des:b1}
 
 Nesta \emph{START CONDITION} faz-se a distinção dos nomes, conforme na
 \emph{Secção}~\ref{sec:spec:b1}. No entanto, é necessário distinguir o que é um
@@ -112,91 +113,96 @@ CONDITION} \texttt{PREFORMAT}.
 
 
 \begin{itemize}
-	\item Captura de aspas ou uma chaveta no final campo.
-		\mint{text}|[}"]|
-		Neste caso, como se poderá ver mais à frente, pode aparentar ser redundante.
-		Ou seja, já existem \emph{ER's} que tratam da chaveta ou aspas como fim de
-		campo.  Todavia, por uma questão de coerência e segurança, em caso de uma
-		captura para entrar nos estado da \emph{START CONDITION} \texttt{PREFORMAT},
-		no final do processamento do campo nesta condição, volta-se sempre ao estado
-		anterior \texttt{AUT}. Assim, o final de campo é sempre processado no mesmo
-		contexto.
+  \item Captura de aspas ou uma chaveta no final campo.
+		\begin{verbatim}  
+    [}"]
+    \end{verbatim}
+    Neste caso, como se poderá ver mais à frente, pode aparentar ser redundante.
+    Ou seja, já existem \emph{ER's} que tratam da chaveta ou aspas como fim de
+    campo.  Todavia, por uma questão de coerência e segurança, em caso de uma
+    captura para entrar nos estado da \emph{START CONDITION} \texttt{PREFORMAT},
+    no final do processamento do campo nesta condição, volta-se sempre ao estado
+    anterior \texttt{AUT}. Assim, o final de campo é sempre processado no mesmo
+    contexto.
 
-		A ação nesta \emph{ER} é consumir o valor, imprimindo no \emph{stdout} uma
-		chaveta, voltando à \emph{START CONDITION} \texttt{INITIAL}.
+    A ação nesta \emph{ER} é consumir o valor, imprimindo no \emph{stdout} uma
+    chaveta, voltando à \emph{START CONDITION} \texttt{INITIAL}.
 
-	\item Captura de 1 ou mais espaços ou tabulações.
-     \mint{text}|[ \t]+|
-		 Esta \emph{ER} garante que espaços ou tabulações em torno dos nomes são
-		 consumidos, de forma a ter apenas os caracteres correspondentes aos nomes.
-		 De igual modo, imprime um espaço no \emph{stdout}.
-	
-	 \item Captura de um espaço ou tabulação antes e depois de uma
-		 preposição, e a própria preposição.
-		\mint{text}|[ \t][a-z]+[\t ]|
+  \item Captura de 1 ou mais espaços ou tabulações.
+		\begin{verbatim}  
+     [ \t]+
+    \end{verbatim}
 
-		 As preposições em nomes com \emph{Daniela da Silva} são ignorados.
-		 A ação é mesma que na \emph{ER} anterior.
-
-	 \item Captura de uma inicial ou um nome próprio, que não apelido.
-    \begin{minted}{text}
-		 [A-Z]((\.)?|[a-z]+)
-    \end{minted}
-
-	A ação neste caso é obter o primeiro caractere da captura da expressão,
-	e imprimir no \emph{stdout} o mesmo caractere seguido de um ponto.
+     Esta \emph{ER} garante que espaços ou tabulações em torno dos nomes são
+     consumidos, de forma a ter apenas os caracteres correspondentes aos nomes.
+     De igual modo, imprime um espaço no \emph{stdout}.
+  
+   \item Captura de um espaço ou tabulação antes e depois de uma
+     preposição, e a própria preposição.
+		\begin{verbatim}  
+    [ \t][a-z]+[\t ]
+    \end{verbatim}
 
 
-	 \item Captura de um nome próprio, que é apelido, pode ser composto
-		 e é o último da listagem ou único.
-    \begin{minted}{text}
-		((-)?[A-Z][a-z]+)+[ \t]*[}"]
-    \end{minted}
+     As preposições em nomes com \emph{Daniela da Silva} são ignorados.
+     A ação é mesma que na \emph{ER} anterior.
+
+   \item Captura de uma inicial ou um nome próprio, que não apelido.
+    \begin{verbatim}
+     [A-Z]((\.)?|[a-z]+)
+    \end{verbatim}
+
+  A ação neste caso é obter o primeiro caractere da captura da expressão,
+  e imprimir no \emph{stdout} o mesmo caractere seguido de um ponto.
+
+
+   \item Captura de um nome próprio, que é apelido, pode ser composto
+     e é o último da listagem ou único.
+    \begin{verbatim}
+    ((-)?[A-Z][a-z]+)+[ \t]*[}"]
+    \end{verbatim}
  O nome pode ter ou não iniciar com um hífen, seguido do nome próprio. Estes
  dois itens podem ocorrer uma ou mais vezes. Por exemplo, no apelido do nome
  \emph{Nicollo Franchi-Zanettachi}. Neste caso, o nome do autor é o último nome
  listado ou o único. Assim, espaços e tabulações antes do final da linha são
- capturados, 0 ou mais vezes ( apelido pode estar junto das aspas ou da chaveta
- ).
+ capturados, 0 ou mais vezes (apelido pode estar junto das aspas ou da chaveta).
 
-	A ação pretendida aqui é modificar o último caractere para uma chaveta,
-	imprimir o resultado para o \emph{stdout} e voltar a \emph{START CONDITION}
-	\texttt{INITIAL}.
+  A ação pretendida aqui é modificar o último caractere para uma chaveta,
+  imprimir o resultado para o \emph{stdout} e voltar a \emph{START CONDITION}
+  \texttt{INITIAL}.
 
-	 \item Captura de um nome próprio, que é apelido, pode ser composto
-		      mas não é o único na listagem de autores.
-    \begin{minted}{text}
-		 ((-)?[A-Z][a-z]+)+[ \t]+(and)[ \t]+
-    \end{minted}
+   \item Captura de um nome próprio, que é apelido, pode ser composto
+          mas não é o único na listagem de autores.
+    \begin{verbatim}
+     ((-)?[A-Z][a-z]+)+[ \t]+(and)[ \t]+
+    \end{verbatim}
 
-		A ação correspondente é em quase tudo semelhante à ação anterior, no
-		entanto, captura todos os espaços e tabulações, antes e depois do separador
-		\emph{and}, e o separador \emph{and}. Neste caso imprime para o \emph{stdout}
-		a captura. Assim o próximo fica livre de espaços no inicio.
-
-
-	\item Captura de uma linha com a formatação \emph{Apelido, Nome}.
-    \begin{minted}{text}
-		 ((-)?[A-Z][a-z]+)+[,]+[ \t]
-    \end{minted}
-		A \emph{ER} captura, a além do nome, pelo menos uma vírgula depois do nome,
-		estando este seguido de espaços. Assume-se que. se a formatação no primeiro
-		nome possui vírgulas, logo a restante está na mesma formatação. A ação
-		é colocar o apontador de leitura do \emph{Flex} no inicio da linha, colocar
-		uma variável inteira para um índice de um vetor a 0, inicializar
-		\emph{array} de \emph{strings} a \texttt{NULL}\footnote{Algoritmo e código
-			será apresentado na \emph{Subsecção~\ref{subsec:des:algol} na
-			pág.~\pageref{subsec:des:algol}}.  Em seguida inicia a \emph{START
-			CONDITION} \texttt{PREFORMAT}.
+    A ação correspondente é em quase tudo semelhante à ação anterior, no
+    entanto, captura todos os espaços e tabulações, antes e depois do separador
+    \emph{and}, e o separador \emph{and}. Neste caso imprime para o \emph{stdout}
+    a captura. Assim o próximo fica livre de espaços no inicio.
 
 
-	 \item Captura tudo o resto incluindo \emph{newline}.
-    \begin{minted}{text}
-		(.|\n)
-    \end{minted}
-		A ação é ignorar tudo, que seja capturado por esta \emph{ER}.
+  \item Captura de uma linha com a formatação \emph{Apelido, Nome}.
+    \begin{verbatim}
+     ((-)?[A-Z][a-z]+)+[,]+[ \t]
+    \end{verbatim}
+    A \emph{ER} captura, a além do nome, pelo menos uma vírgula depois do nome,
+    estando este seguido de espaços. Assume-se que, se a formatação no primeiro
+    nome possui vírgulas, logo a restante está na mesma formatação. A ação
+    é colocar o apontador de leitura do \emph{Flex} no inicio da linha, colocar
+    uma variável inteira para um índice de um vetor a 0, inicializar
+    \emph{array} de \emph{strings} a \texttt{NULL}\footnote{Algoritmo e código
+      será apresentado na \emph{Subsecção~\ref{subsec:des:algol} na
+      pág.~\pageref{subsec:des:algol}}}.  Em seguida inicia a \emph{START
+      CONDITION} \texttt{PREFORMAT}.
 
 
+   \item Captura tudo o resto incluindo \emph{newline}.
+    \begin{verbatim}
+    (.|\n)
+    \end{verbatim}
+    A ação é ignorar tudo, que seja capturado por esta \emph{ER}.
 \end{itemize}
 
 
@@ -212,74 +218,85 @@ campo. A maior parte das ações foi redefinida para para este novo contexto.
 
 
 \begin{itemize}
-	\item Captura de aspas ou uma chaveta no final campo.
-		\mint{text}|[}"]|
+  \item Captura de aspas ou uma chaveta no final campo.
+
+    \begin{verbatim}
+    [}"]
+    \end{verbatim}
 
 		Como foi anteriormente mencionado, quando capturado ou aspas ou uma chaveta,
 		obriga-se o \emph{Flex} a colocar a captura no \emph{stdin}
 		(\texttt{yyless(0)}). De seguida coloca-se o índice do \emph{array} de
-		\emph{strings}, mencionado anteriormente, na posição inicial e executa-se uma função para
-		imprimir os valores contidos no \emph{array}.\footnote{Algoritmo e código
-			descrito na \emph{Subsecção~\ref{subsec:des:algol}, na
+		\emph{strings}, mencionado anteriormente, na posição inicial e executa-se
+		uma função para imprimir os valores contidos no
+		\emph{array}.\footnote{Algoritmo e código descrito na
+			\emph{Subsecção~\ref{subsec:des:algol}, na
 			pág.~\pageref{subsec:des:algol}}}
 
-	\item Captura de 1 ou mais espaços, tabulações ou vírgulas.
-     \mint{text}|[, \t]+|
-		 A semelhança da anterior \emph{ER}, para além de garantir que espaços ou
-		 tabulações em torno dos nomes são consumidos, garante de igual modo que
-		 vírgulas sejam consumidas. No entanto, não imprime um espaço. No seu lugar
-		 da ação de impressão de um espaço, a variável do tipo inteiro para o índice
-		 do \emph{array} de \emph{strings} é incrementada por uma unidade. Ou seja,
-		 por cada nova ocorrência de um novo nome, o índice do \emph{array} já se
-		 encontra na posição correta
+  \item Captura de 1 ou mais espaços, tabulações ou vírgulas.
+     \begin{verbatim}
+     [, \t]+|
+     \end{verbatim}
+     A semelhança da anterior \emph{ER}, para além de garantir que espaços ou
+     tabulações em torno dos nomes são consumidos, garante de igual modo que
+     vírgulas sejam consumidas. No entanto, não imprime um espaço. No seu lugar
+     da ação de impressão de um espaço, a variável do tipo inteiro para o índice
+     do \emph{array} de \emph{strings} é incrementada por uma unidade. Ou seja,
+     por cada nova ocorrência de um novo nome, o índice do \emph{array} já se
+     encontra na posição correta.
 
-	 \item Captura de um espaço ou tabulação antes e depois de uma
-		 preposição, e a própria preposição.
-		\mint{text}|[ \t]+(and)+[\t ]+|
-		A ação definida captura o separador \emph{and}, caso exista mais que um autor, após
-		a ocorrência deste. Note-se que pode encontrar um ou mais mais espaços, bem
-		como tabulações antes e depois deste separador. Além disso, coloca
-		o índice do apontador do \emph{array} de \emph{strings} auxiliar na posição
-		inicial, imprimindo os nomes próprios do autor pela ordem desejada ---
-		\emph{N. Apelido} em troca de \emph{Apelido, Nome}. Após
-		este passo, imprime no \emph{stdout} a \emph{string} \emph{and} com um espaço
-		de cada lado, iniciando a \emph{START CONDITION} \texttt{AUT}.
-		Note-se que, o tratamento do conjunto de nomes é aqui diferente da \emph{START
-		CONDITION} \texttt{AUT}, uma vez que, em \texttt{AUT}, não se podia saber
-		qual seria o último nome, a não ser uma implementação especializada na parte
-		da ação em linguagem \emph{C}. O intuito deste projeto foi sempre usar ao máximo
-		a funcionalidade do \emph{Flex}, e tentar usar ao máximo \emph{ER's}. Aqui,
-		como sabemos que o último nome do autor é logo o primeiro a ser listado.,
+   \item Captura de um espaço ou tabulação antes e depois de uma
+     preposição, e a própria preposição.
+    \begin{verbatim}
+     [ \t]+(and)+[\t ]+
+    \end{verbatim}
+    A ação definida captura o separador \emph{and}, caso exista mais que um autor, após
+    a ocorrência deste. Note-se que pode encontrar um ou mais mais espaços, bem
+    como tabulações antes e depois deste separador. Além disso, coloca
+    o índice do apontador do \emph{array} de \emph{strings} auxiliar na posição
+    inicial, imprimindo os nomes próprios do autor pela ordem desejada ---
+    \emph{N. Apelido} em troca de \emph{Apelido, Nome}. Após
+    este passo, imprime no \emph{stdout} a \emph{string} \emph{and} com um espaço
+    de cada lado, iniciando a \emph{START CONDITION} \texttt{AUT}.
+    Note-se que, o tratamento do conjunto de nomes é aqui diferente da \emph{START
+    CONDITION} \texttt{AUT}, uma vez que, em \texttt{AUT}, não se podia saber
+    qual seria o último nome, a não ser uma implementação especializada na parte
+    da ação em linguagem \emph{C}. O intuito deste projeto foi sempre usar ao máximo
+    a funcionalidade do \emph{Flex}, e tentar usar ao máximo \emph{ER's}. Aqui,
+    como sabemos que o último nome do autor é logo o primeiro a ser listado.,
 
-	
-	 \item Captura de um espaço ou tabulação antes e depois de uma
-		 preposição, e a própria preposição.
-		\mint{text}|[ \t][a-z]+[\t ]|
+  
+   \item Captura de um espaço ou tabulação antes e depois de uma
+     preposição, e a própria preposição.
+    \begin{verbatim}
+    [ \t][a-z]+[\t ]
+    \end{verbatim}
+    A ação é mesma que na \emph{ER} equivalente, descrita na
+    \emph{Subsubsecção~\ref{subsubsection:des:b1}} na
+    pág.~\pageref{subsubsection:des:b1}, que é imediatamente antes desta.
 
-		 A ação é mesma que na \emph{ER} equivalente, descrita na secção anterior.
 
-	 \item Captura de uma inicial ou um nome próprio, que não apelido.
+   \item Captura de uma inicial ou um nome próprio, que  pode ser composto.
+    \begin{verbatim}
+    ((-)?[A-Z]((\.)|[a-z]+))
+    \end{verbatim}
+    A \emph{ER} tem o mesmo intuito que a \emph{ER} equivalente da
+    \emph{Subsubsecção~\ref{subsubsection:des:b1}} na
+    pág.~\pageref{subsubsection:des:b1}, no âmbito da captura. No entanto,
+    a ação é diferente.  Esta passa por comparar a posição atual do índice do
+    \emph{array} auxiliar para identificar a ordem dos nomes. Assim, para cada
+    ocorrência de um nome próprio de um autor, se for diferente da posição $0$,
+    é colocado no valor de \texttt{yytext} na posição $1$ um um ponto e na
+    posição seguinte, o caractere \verb|'\0'|, copiando esse valor para
+    o \emph{array} de \emph{strings} auxiliar, na posição atual do índice do
+    \emph{array}. Caso contrário, copia o valor completo da \emph{string} para
+    a posição $0$, do mesmo \emph{array} auxiliar.  
 
-	 \item Captura de um nome próprio, que é apelido, pode ser composto
-		 e é o último da listagem ou único.
-    \begin{minted}{text}
-		((-)?[A-Z]((\.)|[a-z]+))
-    \end{minted}
-		A \emph{ER} tem o mesmo intuito que a \emph{ER} equivalente da secção
-		anterior, no âmbito da captura. No entanto, a ação é diferente.
-		Esta passa por comparar a posição atual do índice do \emph{array} auxiliar
-		para identificar a ordem dos nomes. Assim, para cada ocorrência de um nome
-		próprio de um autor, se for diferente da posição $0$, é colocado no valor de
-		\texttt{yytext} na posição $1$ um um ponto e na posição seguinte,
-		o caractere \verb|'\0'|, copiando esse valor para o \emph{array} de
-		\emph{strings} auxiliar na posição atual do índice do \emph{array}. Caso
-		contrário copia o valor inteiro da \emph{string} para a posição $0$.
-
-	 \item Captura tudo o resto incluindo \emph{newline}.
-    \begin{minted}{text}
-		(.|\n)
-    \end{minted}
-	A ação é ignorar tudo.
+   \item Captura tudo o resto incluindo \emph{newline}.
+    \begin{verbatim}
+    (.|\n)
+    \end{verbatim}
+    A ação é ignorar tudo o que seja capturado por esta \emph{ER}.
 
 
 \end{itemize}
@@ -287,32 +304,32 @@ campo. A maior parte das ações foi redefinida para para este novo contexto.
 
 \subsubsection{\emph{CHAV \emph{START CONDITION}}}
 
-No contexto \texttt{CHAV} apenas se faz a captura das aspas ou chavetas de todos
+No contexto \texttt{CHAV}, apenas se faz a captura das aspas ou chavetas de todos
 os outros campos. As chavetas ou aspas do campo do autor já estão previstas  no
 devido contexto. No entanto, aqui pode ocorrer o novo contexto, já mencionado na
 secção \emph{Análise do Problema} deste capítulo. Deste modo, há a necessidade
-de se ter uma nova \emph{START CONDITION} \texttt{SPEC}.
+de se ter uma nova \emph{START CONDITION} \texttt{SPEC}. 
 
 
 \begin{itemize}
   \item Captura uma chaveta aberta.
-    \begin{minted}{text}
-			[{]
-    \end{minted}
-		A ação consiste imprimir para o \emph{stdout} a chaveta e iniciar
-		a \emph{START CONDITION} \texttt{SPEC}.
+    \begin{verbatim}
+      [{]
+    \end{verbatim}
+    A ação consiste imprimir para o \emph{stdout} a chaveta e iniciar
+    a \emph{START CONDITION} \texttt{SPEC}.
 
   \item Captura do fim de campo, podendo ser uma chaveta ou aspas.
-    \begin{minted}{text}
-		[}"]
-    \end{minted}
-		Ação: imprimir a chaveta de fecho, e voltar para as \emph{START CONDITION}
-		\texttt{INITIAL}
+    \begin{verbatim}
+    [}"]
+    \end{verbatim}
+    Ação: imprimir a chaveta de fecho, e voltar para as \emph{START CONDITION}
+    \texttt{INITIAL}
 
   \item Captura qualquer outro campo;
-    \begin{minted}{text}
-			(.|\n)
-    \end{minted}
+    \begin{verbatim}
+      (.|\n)
+    \end{verbatim}
 \end{itemize}
 Ação: imprimir tudo o resto, incluindo \emph{newlines} para \emph{stdout}.
 
@@ -327,61 +344,61 @@ campo, e ser passível de ser considerada fim do valor de campo.
 
 \begin{itemize}
   \item Captura o fecho de chavetas.
-    \begin{minted}{text}
-		[}]
-    \end{minted}
-		Imprime para o \emph{stdout} a mesma chaveta.
+    \begin{verbatim}
+    [}]
+    \end{verbatim}
+    Imprime para o \emph{stdout} a mesma chaveta.
 
 
   \item Captura qualquer outro campo;
-    \begin{minted}{text}
-			(.|\n)
-    \end{minted}
-		Imprime tudo o resto no \emph{stdout}.
-	
+    \begin{verbatim}
+      (.|\n)
+    \end{verbatim}
+    Imprime tudo o resto no \emph{stdout}.
+  
 \end{itemize}
 \subsection{Algoritmos}
 \label{subsec:des:algol}
-\begin{Verbatim}
+\begin{verbatim}
      void print_array (char ** array)
      {
          int i;
-     	
+       
          for (i = 1; i < ARRAY_SIZE&&array[i]; i++)
              {
-     						
-     	            printf("%s ", array[i]);
+                 
+                   printf("%s ", array[i]);
              }
          printf("%s", array[0]);
-     										
-     															
+                         
+                                   
      }
 
-\end{Verbatim}
+\end{verbatim}
 
 A função acima corresponde à função de impressão dos nomes próprios dos autores
 na \emph{START CONDITION} \texttt{PREFORMAT}. Note-se que apenas valores
 existentes no \emph{array} são imprimidos no \emph{stdout}, começando pela
 segunda posição. A primeira posição é imprimida no fim.
 
-\begin{Verbatim}
-	void clean_array (char ** array)
-	{
-	    int i;
-		
-			for (i = 0; i < ARRAY_SIZE&&array[i]; 
-			           free(array[i]), array[i++]=NULL);
-			
-			
-	}
+\begin{verbatim}
+  void clean_array (char ** array)
+  {
+      int i;
+    
+      for (i = 0; i < ARRAY_SIZE&&array[i]; 
+                 free(array[i]), array[i++]=NULL);
+      
+      
+  }
 
-\end{Verbatim}
+\end{verbatim}
 
 A função acima corresponde à função de inicialização do \emph{array} dos nomes
 próprios dos autores na \emph{START CONDITION} \texttt{PREFORMAT}. Note-se que
 liberta a memória e inicializa valores previamente existentes.
 
-
+\newpage
 \section{Testes e Resultados}
 \label{sec:ts:b1}
 \subsection{Resultados}
