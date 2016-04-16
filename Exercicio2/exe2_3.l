@@ -2,7 +2,7 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
-#include "../Exercicio2/structures/trie.h"
+#include "../Exercicio2/structures/simple_hashtable.h"
 #define  ARRAY_SIZE  64
 
 char autor[ARRAY_SIZE];
@@ -10,7 +10,6 @@ int i = 0;
 
 
 
-TRIE * dicionario;
 
 char * str = "Tim Teitelbaum";
 
@@ -35,12 +34,12 @@ char * str = "Tim Teitelbaum";
 					       }
 				               }
 <AUT2>[ ]*[}"]                   { autor[i+1]='\0'; 
-                                   TRIE_insert(dicionario, strdup(autor));
+                                   add_key(strdup(autor));
 				   i=0;
 			          BEGIN INITIAL;}
 <AUT2>[ ]+(and)[ ]+              {
                                   autor[i+1]='\0';
-                                  TRIE_insert(dicionario, strdup(autor));
+                                  add_key(strdup(autor));
 				  i = 0; 
 				  }
 <AUT2>(.|\n)                     {autor[i++]= yytext[0];
@@ -55,13 +54,13 @@ int yywrap(){ return 1; }
 int main (){
 
 
-dicionario = TRIE_init();
 
 
 yylex();
 
+delete_key(find_key(str);
 
-TRIE_getAllKeys(dicionario);
+print_items();
 
 return (0); }
 
