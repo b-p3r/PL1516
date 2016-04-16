@@ -1,10 +1,14 @@
 
 %{
+#include <sys/time.h>
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "../Exercicio2/structures/simple_hashtable.h"
 #define  ARRAY_SIZE  64
 
+struct timeval  tv1, tv2;
 char autor[ARRAY_SIZE];
 int i = 0;
 
@@ -54,13 +58,21 @@ int yywrap(){ return 1; }
 int main (){
 
 
-
+gettimeofday(&tv1, NULL);
 
 yylex();
 
-delete_key(find_key(str);
+delete_key(find_key(str));
 
 print_items();
+
+delete_all();
+
+gettimeofday(&tv2, NULL);
+
+printf ("Total time = %f seconds\n",
+         (double) (tv2.tv_usec - tv1.tv_usec) / 1000000 +
+	          (double) (tv2.tv_sec - tv1.tv_sec));
 
 return (0); }
 
