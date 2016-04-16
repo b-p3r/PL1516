@@ -42,15 +42,19 @@ Por exemplo, temos 2 entradas bibliográficas tal que:
 
 \begin{itemize}
 	\item C and B 
+
+
 O autor C publica com B, por sua vez, B publica com C,
 	\item A and B and C
+
+
 O autor A publica com B e com C, e B publica com A e com C,
 e C publica com A e com B.
 \end{itemize}
 
 Ou seja, para uma linha com N autores, para cada autor
-exitem N associações. Para manter a consistência do grafo, e necessário inserir
-essas N associações, N vezes.
+exitem N-1 associações. Para manter a consistência do grafo, e necessário inserir
+essas N -1 associações mais o nome do autor, N vezes.
 
 
 
@@ -207,6 +211,21 @@ apêndice~\ref{appendix:d1}, na pág.~\pageref{appendix:d1}. O ficheiro
 pág~\pageref{listing:a2}.
 
 A imagem foi obtida através do comando \verb|dot -Tpng res_dot.dot -o out.png| 
+
+A escolha do preâmbulo para o \emph{Dot}:
+
+\begin{itemize}
+	\item \texttt{strict directed graph} 
+
+		Evitar múliplas arestas para o mesmo objeto.
+
+	\item \texttt{ratio=fill} e \texttt{size x, y}. 
+		
+		Dado não caber na página é uniformemente reduzido, e escala para otimizar
+		a razão y/x.
+
+	\item \texttt{ranfir=LR} para colocar o autor do lado esquerdo.
+\end{itemize}
 
 
 \subsection{Alternativas, Decisões e Problemas de Implementação}

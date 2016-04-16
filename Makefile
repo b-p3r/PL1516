@@ -12,7 +12,7 @@ LATEXMKBIBTEX=-bibtex
 
 
 
-all: exe2_1 exe2_2a exe2_2b exe2_3 test relatorio.pdf compress clean 
+all: exe2_1 exe2_2a exe2_2b exe2_3 test relatorio.pdf clean compress clean_exec 
 
 
 

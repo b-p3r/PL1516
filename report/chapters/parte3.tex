@@ -14,18 +14,22 @@ início os campos autor e título.
 
 No \hologo{BibTeX}, cada tipo de entrada bibliográfica tem campos opcionais
 e obrigatórios. Na resolução deste problema apenas se centrou nos obrigatórios,
-dado que se quiser uma ferramenta genérica, que inclua outros pacotes, o número
-de campos é elevado. De igual modo, os campos obrigatórios podem ser opcionais
-para algum tipo de entrada, e vice-versa. Em extensões, como no
-\textsc{Bib}\LaTeX{}, alguns campos são são comuns, por uma questão de compatibilidade.
+uma vez que, se se quiser uma ferramenta genérica que inclua outros pacotes,
+o número de campos é elevado. De igual modo, os campos obrigatórios podem ser
+opcionais para algum tipo de entrada, e vice-versa. Em extensões, como no
+\textsc{Bib}\LaTeX{}, alguns campos são comuns a outros campos, por uma questão de
+compatibilidade. Por exemplo, campo autor e título são comuns à maioria dos
+tipos de entrada, no caso da entrada \texttt{MISC} são opcionais. Omitiu-se, de
+igual modo, os campos \texttt{note}, \texttt{abstract} entre outros, que podem
+ter demasiada informação, para um \emph{pretty-printing}.
 
-Os campos considerados são:
+Os campos considerados foram:
 
 \begin{itemize}
 
 
 \item Organização
-\item \emph{How Published}
+\item Forma de publicação\footnote{\emph{How Published}}
 \item Instituição
 \item Publicação
 \item Titulo do livro
@@ -51,7 +55,7 @@ Note-se que estes campos podem ser tanto obrigatórios como opcionais.
 A ordem com que os campos estão colocados não tem a obrigatoriedade de uma
 sequência. Por exemplo o campo autor pode ser colocado no final da enumeração
 dos campos, sem nenhum efeito colateral. O que decide a ordem dos elementos
-é sempre o estilo de bibliografia.
+é sempre o estilo de bibliografia. 
 
 
 \section{Desenho e implementação da solução}
@@ -59,7 +63,7 @@ dos campos, sem nenhum efeito colateral. O que decide a ordem dos elementos
 
 A sugestão de solução apresentada, possui quatro \emph{START CONDITIONS}:
 a \emph{SC} \texttt{ENTRY}, \emph{SC} \texttt{AUT}, a \emph{SC} \texttt{FIELD}
-e, por último, a \emph{SPEC}. A necessidade de ter as primeiras \emph{SC}
+e, por último, a \texttt{SPEC}. A necessidade de ter as primeiras \emph{SC}
 deve-se à necessidade de criar um contexto para tratar os autores, bem como
 o título, sendo estas ativadas dentro \emph{SC} \texttt{ENTRY}. O intuito
 \emph{SC} \texttt{SPEC} já foi descrita em secções anteriores --- capturar par
@@ -67,21 +71,20 @@ de chavetas, para evitar conflitos com as outras \emph{ER's}. De igual modo,
 usaram-se três variáveis globais do tipo inteiro: uma para guardar o estado das
 \emph{SC} no caso da \texttt{SPEC}, dois contadores, um para um índice de uma
 \emph{string}, outro para guardar o índice de um \emph{array} de \emph{strings}
-multidimensional. Além, destas variáveis de valor inteiro, criaram-se, como já
-mencionado, uma \emph{string} e um \emph{array} multidimensional para guardar
+bi-dimensional. Além, destas variáveis de valor inteiro, criaram-se, como já
+mencionado, uma \emph{string} e um \emph{array} bi-dimensional para guardar
 o resultado das ocorrências dos campos. Criou-se este último, com o intuito de
 guardar nas primeiras posições os valores do campos autor e título, seguido de
 tudo o resto. Assim, após a captura do fim da entrada bibliográfica, o resultado
-é passado ao \emph{stdout} pela ordem correta, iniciando o índice do
-\emph{array} multidimensional de cada vez que é encontrada uma entrada
-bibliográfica. Também, o \emph{array} é multidimensional dado que intenciona
+é passado ao \emph{stdout} pela ordem correta, iniciliazidando o índice do
+\emph{array} bi-dimensional, de cada vez que é encontrada uma entrada
+bibliográfica. Pr último, o \emph{array} é bi-dimensional dado que se pretende
 guardar na primeira linha a legenda do campo e na segunda o valor do campo.
 A especificação de cada \emph{SC}, que implementa estes conceitos segue-se nas
-seguintes secções.
+seguintes secções. Note-se que, que todas a \emph{START CONDITIONS} estão
+ordenadas dentro do seu contexto, de  forma a não haver ambiguidade.
 
 \subsection{Expressões Regulares}
-Antes de se iniciar a descrição, note-se que as \emph{ERs} estão ordenadas de
-forma a não haver ambiguidade.
 
 
 \subsubsection{\emph{START CONDITION} \texttt{INITIAL}}
@@ -97,7 +100,7 @@ forma a não haver ambiguidade.
 
 Como já foi anteriormente mencionado, a captura deste valor através da
 \emph{ER} descrita, despoleta uma ação, tal que a posição do \emph{array}
-multidimensional é inciada logo na terceira posição, uma vez as duas primeiras
+bi-dimensional é inciada logo na terceira posição, uma vez as duas primeiras
 estão reservadas para o autor e o título. De igual modo, inicia a \emph{SC}
 \texttt{ENTRY}, imprimindo no \emph{stdout} uma pequeno separador composto por
 cardinais.
@@ -108,7 +111,7 @@ cardinais.
 (.|\n)                            
 \end{verbatim}
 
-A ação é ignorar o restante.
+A ação é ignorar tudo o que é capturado por esta \emph{ER}.
 
 
 
@@ -134,7 +137,7 @@ a \emph{SC} \texttt{INITIAL}.
 	a seguir.
 
 \begin{verbatim}
-[}][ ]*[,] {;} 
+[}][ ]*[,]  
 \end{verbatim}
 
 A ação aqui definida é ignorar a captura. Este \emph{ER} serve de artifício
@@ -143,16 +146,16 @@ para não haver ambiguidade com o final dos campos, dado que a expressão
 campos poderia terminar a meio.
 
 \item Captura o campo \emph{Organization}, \emph{case-insensitive}, seguido 0 ou
-	mais espaços, um \emph{=}, com 0 ou mais espaços de seguida, podendo terminar
+	mais espaços, um \emph{"="}, com 0 ou mais espaços de seguida, podendo terminar
 	ou não numa chaveta ou aspas.
 \begin{verbatim}
 [Oo][Rr][Gg][Aa][Nn][Ii][Zz][Aa][Tt][Ii][Oo][Nn][ ]*"="[ ]*[{"]? 
 \end{verbatim}
 
-Após a captura, o índice da \emph{string} auxiliar para armazenar
-temporariamente o valor dos caracteres capturados é inicializado, sendo guardada
-a legenda do campo na primeira linha, na coluna correspondente à posição da
-ocorrência. Em seguida é inicializado a \emph{SC} \texttt{FIELD}, correspondente
+Após a captura, o índice da \emph{string} auxiliar,  para armazenar
+temporariamente o valor dos caracteres capturados, é inicializado, sendo guardada
+a legenda do campo na primeira linha na coluna correspondente à posição da
+ocorrência. Em seguida é inicializada a \emph{SC} \texttt{FIELD}, correspondente
 ao contexto de manipulação de qualquer outro campo, que não o autor e o título.
                             
 \item Captura similar a anterior, exceto a aspas ou chavetas de início do valor
@@ -213,7 +216,7 @@ pelo o número de caracteres que é copiado, ou seja incrementado por 5.
 Adiciona-se um \emph{newline} à \emph{string} auxiliar --- incrementando por um
 o valor do seu índice --- e o valor da \emph{string}, já com todos os autores,
 é copiada para a segunda linha, na coluna $0$ do \emph{array}
-multidimensional. Após este passo volta para a \emph{SC} que gerou a \emph{SC}
+bi-dimensional. Após este passo volta para a \emph{SC} que gerou a \emph{SC}
 \texttt{AUT}, neste caso \texttt{ENTRY}, 
 
 \item Captura tudo o resto, incluindo o caractere \emph{newline}.
@@ -257,7 +260,7 @@ CONDTIONS} o valor do estado é guardado numa variável global, com a macro
 \end{verbatim}
 A ação é copiar um caractere \emph{newline} para a \emph{string} auxiliar, para
 depois o valor desta \emph{string} ser copiado para a segunda linha e segunda
-coluna do \emph{array} multidimensional. Após este passo, regressa à \emph{SC}
+coluna do \emph{array} bi-dimensional. Após este passo, regressa à \emph{SC}
 \texttt{ENTRY}.
 
 
@@ -273,7 +276,7 @@ Copia o valor da ocorrência para a \emph{string} auxiliar.
 (\n)
 \end{verbatim}
 
-A ação é não fazer nada. Apenas serve para consumir eliminar quebras de linha no
+A ação é ignorar a captura. Apenas serve para consumir eliminar quebras de linha no
 campo do título.
 
 
@@ -325,7 +328,7 @@ o campo tem que terminar por vírgula. No entanto, isto nem sempre acontece,
 porque, caso o campo seja o último há definir outra forma de o campo acabar.
 Esse é o intuito da \emph{ER} seguinte. O processo associado a esta \emph{ER}
 é uma cópia de caractere \emph{newline} para a \emph{string} auxiliar, sendo
-feita a cópia da \emph{string} auxiliar para o \emph{array} multidimensional, na
+feita a cópia da \emph{string} auxiliar para o \emph{array} bi-dimensional, na
 segunda linha, na índice equivalente à contagem das ocorrências dos campos. No
 fim volta para a \emph{SC} \texttt{ENTRY}.  
 
@@ -402,7 +405,7 @@ sejam autor.
 \subsection{Algoritmos}
 
 A função abaixo é a função utilizada para imprimir os valores guardados no
-\emph{array} multidimensional. A impressão vai até ao total de posições
+\emph{array} bi-dimensional. A impressão vai até ao total de posições
 incrementadas na captura dos campos. Assim, não é necessário alocar memória para
 o \emph{array} 2D. 
 
@@ -451,13 +454,14 @@ apêndice~\ref{appendix:c} na pág.~\pageref{appendix:c}.
 
 Houve diversos problemas na implementação dado à quantidade de exceções que
 podem ocorrer num ficheiro \hologo{BibTeX} e a intenção de usar uma solução
-completamente nativa do \emph{Flex}, isto apenas com \emph{ER's} e funções do
+completamente "nativa" do \emph{Flex}, isto é, apenas com \emph{ER's} e funções do
 \emph{Flex}. Logo, de forma a simplificar o problema, não se está a considerar
-caracteres especiais, nem escape de caracteres. Até à data de redação
-desconhece-se uma solução nativa que vá de encontro à especificação do enunciado
+caracteres especiais, nem escape de caracteres. Até à data de redação deste
+documento
+desconhece-se uma solução "nativa" que vá de encontro à especificação do enunciado
 --- ordem pré-definida dos campos na apresentação. No entanto houve várias
-tentativas, onde uma solução em particular, fazia o \emph{pretty-printing}, mas
-assumindo que o utilizador do ficheiro \hologo{BibTeX} colocava os campos
+tentativas, onde uma solução em particular fazia o \emph{pretty-printing}, no
+entanto, ter-se-ia que assumir que o utilizador do ficheiro \hologo{BibTeX} colocava os campos
 autor e titulo em primeiro lugar. Esta solução não vai de encontro
 à especificação do enunciado.
 

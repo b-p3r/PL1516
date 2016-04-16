@@ -37,7 +37,10 @@ Morada --------:	 Berkeley
 
 ################
 Autor(es) -----:	 Guy L. Steele
-Titulo --------:	 Common L
+Titulo --------:	 Common Lisp -- The Language
+Edicao --------:	 Second edition
+Ano ---------- :	 1990
+Publicação de -:	 dp
 
 
 

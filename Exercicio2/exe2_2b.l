@@ -92,7 +92,7 @@ void print_campos()
 <FIELD>(.)                        {value[i++]=yytext[0];}
 <FIELD>(\n)                       {;}
 
-<SPEC>[}]                         {yyless(0);BEGIN state_caller;}
+<SPEC>[}]                         {BEGIN state_caller;}
 <SPEC>(.)                         {value[i++]=yytext[0];}
 <SPEC>(\n)                         {;}
 
