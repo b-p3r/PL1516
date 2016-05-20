@@ -1,0 +1,16 @@
+Instituição
+Publicação
+Jornal
+Edição
+Capitulo
+Morada
+Volume
+Serie 
+Escola
+Numero
+Editor
+Titulo
+Págs
+Mês
+Ano
+Tipo
