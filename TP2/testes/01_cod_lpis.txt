@@ -1,0 +1,24 @@
+VAR x, y, max;
+
+BEGIN
+
+	WRITE "escreva x:";
+	READ x;
+	WRITE "escreva y:";
+	READ y;
+	
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	ELSE
+	{
+	  max = y;
+	
+	}
+	
+	WRITE "O maior numero e:";
+	WRITE max;
+	
+END
