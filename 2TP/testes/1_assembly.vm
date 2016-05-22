@@ -1,0 +1,29 @@
+  pushi 0
+  pushi 0
+  pushi 0
+start
+  pushs "escreva x:"
+  writes
+  read
+  atoi
+  storeg 0
+  pushs "escreva y:"
+  writes
+  read 
+  atoi
+  storeg 1
+  pushg 0
+  pushg 1
+  sup
+  jz else
+  pushg 0
+  storeg 2
+  js done
+else:
+  pushg 1
+  storeg 2
+done :
+  pushs "o maior numero e:"
+  pushg 2
+  writei  
+stop
