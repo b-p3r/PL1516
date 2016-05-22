@@ -1,0 +1,20 @@
+        pushi 0 
+        pushi 0
+start
+        pushs "xxxxx?"
+        writes
+        read
+        atoi
+        storeg 0
+        pushs "yyyyy?"
+        writes
+        read
+        atoi
+        storeg 1
+        pushs "resultado: "
+        writes
+        pushg 0  
+        pushg 1
+        add
+        writei
+stop

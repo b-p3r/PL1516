@@ -1,0 +1,30 @@
+	pushi 1
+	pushi 0
+start
+	pushs "Introduza um número inteiro maior que 0: "
+	writes
+	read
+	atoi
+	storeg 1
+ciclo:
+	pushg 1
+	pushi 1
+	sup
+        jz fim
+        pushg 0
+	pushg 1
+	mul
+	storeg 0
+
+	pushg 1
+        pushi 1
+        sub
+        storeg 1
+	jump ciclo
+fim:
+	pushs "O resultado é: "
+	writes
+	pushg 0
+        writei
+	stop
+
