@@ -1,9 +1,0 @@
-strict digraph G {
-  ratio=fill;
-  size="7.5,10"
-  center=true;
-  rankdir=LR;
-"Tim Teitelbaum" -> "Thomas Reps"		[label = 5	];
-"Tim Teitelbaum" -> "Carla Marceau"		[label = 1	];
-"Tim Teitelbaum" -> "A. Demers"		[label = 1	];
-}

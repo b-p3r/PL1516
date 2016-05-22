@@ -63,16 +63,13 @@ breakautoindent=false,
 autogobble
 }
 \usepackage{caption}
+\usepackage{syntax}
 
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \newenvironment{longlisting}{\captionsetup{type=listing}}{}
 \def\darius{\textsf{Darius}\xspace}
 
-\def\java{\texttt{Java}\xspace}
 
-\def\pe{\emph{Publicação Eletrónica}\xspace}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
@@ -88,11 +85,11 @@ autogobble
 \end{abstract}
 
 \tableofcontents
-
 \input{./report/chapters/intro}
 
-\input{./report/chapters/parte1}
-
+\input{cap_1_analise_problema}
+\input{cap_2_impl_solucao}
+\input{cap_3_testes_resultados}
 
 \input{./report/chapters/concl}
 \nocite{*}

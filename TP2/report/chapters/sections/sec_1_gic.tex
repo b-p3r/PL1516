@@ -1,0 +1,44 @@
+\section{Gramática Independente de Contexto}
+\label{sec:gramatica:desenho}
+
+\subsection{Axioma}
+\label{sec:subsec:axioma:desenho}
+
+\begin{grammar}
+
+<Program> ::= <Declarations> <Body>
+
+<Body> ::= `BEGIN' <InstructionList> `END'
+
+<Declaration> ::= <id>
+\alt <id> `[' <num> `]'
+\alt <id> `[' <num> `]' `[' <num> `]'
+
+<Declarations> ::= 'VAR' <DeclarationsList> `;' 
+
+<DeclarationsList> ::= <Declaration> 
+\alt <DeclarationsList> `,' <Declaration> 
+
+<Term> ::= <id>
+\alt <num>
+\alt <id> `[' <ExpAdditiv> `]'
+\alt <id> `[' <ExpAdditiv> `]' `[' <ExpAdditiv> `]'
+\alt `(' <Exp> `)'
+\alt `NOT' <Exp>
+
+\end{grammar}
+
+
+\subsection{Declarações de variáveis}
+\label{sec:subsec:declaracoes:desenho}
+
+
+\subsection{Expressões}
+\label{sec:subsec:expressoes:desenho}
+
+
+\subsection{Instruções}
+\label{sec:subsec:instrucoes:desenho}
+
+
+
