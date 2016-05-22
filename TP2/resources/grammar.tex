@@ -1,0 +1,99 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+\usepackage{fancyvrb}
+\fvset{xleftmargin=2em}
+
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+\usepackage{tikzscale}
+\usepackage{pgfplotstable}
+\usepackage{booktabs}
+\usepackage[font=small,labelfont=bf,tableposition=top]{caption}
+
+\usepackage[utf8]{inputenc}
+\usepackage[portuges]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+%\usepackage{lmodern}
+\usepackage[obeyspaces,spaces]{url}
+\usepackage[left=20mm,right=20mm,top=25mm,bottom=25mm]{geometry}
+\usepackage{titlesec}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+
+\usepackage{indentfirst}
+\usepackage{url}
+\usepackage{syntax}
+\setlength{\grammarparsep}{20pt plus 1pt minus 1pt} % increase separation between rules
+\setlength{\grammarindent}{10em} % increase separation between LHS/RHS 
+
+\begin{document}
+
+
+
+\begin{grammar}
+
+<Program> ::= <Declarations> <Body> 
+
+<Body> ::= `BEGIN' <InstructionList> `END'
+
+<Declaration> ::= <id>
+\alt <id> `[' <num> `]'
+\alt <id> `[' <num> `]' `[' <num> `]' 
+
+<Declarations> ::= 'VAR' <DeclarationsList> `;' 
+
+<DeclarationsList> ::= <Declaration> 
+\alt <DeclarationsList> `,' <Declaration> 
+
+<Term> ::= <id>
+\alt <num>
+\alt <id> `[' <ExpAdditiv> `]'
+\alt <id> `[' <ExpAdditiv> `]' `[' <ExpAdditiv> `]'
+\alt `(' <Exp> `)'
+\alt `NOT' <Exp>
+
+<Variable> ::= <id>
+\alt <id> `[' <ExpAdditiv> `]'
+\alt <id> `[' <ExpAdditiv> `]' `[' <ExpAdditiv> `]' 
+ 
+<ExMultipl> ::= <Term>
+\alt <ExMultipl> `*'  <Term>
+\alt <ExMultipl> `/' <Term>
+\alt <ExMultipl> `%' <Term>
+\alt <ExMultipl> `AND' <Term>
+
+<ExpAdditiv> ::= <ExMultipl> 
+\alt <ExpAdditiv> `+' <ExMultipl>
+\alt <ExpAdditiv> `-' <ExMultipl> 
+\alt <ExpAdditiv> `OR' <ExMultipl> 
+
+
+<Exp> ::= <ExpAdditiv>             
+\alt `(' <ExpAdditiv> `>'  <ExpAdditiv> `)'
+\alt `(' <ExpAdditiv> `<'  <ExpAdditiv> `)'
+\alt `(' <ExpAdditiv> `>=' <ExpAdditiv> `)'
+\alt `(' <ExpAdditiv> `<=' <ExpAdditiv> `)'
+\alt `(' <ExpAdditiv> `==' <ExpAdditiv> `)'
+\alt `(' <ExpAdditiv> `!=' <ExpAdditiv> `)'
+
+
+
+<Atribution> ::=  <Variable> `=' <ExpAdditiv> 
+
+<Instruction> ::= <Atribution> `;' 
+\alt `READ'  <Variable> `;'
+\alt `WRITE' <ExpAdditiv> `;'                      
+\alt `WRITE' <string> `;'
+\alt `IF' `(' <Exp> `)' `{' <InstructionsList> `}' 
+\alt `IF' `(' <Exp> `)' `{' <InstructionsList> `}' `ELSE' `{' <InstructionsList> `}' 
+\alt `WHILE `(' <Exp> `)' `{' <InstructionsList> `}' 
+\alt `DO'`{' <InstructionsList> `}'`WHILE `(' <Exp> `)' `;' 
+
+<InstructionList> ::= <Instruction>
+\alt <InstructionList> <Instruction>  
+
+\end{grammar}
+\end{document}
