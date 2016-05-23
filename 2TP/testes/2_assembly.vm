@@ -1,0 +1,36 @@
+  pushi 0
+  pushi 0
+  pushi 0
+  pushi 0
+start 
+  pushs "escreva o total de numeros :"
+  writes
+  pushi 0
+  storeg 1
+  pushi 0
+  storeg 2
+  pushi 0
+  storeg 3
+loop :
+  pushg 3
+  pushg 0
+  inf
+  jz done
+  pushs "Escreva um numero :"
+  writes
+  pushs
+  read
+  atoi
+  storeg 1
+  pushg 2
+  pushg 1
+  add
+  pushg 1
+  add
+  storeg 3
+  jump loop
+done:
+  pushg 2
+  writei
+stop
+
