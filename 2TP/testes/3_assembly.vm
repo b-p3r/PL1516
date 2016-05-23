@@ -24,3 +24,14 @@ equal
 jz done
 pushg 0
 writei
+pushg 1
+pushi 1
+add
+storeg 1
+done:
+jump loop
+pushs "Total de numeros pares lidos:"
+writes
+pushg 1
+writei
+
