@@ -30,6 +30,8 @@ loop :
   storeg 3
   jump loop
 done:
+  pushs "O valor total da soma e:"
+  writes
   pushg 2
   writei
 stop
