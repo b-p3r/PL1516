@@ -1,0 +1,112 @@
+   pushn 20
+   pushi 0
+   pushi 0
+   pushi 0
+start
+  pushi 0
+  storeg 21
+  read
+  atoi
+  storeg 22
+loop0: nop
+  pushg 21
+  pushg 22
+  inf
+  jz done0
+  read
+  storeg 23
+  pushgp
+  pushi 0
+  padd
+  pushg 23
+  pushi 21
+  pushi 1
+  add
+  storeg 21
+  jump loop0
+done0: nop
+  pushi 1
+  storeg 21
+loop1 : nop
+  pushg 21
+  pushg 22
+  inf
+  jz done1
+     pushgp
+     pushi 0
+     padd
+     pushg 22
+     sub
+     loadn
+     pushg 21
+     loadn
+     infeq
+     jz else10
+     pushg 21
+     pushi 1
+     add
+     jump done10
+     else10: nop
+     //x = array[pos]
+     pushgp 
+     pushi 0
+     padd
+     pushg 21
+     loadn
+     storeg 23
+     //array[pos] = array[pos -1]
+     //array[pos -1]
+     pushgp
+     pushi 0
+     padd
+     pushg 21
+     pushi 1
+     sub
+     loadn
+     //array[pos]
+     pushgp
+     pushi 0
+     padd
+     pushg 21
+     storen 
+     //array[pos -1] = x
+     pushgp
+     pushi 0
+     padd
+     pushg 21
+     pushi 1
+     sub
+     pushg 23
+     storen
+     //pos = pos -1
+     pushg 23
+     pushg 21
+     pushi 1
+     sub
+     storeg 21
+         pushg 21
+         pushi 0
+         equal
+         jz done100
+         pushi 1
+         storeg 21
+        done100: nop
+    done10: nop
+jump loop1
+done1: nop
+pushi 0
+storeg 21
+loop2: nop
+pushg 21
+pushg 22
+jz done2
+pushg
+pushi 0
+padd
+pushgp 21
+loadn
+writi
+jump loop2
+done2: nop
+stop
+
