@@ -8,11 +8,11 @@ lixo .|\n
 
 %%
 
-[- \*%\+ =,;/()\[\]\{\}]  {return (yytext[0]);}
+[-/;,\[\]=><!+\(\)\{\}%]  {return (yytext[0]);}
 (AND)                     {return AND;}
 (OR)                      {return OR;}
 (NOT)                     {return NOT;}
-(BEGIN)                   {return BEGI;}
+(BEGI)                   {return BEGI;}
 (END)                     {return END;}
 (READ)                    {return READ;}
 (WRITE)                   {return WRITE;}
@@ -21,12 +21,6 @@ lixo .|\n
 (IF)                      {return IF;}
 (ELSE)                    {return ELSE;}
 (DO)                      {return DO;}
-(<)                       {return LESSER;} 
-(<=)                      {return LESSER_OR_EQUAL;} 
-(>)                       {return GREATER;} 
-(>=)                      {return GREATER_OR_EQUAL;} 
-(!=)                      {return NOT_EQUAL;} 
-(==)                      {return EQUAL} 
 \"[^"]+\"                 {yylval.valString = strdup(yytext); return string;}
 {digito}+                 {yylval.valNro = atof(yytext); return num;}
 {letra}+                  {yylval.valID= strdup(yytext); return id;}

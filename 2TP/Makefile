@@ -12,7 +12,7 @@ LATEXMKBIBTEX=-bibtex
 
 
 
-all: exe2_1 exe2_2a exe2_2b exe2_3 test relatorio.pdf clean compress clean_exec 
+all: gerador relatorio.pdf clean compress  
 
 
 
@@ -31,23 +31,26 @@ relatorio.pdf:  report/rel.tex
 
 compress:  ./src 
 	@echo "Preparar ficheiro Zip para entrega...."
-	zip -r Tp1 ./src/*
+	zip -r Tp2.zip ./src/*
 
 
 ############################### - Exercício 2.1  ###########################################
 
 
-gerador: ./src/exe2_1.l
+gerador: ./src/gerador.l ./src/gerador.y
 	flex ./src/gerador.l
-	bison ./src/gerador.y
+	bison -v -t -d ./src/gerador.y
 	$(CC) $(CFLAGS) -c ./src/structures/simple_hashtable.c -o \
 	simple_hashtable.o
-	$(CC) $(CFLAGS) -g simple_hashtable.o y.tab.c -o gerador
+	$(CC) $(CFLAGS) -g simple_hashtable.o gerador.tab.c -o gerador
 
 
 clean:  
 	@echo "A limpar diretoria...."
 	rm -rf *.o
+	rm -rf gerador.*
+	rm -rf *.o
+	rm -rf lex.yy.c
 	rm -rf src/*.o
 	rm -rf src/lex.yy.c
 	rm -rf src/y.tab.c
@@ -55,7 +58,7 @@ clean:
 
 clean_exec:
 	@echo "A eliminar executáveis...."
-	rm -f filter_*
+	rm -rf gerador
 	rm -fr pl15TP2Gr07.pdf
 	rm -fr Tp2.zip
 

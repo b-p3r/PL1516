@@ -7,16 +7,15 @@
 
 %}
 
-%union{float valN; char* valNo;}
+%union{char * valString; int valNro; char* valID;}
 
-%token id
-%token num
-%token string
-%token BEGIN
+%token <valID>id
+%token <valNro>num
+%token <valString>string
+%token BEGI
 %token END
 
 %token VAR
-%token TURMA
 %token NOT
 %token AND
 %token OR
@@ -26,16 +25,12 @@
 %token ELSE
 %token WHILE
 %token DO
-%token <valNo>nome
-%token <valN>nota
-//%type <valN>Aluno
-//%type <valN>Alunos
 
 %%
 
 Program : Declarations Body 
 ;
-Body : BEGIN InstructionsList END
+Body : BEGI InstructionsList END
 ;
 Declaration : id
 | id '[' num ']'
