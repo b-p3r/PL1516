@@ -1,0 +1,713 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AND	gerador.tab.c	/^    AND = 265,$/;"	e	enum:yytokentype	file:
+AND	gerador.tab.h	/^    AND = 265,$/;"	e	enum:yytokentype
+ANEXOS	report/chapters/apendice.tex	/^\\part*{ANEXOS}$/;"	p
+AUTOR	src/structures/hashtable.c	/^} AUTOR;$/;"	t	typeref:struct:item	file:
+AUTOR	src/structures/hashtable.h	/^typedef struct item AUTOR;$/;"	t	typeref:struct:item
+Algoritmos	report/chapters/sections/sec3-sintatic-gerador.tex	/^\\subsection{Algoritmos}$/;"	u
+Alternativas  Decis   es e Problemas de Implementa     o	report/chapters/cap3-testes-resultados.tex	/^\\section{Alternativas, Decisões e Problemas de Implementação}$/;"	s
+Aluno	src/tp2.y	/^Aluno : nome '(' Notas ')'	  {media = soma\/conta; printf("Nota de %s: %.1f\\n", $1,media); $$ = media;}$/;"	l
+Alunos	src/tp2.y	/^Alunos : Aluno 			      {total = 1; $$ = $1;}$/;"	l
+An   lise do Problema	report/chapters/cap1-analise-problema.tex	/^\\chapter{Análise do Problema}$/;"	c
+Analisador l   xico	report/chapters/sections/sec2-lex.tex	/^\\section{Analisador léxico}$/;"	s
+Analisador sint   tico e tradutor	report/chapters/sections/sec3-sintatic-gerador.tex	/^\\section{Analisador sintático e tradutor}$/;"	s
+Atribution	src/gerador.y	/^Atribution :  Variable '=' ExpAdditiv $/;"	l
+Atribution	src/gramatica3.y	/^Atribution :  Variable '=' Exp ;$/;"	l
+Axioma	report/chapters/sections/sec1-gic.tex	/^\\subsection{Axioma}$/;"	u
+BEGI	gerador.tab.c	/^    BEGI = 261,$/;"	e	enum:yytokentype	file:
+BEGI	gerador.tab.h	/^    BEGI = 261,$/;"	e	enum:yytokentype
+BEGIN	lex.yy.c	125;"	d	file:
+Body	src/gerador.y	/^Body : BEGI InstructionsList END$/;"	l
+Body	src/gramatica3.y	/^Body : 'BEGIN' InstructionList 'END';$/;"	l
+C   digo do analisador l   xico do emph  Flex	report/chapters/apendice.tex	/^\\chapter{Código do analisador léxico do \\emph{Flex}}$/;"	c
+C   digo do analisador sint   tico e tradutor do emph  YACC	report/chapters/apendice.tex	/^\\chapter{Código do analisador sintático e tradutor do \\emph{YACC}}$/;"	c
+C   digo gerado a partir do tradutor do emph  YACC	report/chapters/apendice.tex	/^\\chapter{Código gerado a partir do tradutor do \\emph{YACC}, para os exemplos$/;"	c
+C   lculo de uma pot   ncia com determinada base e expoente--fun     o texttt  potencia  Base  Exp 	report/chapters/apendice.tex	/^\\section{Cálculo de uma potência com determinada base e expoente--função$/;"	s
+CC	Makefile	/^CC = gcc $/;"	m
+CFLAGS	Makefile	/^CFLAGS = -O2 $/;"	m
+Conclus   o	report/chapters/concl.tex	/^\\chapter*{Conclusão}$/;"	c
+DECLTYPE	src/structures/uthash.h	37;"	d
+DECLTYPE	src/structures/uthash.h	40;"	d
+DECLTYPE	src/structures/uthash.h	44;"	d
+DECLTYPE	src/structures/uthash.h	46;"	d
+DECLTYPE_ASSIGN	src/structures/uthash.h	50;"	d
+DECLTYPE_ASSIGN	src/structures/uthash.h	56;"	d
+DO	gerador.tab.c	/^    DO = 272$/;"	e	enum:yytokentype	file:
+DO	gerador.tab.h	/^    DO = 272$/;"	e	enum:yytokentype
+Dados	report/chapters/cap1-analise-problema.tex	/^\\section{Dados}$/;"	s
+Declaration	src/gerador.y	/^Declaration : id$/;"	l
+Declaration	src/gramatica3.y	/^Declaration : id$/;"	l
+Declarations	src/gerador.y	/^Declarations : VAR DeclarationsList ';' $/;"	l
+Declarations	src/gramatica3.y	/^Declarations : 'VAR' DeclarationsList  $/;"	l
+DeclarationsList	src/gerador.y	/^DeclarationsList : Declaration $/;"	l
+DeclarationsList	src/gramatica3.y	/^DeclarationsList : Declaration ';'$/;"	l
+Desenho e implementa     o da solu     o	report/chapters/cap2-impl-solucao.tex	/^\\chapter{Desenho e implementação da solução}$/;"	c
+ECHO	lex.yy.c	585;"	d	file:
+ELMT_FROM_HH	src/structures/uthash.h	104;"	d
+ELSE	gerador.tab.c	/^    ELSE = 270,$/;"	e	enum:yytokentype	file:
+ELSE	gerador.tab.h	/^    ELSE = 270,$/;"	e	enum:yytokentype
+END	gerador.tab.c	/^    END = 262,$/;"	e	enum:yytokentype	file:
+END	gerador.tab.h	/^    END = 262,$/;"	e	enum:yytokentype
+EOB_ACT_CONTINUE_SCAN	lex.yy.c	173;"	d	file:
+EOB_ACT_END_OF_FILE	lex.yy.c	174;"	d	file:
+EOB_ACT_LAST_MATCH	lex.yy.c	175;"	d	file:
+EXIT_SUCCESS	gerador.tab.c	283;"	d	file:
+EXIT_SUCCESS	gerador.tab.c	311;"	d	file:
+Especifica     o dos requisitos	report/chapters/cap1-analise-problema.tex	/^\\section{Especificação dos requisitos}$/;"	s
+Estrutura do Relat   rio	report/chapters/intro.tex	/^\\section*{Estrutura do Relatório} $/;"	s
+Estruturas de dados	report/chapters/sections/sec3-sintatic-gerador.tex	/^\\subsection{Estruturas de dados}$/;"	u
+ExMultipl	src/gerador.y	/^ExMultipl : Term$/;"	l
+ExMultipl	src/gramatica3.y	/^ExMultipl : Term$/;"	l
+Exp	src/gerador.y	/^Exp : ExpAdditiv             $/;"	l
+Exp	src/gramatica3.y	/^Exp : ExpLogic$/;"	l
+ExpAdditiv	src/gerador.y	/^ExpAdditiv : ExMultipl $/;"	l
+ExpAdditiv	src/gramatica3.y	/^ExpAdditiv : ExMultipl $/;"	l
+ExpLogic	src/gramatica3.y	/^ExpLogic : ExpLogicalAND $/;"	l
+ExpLogicalAND	src/gramatica3.y	/^ExpLogicalAND : ExpLogicalNOT $/;"	l
+ExpLogicalNOT	src/gramatica3.y	/^ExpLogicalNOT : NOT ExpRelational;$/;"	l
+ExpLogicalOR	src/gramatica3.y	/^ExpLogicalOR : ExpRelational$/;"	l
+ExpRelational	src/gramatica3.y	/^ExpRelational : ExpAdditiv$/;"	l
+Express   es Regulares	report/chapters/sections/sec2-lex.tex	/^\\subsection{Expressões Regulares}$/;"	u
+FLEXINT_H	lex.yy.c	29;"	d	file:
+FLEX_BETA	lex.yy.c	13;"	d	file:
+FLEX_SCANNER	lex.yy.c	8;"	d	file:
+Ficheiro emph  Flex	report/chapters/sections/sec2-lex.tex	/^\\subsection{Ficheiro \\emph{Flex} com a especificação}$/;"	u
+Gram   tica Independente de Contexto	report/chapters/sections/sec1-gic.tex	/^\\section{Gramática Independente de Contexto}$/;"	s
+Gram   tica para linguagem criada	report/chapters/apendice.tex	/^\\chapter{Gramática para linguagem criada}\\footnote{A gramática está na notação$/;"	c
+HASH_ADD	src/structures/uthash.h	172;"	d
+HASH_ADD_INT	src/structures/uthash.h	272;"	d
+HASH_ADD_KEYPTR	src/structures/uthash.h	185;"	d
+HASH_ADD_PTR	src/structures/uthash.h	278;"	d
+HASH_ADD_STR	src/structures/uthash.h	266;"	d
+HASH_ADD_TO_BKT	src/structures/uthash.h	628;"	d
+HASH_BER	src/structures/uthash.h	367;"	d
+HASH_BKT_CAPACITY_THRESH	src/structures/uthash.h	101;"	d
+HASH_BLOOM_ADD	src/structures/uthash.h	139;"	d
+HASH_BLOOM_ADD	src/structures/uthash.h	148;"	d
+HASH_BLOOM_BITLEN	src/structures/uthash.h	120;"	d
+HASH_BLOOM_BITSET	src/structures/uthash.h	136;"	d
+HASH_BLOOM_BITTEST	src/structures/uthash.h	137;"	d
+HASH_BLOOM_BYTELEN	src/structures/uthash.h	121;"	d
+HASH_BLOOM_BYTELEN	src/structures/uthash.h	150;"	d
+HASH_BLOOM_FREE	src/structures/uthash.h	131;"	d
+HASH_BLOOM_FREE	src/structures/uthash.h	147;"	d
+HASH_BLOOM_MAKE	src/structures/uthash.h	122;"	d
+HASH_BLOOM_MAKE	src/structures/uthash.h	146;"	d
+HASH_BLOOM_SIGNATURE	src/structures/uthash.h	920;"	d
+HASH_BLOOM_TEST	src/structures/uthash.h	142;"	d
+HASH_BLOOM_TEST	src/structures/uthash.h	149;"	d
+HASH_CLEAR	src/structures/uthash.h	866;"	d
+HASH_CNT	src/structures/uthash.h	896;"	d
+HASH_COUNT	src/structures/uthash.h	895;"	d
+HASH_DEL	src/structures/uthash.h	282;"	d
+HASH_DELETE	src/structures/uthash.h	227;"	d
+HASH_DEL_IN_BKT	src/structures/uthash.h	642;"	d
+HASH_EMIT_KEY	src/structures/uthash.h	349;"	d
+HASH_EMIT_KEY	src/structures/uthash.h	356;"	d
+HASH_EXPAND_BUCKETS	src/structures/uthash.h	683;"	d
+HASH_FCN	src/structures/uthash.h	361;"	d
+HASH_FCN	src/structures/uthash.h	363;"	d
+HASH_FIND	src/structures/uthash.h	106;"	d
+HASH_FIND_INT	src/structures/uthash.h	270;"	d
+HASH_FIND_IN_BKT	src/structures/uthash.h	614;"	d
+HASH_FIND_PTR	src/structures/uthash.h	276;"	d
+HASH_FIND_STR	src/structures/uthash.h	264;"	d
+HASH_FNV	src/structures/uthash.h	392;"	d
+HASH_FSCK	src/structures/uthash.h	290;"	d
+HASH_FSCK	src/structures/uthash.h	342;"	d
+HASH_INITIAL_NUM_BUCKETS	src/structures/uthash.h	99;"	d
+HASH_INITIAL_NUM_BUCKETS_LOG2	src/structures/uthash.h	100;"	d
+HASH_ITER	src/structures/uthash.h	885;"	d
+HASH_ITER	src/structures/uthash.h	889;"	d
+HASH_JEN	src/structures/uthash.h	433;"	d
+HASH_JEN_MIX	src/structures/uthash.h	420;"	d
+HASH_KEYCMP	src/structures/uthash.h	611;"	d
+HASH_MAKE_TABLE	src/structures/uthash.h	153;"	d
+HASH_MUR	src/structures/uthash.h	571;"	d
+HASH_OAT	src/structures/uthash.h	404;"	d
+HASH_OOPS	src/structures/uthash.h	289;"	d
+HASH_OVERHEAD	src/structures/uthash.h	877;"	d
+HASH_REPLACE	src/structures/uthash.h	175;"	d
+HASH_REPLACE_INT	src/structures/uthash.h	274;"	d
+HASH_REPLACE_PTR	src/structures/uthash.h	280;"	d
+HASH_REPLACE_STR	src/structures/uthash.h	268;"	d
+HASH_SAX	src/structures/uthash.h	381;"	d
+HASH_SELECT	src/structures/uthash.h	828;"	d
+HASH_SFH	src/structures/uthash.h	485;"	d
+HASH_SIGNATURE	src/structures/uthash.h	919;"	d
+HASH_SORT	src/structures/uthash.h	735;"	d
+HASH_SRT	src/structures/uthash.h	736;"	d
+HASH_TO_BKT	src/structures/uthash.h	210;"	d
+IF	gerador.tab.c	/^    IF = 269,$/;"	e	enum:yytokentype	file:
+IF	gerador.tab.h	/^    IF = 269,$/;"	e	enum:yytokentype
+INITIAL	lex.yy.c	493;"	d	file:
+INT16_MAX	lex.yy.c	71;"	d	file:
+INT16_MIN	lex.yy.c	62;"	d	file:
+INT32_MAX	lex.yy.c	74;"	d	file:
+INT32_MIN	lex.yy.c	65;"	d	file:
+INT8_MAX	lex.yy.c	68;"	d	file:
+INT8_MIN	lex.yy.c	59;"	d	file:
+ITEM	src/structures/simple_hashtable.c	/^} ITEM;$/;"	t	typeref:struct:item	file:
+ITEM	src/structures/simple_hashtable.h	/^typedef struct item ITEM;$/;"	t	typeref:struct:item
+Instruction	src/gerador.y	/^Instruction : Atribution ';' $/;"	l
+Instruction	src/gramatica3.y	/^Instruction : Atribution ';' $/;"	l
+InstructionList	src/gramatica3.y	/^InstructionList : Instruction$/;"	l
+InstructionsList	src/gerador.y	/^InstructionsList : Instruction$/;"	l
+Introdu     o	report/chapters/intro.tex	/^\\chapter*{Introdução}$/;"	c
+LATEX	Makefile	/^LATEX=pdflatex$/;"	m
+LATEXMK	Makefile	/^LATEXMK=latexmk$/;"	m
+LATEXMKBIBTEX	Makefile	/^LATEXMKBIBTEX=-bibtex$/;"	m
+LATEXMKOPT	Makefile	/^LATEXMKOPT=-pdf$/;"	m
+LATEXOPT	Makefile	/^LATEXOPT=--shell-escape$/;"	m
+M   dia e m   ximo de uma matriz texttt   N   M 	report/chapters/apendice.tex	/^\\section{Média e máximo de uma matriz \\texttt{[N][M]}}$/;"	s
+MUR_FMIX	src/structures/uthash.h	562;"	d
+MUR_GETBLOCK	src/structures/uthash.h	540;"	d
+MUR_GETBLOCK	src/structures/uthash.h	556;"	d
+MUR_ONE_THREE	src/structures/uthash.h	550;"	d
+MUR_ONE_THREE	src/structures/uthash.h	554;"	d
+MUR_PLUS0_ALIGNED	src/structures/uthash.h	542;"	d
+MUR_PLUS1_ALIGNED	src/structures/uthash.h	543;"	d
+MUR_PLUS2_ALIGNED	src/structures/uthash.h	544;"	d
+MUR_PLUS3_ALIGNED	src/structures/uthash.h	545;"	d
+MUR_ROTL32	src/structures/uthash.h	561;"	d
+MUR_THREE_ONE	src/structures/uthash.h	548;"	d
+MUR_THREE_ONE	src/structures/uthash.h	552;"	d
+MUR_TWO_TWO	src/structures/uthash.h	549;"	d
+MUR_TWO_TWO	src/structures/uthash.h	553;"	d
+Maior de tr   s n   meros	report/chapters/apendice.tex	/^\\section{Maior de três números}$/;"	s
+Metas e objetivos	report/chapters/intro.tex	/^\\section*{Metas e objetivos} $/;"	s
+NOT	gerador.tab.c	/^    NOT = 264,$/;"	e	enum:yytokentype	file:
+NOT	gerador.tab.h	/^    NOT = 264,$/;"	e	enum:yytokentype
+NO_DECLTYPE	src/structures/uthash.h	39;"	d
+NO_DECLTYPE	src/structures/uthash.h	43;"	d
+Notas	src/tp2.y	/^Notas : nota 			      {conta = 1; soma = $1;}$/;"	l
+OR	gerador.tab.c	/^    OR = 266,$/;"	e	enum:yytokentype	file:
+OR	gerador.tab.h	/^    OR = 266,$/;"	e	enum:yytokentype
+Ordena     o de emph  array	report/chapters/apendice.tex	/^\\section{Ordenação de \\emph{array} de tamanho \\texttt{N}--\\emph{Insertion Sort}}$/;"	s
+Program	src/gerador.y	/^Program : Declarations Body $/;"	l
+Program	src/gramatica3.y	/^Program : Declarations Body ;$/;"	l
+READ	gerador.tab.c	/^    READ = 267,$/;"	e	enum:yytokentype	file:
+READ	gerador.tab.h	/^    READ = 267,$/;"	e	enum:yytokentype
+REJECT	lex.yy.c	483;"	d	file:
+Resultados	report/chapters/cap3-testes-resultados.tex	/^\\section{Resultados}$/;"	s
+SHELL	Makefile	/^SHELL := \/bin\/bash$/;"	m
+Sequ   ncia de pares de texttt  N	report/chapters/apendice.tex	/^\\section{Sequência de pares de \\texttt{N} números dados}$/;"	s
+Somat   rio de texttt  N	report/chapters/apendice.tex	/^\\section{Somatório de \\texttt{N} números}$/;"	s
+Term	src/gerador.y	/^Term : id$/;"	l
+Term	src/gramatica3.y	/^Term  : id$/;"	l
+Testes e Resultados	report/chapters/cap3-testes-resultados.tex	/^\\chapter{Testes e Resultados}$/;"	c
+Turma	src/tp2.y	/^Turma : TURMA nome ';' Alunos {printf("Média da Turma %s: %.1f\\n", $2,($4\/total));}$/;"	l
+UINT16_MAX	lex.yy.c	80;"	d	file:
+UINT32_MAX	lex.yy.c	83;"	d	file:
+UINT8_MAX	lex.yy.c	77;"	d	file:
+UTHASH_H	src/structures/uthash.h	25;"	d
+UTHASH_VERSION	src/structures/uthash.h	79;"	d
+UT_hash_bucket	src/structures/uthash.h	/^typedef struct UT_hash_bucket {$/;"	s
+UT_hash_bucket	src/structures/uthash.h	/^} UT_hash_bucket;$/;"	t	typeref:struct:UT_hash_bucket
+UT_hash_bucket::count	src/structures/uthash.h	/^   unsigned count;$/;"	m	struct:UT_hash_bucket	access:public
+UT_hash_bucket::expand_mult	src/structures/uthash.h	/^   unsigned expand_mult;$/;"	m	struct:UT_hash_bucket	access:public
+UT_hash_bucket::hh_head	src/structures/uthash.h	/^   struct UT_hash_handle *hh_head;$/;"	m	struct:UT_hash_bucket	typeref:struct:UT_hash_bucket::UT_hash_handle	access:public
+UT_hash_handle	src/structures/uthash.h	/^typedef struct UT_hash_handle {$/;"	s
+UT_hash_handle	src/structures/uthash.h	/^} UT_hash_handle;$/;"	t	typeref:struct:UT_hash_handle
+UT_hash_handle::hashv	src/structures/uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle	access:public
+UT_hash_handle::hh_next	src/structures/uthash.h	/^   struct UT_hash_handle *hh_next;   \/* next hh in bucket order        *\/$/;"	m	struct:UT_hash_handle	typeref:struct:UT_hash_handle::UT_hash_handle	access:public
+UT_hash_handle::hh_prev	src/structures/uthash.h	/^   struct UT_hash_handle *hh_prev;   \/* previous hh in bucket order    *\/$/;"	m	struct:UT_hash_handle	typeref:struct:UT_hash_handle::UT_hash_handle	access:public
+UT_hash_handle::key	src/structures/uthash.h	/^   void *key;                        \/* ptr to enclosing struct's key  *\/$/;"	m	struct:UT_hash_handle	access:public
+UT_hash_handle::keylen	src/structures/uthash.h	/^   unsigned keylen;                  \/* enclosing struct's key len     *\/$/;"	m	struct:UT_hash_handle	access:public
+UT_hash_handle::next	src/structures/uthash.h	/^   void *next;                       \/* next element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
+UT_hash_handle::prev	src/structures/uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
+UT_hash_handle::tbl	src/structures/uthash.h	/^   struct UT_hash_table *tbl;$/;"	m	struct:UT_hash_handle	typeref:struct:UT_hash_handle::UT_hash_table	access:public
+UT_hash_table	src/structures/uthash.h	/^typedef struct UT_hash_table {$/;"	s
+UT_hash_table	src/structures/uthash.h	/^} UT_hash_table;$/;"	t	typeref:struct:UT_hash_table
+UT_hash_table::bloom_bv	src/structures/uthash.h	/^   uint8_t *bloom_bv;$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::bloom_nbits	src/structures/uthash.h	/^   uint8_t bloom_nbits;$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::bloom_sig	src/structures/uthash.h	/^   uint32_t bloom_sig; \/* used only to test bloom exists in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::buckets	src/structures/uthash.h	/^   UT_hash_bucket *buckets;$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::hho	src/structures/uthash.h	/^   ptrdiff_t hho; \/* hash handle offset (byte pos of hash handle in element *\/$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::ideal_chain_maxlen	src/structures/uthash.h	/^   unsigned ideal_chain_maxlen;$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::ineff_expands	src/structures/uthash.h	/^   unsigned ineff_expands, noexpand;$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::log2_num_buckets	src/structures/uthash.h	/^   unsigned num_buckets, log2_num_buckets;$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::noexpand	src/structures/uthash.h	/^   unsigned ineff_expands, noexpand;$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::nonideal_items	src/structures/uthash.h	/^   unsigned nonideal_items;$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::num_buckets	src/structures/uthash.h	/^   unsigned num_buckets, log2_num_buckets;$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::num_items	src/structures/uthash.h	/^   unsigned num_items;$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::signature	src/structures/uthash.h	/^   uint32_t signature; \/* used only to find hash tables in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
+UT_hash_table::tail	src/structures/uthash.h	/^   struct UT_hash_handle *tail; \/* tail hh in app order, for fast append    *\/$/;"	m	struct:UT_hash_table	typeref:struct:UT_hash_table::UT_hash_handle	access:public
+VAR	gerador.tab.c	/^    VAR = 263,$/;"	e	enum:yytokentype	file:
+VAR	gerador.tab.h	/^    VAR = 263,$/;"	e	enum:yytokentype
+Variable	src/gerador.y	/^Variable : id$/;"	l
+Variable	src/gramatica3.y	/^Variable : id$/;"	l
+WHILE	gerador.tab.c	/^    WHILE = 271,$/;"	e	enum:yytokentype	file:
+WHILE	gerador.tab.h	/^    WHILE = 271,$/;"	e	enum:yytokentype
+WP	src/structures/uthash.h	546;"	d
+WRITE	gerador.tab.c	/^    WRITE = 268,$/;"	e	enum:yytokentype	file:
+WRITE	gerador.tab.h	/^    WRITE = 268,$/;"	e	enum:yytokentype
+YYABORT	gerador.tab.c	644;"	d	file:
+YYACCEPT	gerador.tab.c	643;"	d	file:
+YYBACKUP	gerador.tab.c	650;"	d	file:
+YYBISON	gerador.tab.c	44;"	d	file:
+YYBISON_VERSION	gerador.tab.c	47;"	d	file:
+YYCASE_	gerador.tab.c	1001;"	d	file:
+YYCASE_	gerador.tab.c	991;"	d	file:
+YYCOPY	gerador.tab.c	375;"	d	file:
+YYCOPY	gerador.tab.c	378;"	d	file:
+YYCOPY_NEEDED	gerador.tab.c	350;"	d	file:
+YYDEBUG	gerador.tab.c	99;"	d	file:
+YYDEBUG	gerador.tab.h	37;"	d
+YYDPRINTF	gerador.tab.c	681;"	d	file:
+YYDPRINTF	gerador.tab.c	796;"	d	file:
+YYEMPTY	gerador.tab.c	640;"	d	file:
+YYEOF	gerador.tab.c	641;"	d	file:
+YYERRCODE	gerador.tab.c	669;"	d	file:
+YYERROR	gerador.tab.c	645;"	d	file:
+YYERROR_VERBOSE	gerador.tab.c	87;"	d	file:
+YYERROR_VERBOSE	gerador.tab.c	88;"	d	file:
+YYERROR_VERBOSE	gerador.tab.c	90;"	d	file:
+YYFINAL	gerador.tab.c	391;"	d	file:
+YYFPRINTF	gerador.tab.c	678;"	d	file:
+YYFREE	gerador.tab.c	321;"	d	file:
+YYINITDEPTH	gerador.tab.c	805;"	d	file:
+YYLAST	gerador.tab.c	393;"	d	file:
+YYMALLOC	gerador.tab.c	315;"	d	file:
+YYMAXDEPTH	gerador.tab.c	816;"	d	file:
+YYMAXUTOK	gerador.tab.c	407;"	d	file:
+YYNNTS	gerador.tab.c	398;"	d	file:
+YYNRULES	gerador.tab.c	400;"	d	file:
+YYNSTATES	gerador.tab.c	402;"	d	file:
+YYNTOKENS	gerador.tab.c	396;"	d	file:
+YYPACT_NINF	gerador.tab.c	485;"	d	file:
+YYPOPSTACK	gerador.tab.c	1116;"	d	file:
+YYPULL	gerador.tab.c	59;"	d	file:
+YYPURE	gerador.tab.c	53;"	d	file:
+YYPUSH	gerador.tab.c	56;"	d	file:
+YYRECOVERING	gerador.tab.c	648;"	d	file:
+YYSIZE_MAXIMUM	gerador.tab.c	194;"	d	file:
+YYSIZE_T	gerador.tab.c	183;"	d	file:
+YYSIZE_T	gerador.tab.c	185;"	d	file:
+YYSIZE_T	gerador.tab.c	188;"	d	file:
+YYSIZE_T	gerador.tab.c	190;"	d	file:
+YYSKELETON_NAME	gerador.tab.c	50;"	d	file:
+YYSTACK_ALLOC	gerador.tab.c	269;"	d	file:
+YYSTACK_ALLOC	gerador.tab.c	273;"	d	file:
+YYSTACK_ALLOC	gerador.tab.c	278;"	d	file:
+YYSTACK_ALLOC	gerador.tab.c	301;"	d	file:
+YYSTACK_ALLOC_MAXIMUM	gerador.tab.c	298;"	d	file:
+YYSTACK_ALLOC_MAXIMUM	gerador.tab.c	304;"	d	file:
+YYSTACK_BYTES	gerador.tab.c	346;"	d	file:
+YYSTACK_FREE	gerador.tab.c	292;"	d	file:
+YYSTACK_FREE	gerador.tab.c	302;"	d	file:
+YYSTACK_GAP_MAXIMUM	gerador.tab.c	342;"	d	file:
+YYSTACK_RELOCATE	gerador.tab.c	357;"	d	file:
+YYSTATE	lex.yy.c	132;"	d	file:
+YYSTYPE	gerador.tab.c	/^typedef union YYSTYPE YYSTYPE;$/;"	t	typeref:union:YYSTYPE	file:
+YYSTYPE	gerador.tab.c	/^union YYSTYPE$/;"	u	file:
+YYSTYPE	gerador.tab.h	/^typedef union YYSTYPE YYSTYPE;$/;"	t	typeref:union:YYSTYPE
+YYSTYPE	gerador.tab.h	/^union YYSTYPE$/;"	u
+YYSTYPE::valID	gerador.tab.c	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	file:	access:public
+YYSTYPE::valID	gerador.tab.h	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	access:public
+YYSTYPE::valNro	gerador.tab.c	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	file:	access:public
+YYSTYPE::valNro	gerador.tab.h	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	access:public
+YYSTYPE::valString	gerador.tab.c	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	file:	access:public
+YYSTYPE::valString	gerador.tab.h	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	access:public
+YYSTYPE_IS_DECLARED	gerador.tab.c	139;"	d	file:
+YYSTYPE_IS_DECLARED	gerador.tab.h	77;"	d
+YYSTYPE_IS_TRIVIAL	gerador.tab.c	138;"	d	file:
+YYSTYPE_IS_TRIVIAL	gerador.tab.h	76;"	d
+YYTABLES_NAME	lex.yy.c	1850;"	d	file:
+YYTABLE_NINF	gerador.tab.c	490;"	d	file:
+YYTERROR	gerador.tab.c	668;"	d	file:
+YYTOKENTYPE	gerador.tab.c	107;"	d	file:
+YYTOKENTYPE	gerador.tab.h	45;"	d
+YYTRANSLATE	gerador.tab.c	409;"	d	file:
+YYUNDEFTOK	gerador.tab.c	406;"	d	file:
+YYUSE	gerador.tab.c	237;"	d	file:
+YYUSE	gerador.tab.c	239;"	d	file:
+YY_	gerador.tab.c	200;"	d	file:
+YY_	gerador.tab.c	204;"	d	file:
+YY_ATTRIBUTE	gerador.tab.c	212;"	d	file:
+YY_ATTRIBUTE	gerador.tab.c	214;"	d	file:
+YY_ATTRIBUTE_PURE	gerador.tab.c	219;"	d	file:
+YY_ATTRIBUTE_UNUSED	gerador.tab.c	223;"	d	file:
+YY_AT_BOL	lex.yy.c	340;"	d	file:
+YY_BREAK	lex.yy.c	664;"	d	file:
+YY_BUFFER_EOF_PENDING	lex.yy.c	256;"	d	file:
+YY_BUFFER_NEW	lex.yy.c	244;"	d	file:
+YY_BUFFER_NORMAL	lex.yy.c	245;"	d	file:
+YY_BUFFER_STATE	lex.yy.c	/^typedef struct yy_buffer_state *YY_BUFFER_STATE;$/;"	t	typeref:struct:yy_buffer_state	file:
+YY_BUF_SIZE	lex.yy.c	149;"	d	file:
+YY_BUF_SIZE	lex.yy.c	151;"	d	file:
+YY_CHAR	lex.yy.c	/^typedef unsigned char YY_CHAR;$/;"	t	file:
+YY_CURRENT_BUFFER	lex.yy.c	272;"	d	file:
+YY_CURRENT_BUFFER_LVALUE	lex.yy.c	279;"	d	file:
+YY_DECL	lex.yy.c	652;"	d	file:
+YY_DECL_IS_OURS	lex.yy.c	648;"	d	file:
+YY_DO_BEFORE_ACTION	lex.yy.c	365;"	d	file:
+YY_END_OF_BUFFER	lex.yy.c	373;"	d	file:
+YY_END_OF_BUFFER_CHAR	lex.yy.c	140;"	d	file:
+YY_EXIT_FAILURE	lex.yy.c	1648;"	d	file:
+YY_EXTRA_TYPE	lex.yy.c	504;"	d	file:
+YY_FATAL_ERROR	lex.yy.c	639;"	d	file:
+YY_FLEX_MAJOR_VERSION	lex.yy.c	9;"	d	file:
+YY_FLEX_MINOR_VERSION	lex.yy.c	10;"	d	file:
+YY_FLEX_SUBMINOR_VERSION	lex.yy.c	11;"	d	file:
+YY_FLUSH_BUFFER	lex.yy.c	308;"	d	file:
+YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN	gerador.tab.c	244;"	d	file:
+YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN	gerador.tab.c	254;"	d	file:
+YY_IGNORE_MAYBE_UNINITIALIZED_END	gerador.tab.c	248;"	d	file:
+YY_IGNORE_MAYBE_UNINITIALIZED_END	gerador.tab.c	255;"	d	file:
+YY_INITIAL_VALUE	gerador.tab.c	251;"	d	file:
+YY_INITIAL_VALUE	gerador.tab.c	258;"	d	file:
+YY_INPUT	lex.yy.c	592;"	d	file:
+YY_INT_ALIGNED	lex.yy.c	4;"	d	file:
+YY_LESS_LINENO	lex.yy.c	177;"	d	file:
+YY_LINENO_REWIND_TO	lex.yy.c	178;"	d	file:
+YY_LOCATION_PRINT	gerador.tab.c	689;"	d	file:
+YY_MORE_ADJ	lex.yy.c	485;"	d	file:
+YY_NEW_FILE	lex.yy.c	138;"	d	file:
+YY_NULL	lex.yy.c	112;"	d	file:
+YY_NULLPTR	gerador.tab.c	79;"	d	file:
+YY_NULLPTR	gerador.tab.c	81;"	d	file:
+YY_NUM_RULES	lex.yy.c	372;"	d	file:
+YY_READ_BUF_SIZE	lex.yy.c	574;"	d	file:
+YY_READ_BUF_SIZE	lex.yy.c	576;"	d	file:
+YY_REDUCE_PRINT	gerador.tab.c	786;"	d	file:
+YY_REDUCE_PRINT	gerador.tab.c	799;"	d	file:
+YY_RESTORE_YY_MORE_OFFSET	lex.yy.c	486;"	d	file:
+YY_RULE_SETUP	lex.yy.c	667;"	d	file:
+YY_SC_TO_UI	lex.yy.c	119;"	d	file:
+YY_STACK_PRINT	gerador.tab.c	755;"	d	file:
+YY_STACK_PRINT	gerador.tab.c	798;"	d	file:
+YY_START	lex.yy.c	131;"	d	file:
+YY_START_STACK_INCR	lex.yy.c	634;"	d	file:
+YY_STATE_BUF_SIZE	lex.yy.c	157;"	d	file:
+YY_STATE_EOF	lex.yy.c	135;"	d	file:
+YY_STRUCT_YY_BUFFER_STATE	lex.yy.c	197;"	d	file:
+YY_SYMBOL_PRINT	gerador.tab.c	693;"	d	file:
+YY_SYMBOL_PRINT	gerador.tab.c	797;"	d	file:
+YY_TYPEDEF_YY_BUFFER_STATE	lex.yy.c	160;"	d	file:
+YY_TYPEDEF_YY_SIZE_T	lex.yy.c	165;"	d	file:
+YY_USER_ACTION	lex.yy.c	659;"	d	file:
+YY_USE_CONST	lex.yy.c	100;"	d	file:
+YY_USE_CONST	lex.yy.c	93;"	d	file:
+YY_YY_GERADOR_TAB_H_INCLUDED	gerador.tab.c	96;"	d	file:
+YY_YY_GERADOR_TAB_H_INCLUDED	gerador.tab.h	34;"	d
+_Noreturn	gerador.tab.c	229;"	d	file:
+_Noreturn	gerador.tab.c	231;"	d	file:
+__STDC_LIMIT_MACROS	lex.yy.c	39;"	d	file:
+add_autor	src/structures/hashtable.c	/^void add_autor ( char *nome_autor )$/;"	f	signature:( char *nome_autor )
+add_autor	src/structures/hashtable.h	/^void add_autor(char *nome_autor);$/;"	p	signature:(char *nome_autor)
+add_coautor	src/structures/hashtable.c	/^void add_coautor ( char *nome_autor, char *nome_autor2 )$/;"	f	signature:( char *nome_autor, char *nome_autor2 )
+add_coautor	src/structures/hashtable.h	/^void add_coautor(char *nome_autor, char *nome_autor2);$/;"	p	signature:(char *nome_autor, char *nome_autor2)
+add_key	src/structures/simple_hashtable.c	/^void add_key ( char *key )$/;"	f	signature:( char *key )
+add_key	src/structures/simple_hashtable.h	/^void add_key(char *key);$/;"	p	signature:(char *key)
+alloca	gerador.tab.c	276;"	d	file:
+autores	src/structures/hashtable.c	/^AUTOR *autores = NULL;$/;"	v
+bloom_bv	src/structures/uthash.h	/^   uint8_t *bloom_bv;$/;"	m	struct:UT_hash_table	access:public
+bloom_nbits	src/structures/uthash.h	/^   uint8_t bloom_nbits;$/;"	m	struct:UT_hash_table	access:public
+bloom_sig	src/structures/uthash.h	/^   uint32_t bloom_sig; \/* used only to test bloom exists in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
+buckets	src/structures/uthash.h	/^   UT_hash_bucket *buckets;$/;"	m	struct:UT_hash_table	access:public
+count	src/structures/uthash.h	/^   unsigned count;$/;"	m	struct:UT_hash_bucket	access:public
+delete_all	src/structures/hashtable.c	/^void delete_all()$/;"	f
+delete_all	src/structures/hashtable.h	/^void delete_all(void);$/;"	p	signature:(void)
+delete_all	src/structures/simple_hashtable.c	/^void delete_all()$/;"	f
+delete_all	src/structures/simple_hashtable.h	/^void delete_all(void);$/;"	p	signature:(void)
+delete_autor	src/structures/hashtable.c	/^void delete_autor ( AUTOR *autor )$/;"	f	signature:( AUTOR *autor )
+delete_autor	src/structures/hashtable.h	/^void delete_autor(AUTOR *autor);$/;"	p	signature:(AUTOR *autor)
+delete_key	src/structures/simple_hashtable.c	/^void delete_key ( ITEM *key )$/;"	f	signature:( ITEM *key )
+delete_key	src/structures/simple_hashtable.h	/^void delete_key(ITEM *key);$/;"	p	signature:(ITEM *key)
+expand_mult	src/structures/uthash.h	/^   unsigned expand_mult;$/;"	m	struct:UT_hash_bucket	access:public
+find_autor	src/structures/hashtable.c	/^AUTOR *find_autor ( char *nome_autor )$/;"	f	signature:( char *nome_autor )
+find_autor	src/structures/hashtable.h	/^AUTOR *find_autor(char *nome_autor);$/;"	p	signature:(char *nome_autor)
+find_key	src/structures/simple_hashtable.c	/^ITEM *find_key ( char *key )$/;"	f	signature:( char *key )
+find_key	src/structures/simple_hashtable.h	/^ITEM *find_key(char *key);$/;"	p	signature:(char *key)
+flex_int16_t	lex.yy.c	/^typedef int16_t flex_int16_t;$/;"	t	file:
+flex_int16_t	lex.yy.c	/^typedef short int flex_int16_t;$/;"	t	file:
+flex_int32_t	lex.yy.c	/^typedef int flex_int32_t;$/;"	t	file:
+flex_int32_t	lex.yy.c	/^typedef int32_t flex_int32_t;$/;"	t	file:
+flex_int8_t	lex.yy.c	/^typedef int8_t flex_int8_t;$/;"	t	file:
+flex_int8_t	lex.yy.c	/^typedef signed char flex_int8_t;$/;"	t	file:
+flex_uint16_t	lex.yy.c	/^typedef uint16_t flex_uint16_t;$/;"	t	file:
+flex_uint16_t	lex.yy.c	/^typedef unsigned short int flex_uint16_t;$/;"	t	file:
+flex_uint32_t	lex.yy.c	/^typedef uint32_t flex_uint32_t;$/;"	t	file:
+flex_uint32_t	lex.yy.c	/^typedef unsigned int flex_uint32_t;$/;"	t	file:
+flex_uint8_t	lex.yy.c	/^typedef uint8_t flex_uint8_t;$/;"	t	file:
+flex_uint8_t	lex.yy.c	/^typedef unsigned char flex_uint8_t; $/;"	t	file:
+free	gerador.tab.c	/^void free (void *); \/* INFRINGES ON USER NAME SPACE *\/$/;"	p	file:	signature:(void *)
+get16bits	src/structures/uthash.h	475;"	d
+get16bits	src/structures/uthash.h	478;"	d
+get16bits	src/structures/uthash.h	482;"	d
+hashv	src/structures/uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle	access:public
+hh	src/structures/hashtable.c	/^    UT_hash_handle hh;$/;"	m	struct:item	file:	access:public
+hh	src/structures/simple_hashtable.c	/^    UT_hash_handle hh;$/;"	m	struct:item	file:	access:public
+hh_head	src/structures/uthash.h	/^   struct UT_hash_handle *hh_head;$/;"	m	struct:UT_hash_bucket	typeref:struct:UT_hash_bucket::UT_hash_handle	access:public
+hh_next	src/structures/uthash.h	/^   struct UT_hash_handle *hh_next;   \/* next hh in bucket order        *\/$/;"	m	struct:UT_hash_handle	typeref:struct:UT_hash_handle::UT_hash_handle	access:public
+hh_prev	src/structures/uthash.h	/^   struct UT_hash_handle *hh_prev;   \/* previous hh in bucket order    *\/$/;"	m	struct:UT_hash_handle	typeref:struct:UT_hash_handle::UT_hash_handle	access:public
+hho	src/structures/uthash.h	/^   ptrdiff_t hho; \/* hash handle offset (byte pos of hash handle in element *\/$/;"	m	struct:UT_hash_table	access:public
+id	gerador.tab.c	/^    id = 258,$/;"	e	enum:yytokentype	file:
+id	gerador.tab.h	/^    id = 258,$/;"	e	enum:yytokentype
+id	src/structures/hashtable.c	/^    int id;$/;"	m	struct:item	file:	access:public
+ideal_chain_maxlen	src/structures/uthash.h	/^   unsigned ideal_chain_maxlen;$/;"	m	struct:UT_hash_table	access:public
+ineff_expands	src/structures/uthash.h	/^   unsigned ineff_expands, noexpand;$/;"	m	struct:UT_hash_table	access:public
+input	lex.yy.c	/^static int input (void );$/;"	p	file:	signature:(void )
+item	src/structures/hashtable.c	/^typedef struct item$/;"	s	file:
+item	src/structures/simple_hashtable.c	/^typedef struct item$/;"	s	file:
+item::hh	src/structures/hashtable.c	/^    UT_hash_handle hh;$/;"	m	struct:item	file:	access:public
+item::hh	src/structures/simple_hashtable.c	/^    UT_hash_handle hh;$/;"	m	struct:item	file:	access:public
+item::id	src/structures/hashtable.c	/^    int id;$/;"	m	struct:item	file:	access:public
+item::key	src/structures/simple_hashtable.c	/^    char *key;$/;"	m	struct:item	file:	access:public
+item::nome_autor	src/structures/hashtable.c	/^    char *nome_autor;$/;"	m	struct:item	file:	access:public
+item::sub	src/structures/hashtable.c	/^    struct item *sub;$/;"	m	struct:item	typeref:struct:item::item	file:	access:public
+item::total_ocurrences	src/structures/simple_hashtable.c	/^{   int total_ocurrences;$/;"	m	struct:item	file:	access:public
+items	src/structures/simple_hashtable.c	/^ITEM *items = NULL;$/;"	v
+key	src/structures/simple_hashtable.c	/^    char *key;$/;"	m	struct:item	file:	access:public
+key	src/structures/uthash.h	/^   void *key;                        \/* ptr to enclosing struct's key  *\/$/;"	m	struct:UT_hash_handle	access:public
+keylen	src/structures/uthash.h	/^   unsigned keylen;                  \/* enclosing struct's key len     *\/$/;"	m	struct:UT_hash_handle	access:public
+log2_num_buckets	src/structures/uthash.h	/^   unsigned num_buckets, log2_num_buckets;$/;"	m	struct:UT_hash_table	access:public
+main	gerador.tab.c	/^int main() {$/;"	f
+malloc	gerador.tab.c	/^void *malloc (YYSIZE_T); \/* INFRINGES ON USER NAME SPACE *\/$/;"	p	file:
+next	src/structures/uthash.h	/^   void *next;                       \/* next element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
+noexpand	src/structures/uthash.h	/^   unsigned ineff_expands, noexpand;$/;"	m	struct:UT_hash_table	access:public
+nome_autor	src/structures/hashtable.c	/^    char *nome_autor;$/;"	m	struct:item	file:	access:public
+nonideal_items	src/structures/uthash.h	/^   unsigned nonideal_items;$/;"	m	struct:UT_hash_table	access:public
+num	gerador.tab.c	/^    num = 259,$/;"	e	enum:yytokentype	file:
+num	gerador.tab.h	/^    num = 259,$/;"	e	enum:yytokentype
+num_buckets	src/structures/uthash.h	/^   unsigned num_buckets, log2_num_buckets;$/;"	m	struct:UT_hash_table	access:public
+num_items	src/structures/uthash.h	/^   unsigned num_items;$/;"	m	struct:UT_hash_table	access:public
+prev	src/structures/uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
+print_autor	src/structures/hashtable.c	/^void print_autor ( char *nome_autor )$/;"	f	signature:( char *nome_autor )
+print_autor	src/structures/hashtable.h	/^void print_autor(char *nome_autor);$/;"	p	signature:(char *nome_autor)
+print_autores	src/structures/hashtable.c	/^void print_autores()$/;"	f
+print_autores	src/structures/hashtable.h	/^void print_autores(void);$/;"	p	signature:(void)
+print_item_by_key	src/structures/simple_hashtable.c	/^void print_item_by_key ( char *key )$/;"	f	signature:( char *key )
+print_item_by_key	src/structures/simple_hashtable.h	/^void print_item_by_key(char *key);$/;"	p	signature:(char *key)
+print_items	src/structures/simple_hashtable.c	/^void print_items ()$/;"	f
+print_items	src/structures/simple_hashtable.h	/^void print_items(void);$/;"	p	signature:(void)
+short	gerador.tab.c	154;"	d	file:
+signature	src/structures/uthash.h	/^   uint32_t signature; \/* used only to find hash tables in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
+string	gerador.tab.c	/^    string = 260,$/;"	e	enum:yytokentype	file:
+string	gerador.tab.h	/^    string = 260,$/;"	e	enum:yytokentype
+sub	src/structures/hashtable.c	/^    struct item *sub;$/;"	m	struct:item	typeref:struct:item::item	file:	access:public
+tail	src/structures/uthash.h	/^   struct UT_hash_handle *tail; \/* tail hh in app order, for fast append    *\/$/;"	m	struct:UT_hash_table	typeref:struct:UT_hash_table::UT_hash_handle	access:public
+tbl	src/structures/uthash.h	/^   struct UT_hash_table *tbl;$/;"	m	struct:UT_hash_handle	typeref:struct:UT_hash_handle::UT_hash_table	access:public
+total_items	src/structures/hashtable.c	/^int total_items(){$/;"	f
+total_items	src/structures/hashtable.h	/^int total_items(void);$/;"	p	signature:(void)
+total_items	src/structures/simple_hashtable.c	/^int total_items(){$/;"	f
+total_items	src/structures/simple_hashtable.h	/^int total_items();$/;"	p	signature:()
+total_ocurrences	src/structures/simple_hashtable.c	/^{   int total_ocurrences;$/;"	m	struct:item	file:	access:public
+uint32_t	src/structures/uthash.h	/^typedef unsigned int uint32_t;$/;"	t
+uint8_t	src/structures/uthash.h	/^typedef unsigned char uint8_t;$/;"	t
+unput	lex.yy.c	194;"	d	file:
+uthash_expand_fyi	src/structures/uthash.h	95;"	d
+uthash_fatal	src/structures/uthash.h	82;"	d
+uthash_free	src/structures/uthash.h	88;"	d
+uthash_malloc	src/structures/uthash.h	85;"	d
+uthash_noexpand_fyi	src/structures/uthash.h	92;"	d
+valID	gerador.tab.c	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	file:	access:public
+valID	gerador.tab.h	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	access:public
+valNro	gerador.tab.c	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	file:	access:public
+valNro	gerador.tab.h	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	access:public
+valString	gerador.tab.c	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	file:	access:public
+valString	gerador.tab.h	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	access:public
+yy_accept	lex.yy.c	/^static yyconst flex_int16_t yy_accept[52] =$/;"	v	file:
+yy_at_bol	lex.yy.c	/^	int yy_at_bol;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_base	lex.yy.c	/^static yyconst flex_int16_t yy_base[54] =$/;"	v	file:
+yy_bs_column	lex.yy.c	/^    int yy_bs_column; \/**< The column count. *\/$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_bs_lineno	lex.yy.c	/^    int yy_bs_lineno; \/**< The line count. *\/$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buf_pos	lex.yy.c	/^	char *yy_buf_pos;		\/* current position in input buffer *\/$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buf_size	lex.yy.c	/^	yy_size_t yy_buf_size;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_stack	lex.yy.c	/^static YY_BUFFER_STATE * yy_buffer_stack = 0; \/**< Stack as an array. *\/$/;"	v	file:
+yy_buffer_stack_max	lex.yy.c	/^static size_t yy_buffer_stack_max = 0; \/**< capacity of stack. *\/$/;"	v	file:
+yy_buffer_stack_top	lex.yy.c	/^static size_t yy_buffer_stack_top = 0; \/**< index of top of stack. *\/$/;"	v	file:
+yy_buffer_state	lex.yy.c	/^struct yy_buffer_state$/;"	s	file:
+yy_buffer_state::yy_at_bol	lex.yy.c	/^	int yy_at_bol;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_bs_column	lex.yy.c	/^    int yy_bs_column; \/**< The column count. *\/$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_bs_lineno	lex.yy.c	/^    int yy_bs_lineno; \/**< The line count. *\/$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_buf_pos	lex.yy.c	/^	char *yy_buf_pos;		\/* current position in input buffer *\/$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_buf_size	lex.yy.c	/^	yy_size_t yy_buf_size;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_buffer_status	lex.yy.c	/^	int yy_buffer_status;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_ch_buf	lex.yy.c	/^	char *yy_ch_buf;		\/* input buffer *\/$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_fill_buffer	lex.yy.c	/^	int yy_fill_buffer;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_input_file	lex.yy.c	/^	FILE *yy_input_file;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_is_interactive	lex.yy.c	/^	int yy_is_interactive;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_is_our_buffer	lex.yy.c	/^	int yy_is_our_buffer;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_state::yy_n_chars	lex.yy.c	/^	yy_size_t yy_n_chars;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_buffer_status	lex.yy.c	/^	int yy_buffer_status;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_c_buf_p	lex.yy.c	/^static char *yy_c_buf_p = (char *) 0;$/;"	v	file:
+yy_ch_buf	lex.yy.c	/^	char *yy_ch_buf;		\/* input buffer *\/$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_chk	lex.yy.c	/^static yyconst flex_int16_t yy_chk[81] =$/;"	v	file:
+yy_create_buffer	lex.yy.c	/^    YY_BUFFER_STATE yy_create_buffer  (FILE * file, int  size )$/;"	f	signature:(FILE * file, int size )
+yy_create_buffer	lex.yy.c	/^YY_BUFFER_STATE yy_create_buffer (FILE *file,int size  );$/;"	p	file:	signature:(FILE *file,int size )
+yy_def	lex.yy.c	/^static yyconst flex_int16_t yy_def[54] =$/;"	v	file:
+yy_delete_buffer	lex.yy.c	/^    void yy_delete_buffer (YY_BUFFER_STATE  b )$/;"	f	signature:(YY_BUFFER_STATE b )
+yy_delete_buffer	lex.yy.c	/^void yy_delete_buffer (YY_BUFFER_STATE b  );$/;"	p	file:	signature:(YY_BUFFER_STATE b )
+yy_did_buffer_switch_on_eof	lex.yy.c	/^static int yy_did_buffer_switch_on_eof;$/;"	v	file:
+yy_ec	lex.yy.c	/^static yyconst flex_int32_t yy_ec[256] =$/;"	v	file:
+yy_fatal_error	lex.yy.c	/^static void yy_fatal_error (yyconst char msg[]  );$/;"	p	file:	signature:(yyconst char msg[] )
+yy_fatal_error	lex.yy.c	/^static void yy_fatal_error (yyconst char* msg )$/;"	f	file:	signature:(yyconst char* msg )
+yy_fill_buffer	lex.yy.c	/^	int yy_fill_buffer;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_flex_debug	lex.yy.c	/^int yy_flex_debug = 0;$/;"	v
+yy_flex_strlen	lex.yy.c	/^static int yy_flex_strlen (yyconst char * );$/;"	p	file:	signature:(yyconst char * )
+yy_flex_strlen	lex.yy.c	/^static int yy_flex_strlen (yyconst char * s )$/;"	f	file:	signature:(yyconst char * s )
+yy_flex_strncpy	lex.yy.c	/^static void yy_flex_strncpy (char *,yyconst char *,int );$/;"	p	file:	signature:(char *,yyconst char *,int )
+yy_flex_strncpy	lex.yy.c	/^static void yy_flex_strncpy (char* s1, yyconst char * s2, int n )$/;"	f	file:	signature:(char* s1, yyconst char * s2, int n )
+yy_flush_buffer	lex.yy.c	/^    void yy_flush_buffer (YY_BUFFER_STATE  b )$/;"	f	signature:(YY_BUFFER_STATE b )
+yy_flush_buffer	lex.yy.c	/^void yy_flush_buffer (YY_BUFFER_STATE b  );$/;"	p	file:	signature:(YY_BUFFER_STATE b )
+yy_get_next_buffer	lex.yy.c	/^static int yy_get_next_buffer (void );$/;"	p	file:	signature:(void )
+yy_get_next_buffer	lex.yy.c	/^static int yy_get_next_buffer (void)$/;"	f	file:	signature:(void)
+yy_get_previous_state	lex.yy.c	/^    static yy_state_type yy_get_previous_state (void)$/;"	f	file:	signature:(void)
+yy_get_previous_state	lex.yy.c	/^static yy_state_type yy_get_previous_state (void );$/;"	p	file:	signature:(void )
+yy_hold_char	lex.yy.c	/^static char yy_hold_char;$/;"	v	file:
+yy_init	lex.yy.c	/^static int yy_init = 0;		\/* whether we need to initialize *\/$/;"	v	file:
+yy_init_buffer	lex.yy.c	/^    static void yy_init_buffer  (YY_BUFFER_STATE  b, FILE * file )$/;"	f	file:	signature:(YY_BUFFER_STATE b, FILE * file )
+yy_init_buffer	lex.yy.c	/^static void yy_init_buffer (YY_BUFFER_STATE b,FILE *file  );$/;"	p	file:	signature:(YY_BUFFER_STATE b,FILE *file )
+yy_init_globals	lex.yy.c	/^static int yy_init_globals (void );$/;"	p	file:	signature:(void )
+yy_init_globals	lex.yy.c	/^static int yy_init_globals (void)$/;"	f	file:	signature:(void)
+yy_input_file	lex.yy.c	/^	FILE *yy_input_file;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_is_interactive	lex.yy.c	/^	int yy_is_interactive;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_is_our_buffer	lex.yy.c	/^	int yy_is_our_buffer;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_last_accepting_cpos	lex.yy.c	/^static char *yy_last_accepting_cpos;$/;"	v	file:
+yy_last_accepting_state	lex.yy.c	/^static yy_state_type yy_last_accepting_state;$/;"	v	file:
+yy_load_buffer_state	lex.yy.c	/^static void yy_load_buffer_state  (void)$/;"	f	file:	signature:(void)
+yy_load_buffer_state	lex.yy.c	/^static void yy_load_buffer_state (void );$/;"	p	file:	signature:(void )
+yy_meta	lex.yy.c	/^static yyconst flex_int32_t yy_meta[23] =$/;"	v	file:
+yy_n_chars	lex.yy.c	/^	yy_size_t yy_n_chars;$/;"	m	struct:yy_buffer_state	file:	access:public
+yy_n_chars	lex.yy.c	/^static yy_size_t yy_n_chars;		\/* number of characters read into yy_ch_buf *\/$/;"	v	file:
+yy_new_buffer	lex.yy.c	318;"	d	file:
+yy_nxt	lex.yy.c	/^	flex_int32_t yy_nxt;$/;"	m	struct:yy_trans_info	file:	access:public
+yy_nxt	lex.yy.c	/^static yyconst flex_int16_t yy_nxt[81] =$/;"	v	file:
+yy_reduce_print	gerador.tab.c	/^yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)$/;"	f	file:	signature:(yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
+yy_scan_buffer	lex.yy.c	/^YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )$/;"	f	signature:(char * base, yy_size_t size )
+yy_scan_buffer	lex.yy.c	/^YY_BUFFER_STATE yy_scan_buffer (char *base,yy_size_t size  );$/;"	p	file:	signature:(char *base,yy_size_t size )
+yy_scan_bytes	lex.yy.c	/^YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len )$/;"	f	signature:(yyconst char * yybytes, yy_size_t _yybytes_len )
+yy_scan_bytes	lex.yy.c	/^YY_BUFFER_STATE yy_scan_bytes (yyconst char *bytes,yy_size_t len  );$/;"	p	file:	signature:(yyconst char *bytes,yy_size_t len )
+yy_scan_string	lex.yy.c	/^YY_BUFFER_STATE yy_scan_string (yyconst char * yystr )$/;"	f	signature:(yyconst char * yystr )
+yy_scan_string	lex.yy.c	/^YY_BUFFER_STATE yy_scan_string (yyconst char *yy_str  );$/;"	p	file:	signature:(yyconst char *yy_str )
+yy_set_bol	lex.yy.c	330;"	d	file:
+yy_set_interactive	lex.yy.c	320;"	d	file:
+yy_size_t	lex.yy.c	/^typedef size_t yy_size_t;$/;"	t	file:
+yy_stack_print	gerador.tab.c	/^yy_stack_print (yytype_int16 *yybottom, yytype_int16 *yytop)$/;"	f	file:	signature:(yytype_int16 *yybottom, yytype_int16 *yytop)
+yy_start	lex.yy.c	/^static int yy_start = 0;	\/* start state number *\/$/;"	v	file:
+yy_state_type	lex.yy.c	/^typedef int yy_state_type;$/;"	t	file:
+yy_switch_to_buffer	lex.yy.c	/^    void yy_switch_to_buffer  (YY_BUFFER_STATE  new_buffer )$/;"	f	signature:(YY_BUFFER_STATE new_buffer )
+yy_switch_to_buffer	lex.yy.c	/^void yy_switch_to_buffer (YY_BUFFER_STATE new_buffer  );$/;"	p	file:	signature:(YY_BUFFER_STATE new_buffer )
+yy_symbol_print	gerador.tab.c	/^yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)$/;"	f	file:	signature:(FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print	gerador.tab.c	/^yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)$/;"	f	file:	signature:(FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_trans_info	lex.yy.c	/^struct yy_trans_info$/;"	s	file:
+yy_trans_info::yy_nxt	lex.yy.c	/^	flex_int32_t yy_nxt;$/;"	m	struct:yy_trans_info	file:	access:public
+yy_trans_info::yy_verify	lex.yy.c	/^	flex_int32_t yy_verify;$/;"	m	struct:yy_trans_info	file:	access:public
+yy_try_NUL_trans	lex.yy.c	/^    static yy_state_type yy_try_NUL_trans  (yy_state_type yy_current_state )$/;"	f	file:	signature:(yy_state_type yy_current_state )
+yy_try_NUL_trans	lex.yy.c	/^static yy_state_type yy_try_NUL_trans (yy_state_type current_state  );$/;"	p	file:	signature:(yy_state_type current_state )
+yy_verify	lex.yy.c	/^	flex_int32_t yy_verify;$/;"	m	struct:yy_trans_info	file:	access:public
+yyalloc	gerador.tab.c	/^union yyalloc$/;"	u	file:
+yyalloc	lex.yy.c	/^void *yyalloc (yy_size_t  );$/;"	p	file:
+yyalloc	lex.yy.c	/^void *yyalloc (yy_size_t  size )$/;"	f	signature:(yy_size_t size )
+yyalloc::yyss_alloc	gerador.tab.c	/^  yytype_int16 yyss_alloc;$/;"	m	union:yyalloc	file:	access:public
+yyalloc::yyvs_alloc	gerador.tab.c	/^  YYSTYPE yyvs_alloc;$/;"	m	union:yyalloc	file:	access:public
+yychar	gerador.tab.c	/^int yychar;$/;"	v
+yycheck	gerador.tab.c	/^static const yytype_uint8 yycheck[] =$/;"	v	file:
+yyclearin	gerador.tab.c	639;"	d	file:
+yyconst	lex.yy.c	106;"	d	file:
+yyconst	lex.yy.c	108;"	d	file:
+yydebug	gerador.tab.c	/^int yydebug;$/;"	v
+yydefact	gerador.tab.c	/^static const yytype_uint8 yydefact[] =$/;"	v	file:
+yydefgoto	gerador.tab.c	/^static const yytype_int8 yydefgoto[] =$/;"	v	file:
+yydestruct	gerador.tab.c	/^yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)$/;"	f	file:	signature:(const char *yymsg, int yytype, YYSTYPE *yyvaluep)
+yyensure_buffer_stack	lex.yy.c	/^static void yyensure_buffer_stack (void );$/;"	p	file:	signature:(void )
+yyensure_buffer_stack	lex.yy.c	/^static void yyensure_buffer_stack (void)$/;"	f	file:	signature:(void)
+yyerrok	gerador.tab.c	638;"	d	file:
+yyerror	gerador.tab.c	/^int yyerror(char * mensagem) {$/;"	f	signature:(char * mensagem)
+yyerror	gerador.tab.c	/^int yyerror(char *s);$/;"	p	file:	signature:(char *s)
+yyfree	lex.yy.c	/^void yyfree (void *  );$/;"	p	file:	signature:(void * )
+yyfree	lex.yy.c	/^void yyfree (void * ptr )$/;"	f	signature:(void * ptr )
+yyget_debug	lex.yy.c	/^int yyget_debug  (void)$/;"	f	signature:(void)
+yyget_debug	lex.yy.c	/^int yyget_debug (void );$/;"	p	file:	signature:(void )
+yyget_extra	lex.yy.c	/^YY_EXTRA_TYPE yyget_extra (void );$/;"	p	file:	signature:(void )
+yyget_in	lex.yy.c	/^FILE *yyget_in  (void)$/;"	f	signature:(void)
+yyget_in	lex.yy.c	/^FILE *yyget_in (void );$/;"	p	file:	signature:(void )
+yyget_leng	lex.yy.c	/^yy_size_t yyget_leng  (void)$/;"	f	signature:(void)
+yyget_leng	lex.yy.c	/^yy_size_t yyget_leng (void );$/;"	p	file:	signature:(void )
+yyget_lineno	lex.yy.c	/^int yyget_lineno  (void)$/;"	f	signature:(void)
+yyget_lineno	lex.yy.c	/^int yyget_lineno (void );$/;"	p	file:	signature:(void )
+yyget_out	lex.yy.c	/^FILE *yyget_out  (void)$/;"	f	signature:(void)
+yyget_out	lex.yy.c	/^FILE *yyget_out (void );$/;"	p	file:	signature:(void )
+yyget_text	lex.yy.c	/^char *yyget_text  (void)$/;"	f	signature:(void)
+yyget_text	lex.yy.c	/^char *yyget_text (void );$/;"	p	file:	signature:(void )
+yyin	lex.yy.c	/^FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;$/;"	v
+yyinput	lex.yy.c	/^    static int yyinput (void)$/;"	f	file:	signature:(void)
+yyinput	lex.yy.c	/^static int yyinput (void );$/;"	p	file:	signature:(void )
+yyleng	lex.yy.c	/^yy_size_t yyleng;$/;"	v
+yyless	lex.yy.c	1659;"	d	file:
+yyless	lex.yy.c	1660;"	d	file:
+yyless	lex.yy.c	181;"	d	file:
+yylex	gerador.tab.c	/^int yylex();$/;"	p	file:
+yylex	lex.yy.c	/^extern int yylex (void);$/;"	p	file:	signature:(void)
+yylex_destroy	lex.yy.c	/^int yylex_destroy  (void)$/;"	f	signature:(void)
+yylex_destroy	lex.yy.c	/^int yylex_destroy (void );$/;"	p	file:	signature:(void )
+yylineno	lex.yy.c	/^int yylineno = 1;$/;"	v
+yylval	gerador.tab.c	/^YYSTYPE yylval;$/;"	v
+yymore	lex.yy.c	484;"	d	file:
+yynerrs	gerador.tab.c	/^int yynerrs;$/;"	v
+yyout	lex.yy.c	/^FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;$/;"	v
+yypact	gerador.tab.c	/^static const yytype_int16 yypact[] =$/;"	v	file:
+yypact_value_is_default	gerador.tab.c	487;"	d	file:
+yyparse	gerador.tab.c	/^int yyparse (void);$/;"	p	file:	signature:(void)
+yyparse	gerador.tab.c	/^yyparse (void)$/;"	f	signature:(void)
+yyparse	gerador.tab.h	/^int yyparse (void);$/;"	p	signature:(void)
+yypgoto	gerador.tab.c	/^static const yytype_int16 yypgoto[] =$/;"	v	file:
+yypop_buffer_state	lex.yy.c	/^void yypop_buffer_state (void );$/;"	p	file:	signature:(void )
+yypop_buffer_state	lex.yy.c	/^void yypop_buffer_state (void)$/;"	f	signature:(void)
+yypush_buffer_state	lex.yy.c	/^void yypush_buffer_state (YY_BUFFER_STATE new_buffer  );$/;"	p	file:	signature:(YY_BUFFER_STATE new_buffer )
+yypush_buffer_state	lex.yy.c	/^void yypush_buffer_state (YY_BUFFER_STATE new_buffer )$/;"	f	signature:(YY_BUFFER_STATE new_buffer )
+yyr1	gerador.tab.c	/^static const yytype_uint8 yyr1[] =$/;"	v	file:
+yyr2	gerador.tab.c	/^static const yytype_uint8 yyr2[] =$/;"	v	file:
+yyrealloc	lex.yy.c	/^void *yyrealloc  (void * ptr, yy_size_t  size )$/;"	f	signature:(void * ptr, yy_size_t size )
+yyrealloc	lex.yy.c	/^void *yyrealloc (void *,yy_size_t  );$/;"	p	file:	signature:(void *,yy_size_t )
+yyrestart	lex.yy.c	/^    void yyrestart  (FILE * input_file )$/;"	f	signature:(FILE * input_file )
+yyrestart	lex.yy.c	/^void yyrestart (FILE *input_file  );$/;"	p	file:	signature:(FILE *input_file )
+yyrline	gerador.tab.c	/^static const yytype_uint8 yyrline[] =$/;"	v	file:
+yyset_debug	lex.yy.c	/^void yyset_debug (int  bdebug )$/;"	f	signature:(int bdebug )
+yyset_debug	lex.yy.c	/^void yyset_debug (int debug_flag  );$/;"	p	file:	signature:(int debug_flag )
+yyset_extra	lex.yy.c	/^void yyset_extra (YY_EXTRA_TYPE user_defined  );$/;"	p	file:	signature:(YY_EXTRA_TYPE user_defined )
+yyset_in	lex.yy.c	/^void yyset_in  (FILE * in_str  );$/;"	p	file:	signature:(FILE * in_str )
+yyset_in	lex.yy.c	/^void yyset_in (FILE *  in_str )$/;"	f	signature:(FILE * in_str )
+yyset_lineno	lex.yy.c	/^void yyset_lineno (int  line_number )$/;"	f	signature:(int line_number )
+yyset_lineno	lex.yy.c	/^void yyset_lineno (int line_number  );$/;"	p	file:	signature:(int line_number )
+yyset_out	lex.yy.c	/^void yyset_out  (FILE * out_str  );$/;"	p	file:	signature:(FILE * out_str )
+yyset_out	lex.yy.c	/^void yyset_out (FILE *  out_str )$/;"	f	signature:(FILE * out_str )
+yyss_alloc	gerador.tab.c	/^  yytype_int16 yyss_alloc;$/;"	m	union:yyalloc	file:	access:public
+yystos	gerador.tab.c	/^static const yytype_uint8 yystos[] =$/;"	v	file:
+yystpcpy	gerador.tab.c	/^yystpcpy (char *yydest, const char *yysrc)$/;"	f	file:	signature:(char *yydest, const char *yysrc)
+yystpcpy	gerador.tab.c	840;"	d	file:
+yystrlen	gerador.tab.c	/^yystrlen (const char *yystr)$/;"	f	file:	signature:(const char *yystr)
+yystrlen	gerador.tab.c	824;"	d	file:
+yysyntax_error	gerador.tab.c	/^yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,$/;"	f	file:	signature:(YYSIZE_T *yymsg_alloc, char **yymsg, yytype_int16 *yyssp, int yytoken)
+yytable	gerador.tab.c	/^static const yytype_uint8 yytable[] =$/;"	v	file:
+yytable_value_is_error	gerador.tab.c	492;"	d	file:
+yyterminate	lex.yy.c	629;"	d	file:
+yytext	lex.yy.c	/^char *yytext;$/;"	v
+yytext_ptr	lex.yy.c	355;"	d	file:
+yytname	gerador.tab.c	/^static const char *const yytname[] =$/;"	v	file:
+yytnamerr	gerador.tab.c	/^yytnamerr (char *yyres, const char *yystr)$/;"	f	file:	signature:(char *yyres, const char *yystr)
+yytokentype	gerador.tab.c	/^  enum yytokentype$/;"	g	file:
+yytokentype	gerador.tab.h	/^  enum yytokentype$/;"	g
+yytoknum	gerador.tab.c	/^static const yytype_uint16 yytoknum[] =$/;"	v	file:
+yytranslate	gerador.tab.c	/^static const yytype_uint8 yytranslate[] =$/;"	v	file:
+yytype_int16	gerador.tab.c	/^typedef YYTYPE_INT16 yytype_int16;$/;"	t	file:
+yytype_int16	gerador.tab.c	/^typedef short int yytype_int16;$/;"	t	file:
+yytype_int8	gerador.tab.c	/^typedef YYTYPE_INT8 yytype_int8;$/;"	t	file:
+yytype_int8	gerador.tab.c	/^typedef signed char yytype_int8;$/;"	t	file:
+yytype_uint16	gerador.tab.c	/^typedef YYTYPE_UINT16 yytype_uint16;$/;"	t	file:
+yytype_uint16	gerador.tab.c	/^typedef unsigned short int yytype_uint16;$/;"	t	file:
+yytype_uint8	gerador.tab.c	/^typedef YYTYPE_UINT8 yytype_uint8;$/;"	t	file:
+yytype_uint8	gerador.tab.c	/^typedef unsigned char yytype_uint8;$/;"	t	file:
+yyunput	lex.yy.c	/^    static void yyunput (int c, register char * yy_bp )$/;"	f	file:	signature:(int c, register char * yy_bp )
+yyunput	lex.yy.c	/^    static void yyunput (int c,char *buf_ptr  );$/;"	p	file:	signature:(int c,char *buf_ptr )
+yyvs_alloc	gerador.tab.c	/^  YYSTYPE yyvs_alloc;$/;"	m	union:yyalloc	file:	access:public
+yywrap	lex.yy.c	/^extern "C" int yywrap (void );$/;"	p	file:	signature:(void )
+yywrap	lex.yy.c	/^extern int yywrap (void );$/;"	p	file:	signature:(void )
+yywrap	lex.yy.c	/^int yywrap() {$/;"	f

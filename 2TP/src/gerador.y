@@ -2,6 +2,8 @@
 %{
 #include <stdio.h>
 #include <string.h>
+int yylex();
+int yyerror(char *s);
 
 	
 
@@ -53,15 +55,15 @@ Variable : id
 | id '[' ExpAdditiv ']' '[' ExpAdditiv ']' 
 ;
 ExMultipl : Term
-| ExMultipl '*'  Term
-| ExMultipl '/' Term
-| ExMultipl '%' Term
-| ExMultipl AND Term
+| '(' ExMultipl '*' Term ')'  
+| '(' ExMultipl '/' Term ')' 
+| '(' ExMultipl '%' Term ')' 
+| '(' ExMultipl AND Term ')' 
 ;
 ExpAdditiv : ExMultipl 
-| ExpAdditiv '+' ExMultipl
-| ExpAdditiv '-' ExMultipl 
-| ExpAdditiv OR ExMultipl 
+|'(' ExpAdditiv '+' ExMultipl')'
+|'(' ExpAdditiv '-' ExMultipl')' 
+|'(' ExpAdditiv OR ExMultipl ')'
 ;
 
 Exp : ExpAdditiv             
