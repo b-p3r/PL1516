@@ -1,0 +1,15 @@
+pushn 26
+read
+ atoi
+ storeg 0
+read
+ atoi
+ storeg 1
+pushg 0
+ pushg 1
+ add
+ pushi 1
+ add
+ storeg 2
+pushg 2
+ writei
