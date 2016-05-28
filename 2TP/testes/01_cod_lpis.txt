@@ -1,6 +1,7 @@
 VAR x, y, max;
 
-BEGIN
+
+BEGINNING
 
 	WRITE "escreva x:";
 	READ x;

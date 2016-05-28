@@ -22,6 +22,7 @@ Axioma	report/chapters/sections/sec1-gic.tex	/^\\subsection{Axioma}$/;"	u
 BEGI	gerador.tab.c	/^    BEGI = 261,$/;"	e	enum:yytokentype	file:
 BEGI	gerador.tab.h	/^    BEGI = 261,$/;"	e	enum:yytokentype
 BEGIN	lex.yy.c	125;"	d	file:
+BUCKET_INCLUDED	src/TabelaID/bucket.h	2;"	d
 Body	src/gerador.y	/^Body : BEGI InstructionsList END$/;"	l
 Body	src/gramatica3.y	/^Body : 'BEGIN' InstructionList 'END';$/;"	l
 C   digo do analisador l   xico do emph  Flex	report/chapters/apendice.tex	/^\\chapter{Código do analisador léxico do \\emph{Flex}}$/;"	c
@@ -30,6 +31,7 @@ C   digo gerado a partir do tradutor do emph  YACC	report/chapters/apendice.tex	
 C   lculo de uma pot   ncia com determinada base e expoente--fun     o texttt  potencia  Base  Exp 	report/chapters/apendice.tex	/^\\section{Cálculo de uma potência com determinada base e expoente--função$/;"	s
 CC	Makefile	/^CC = gcc $/;"	m
 CFLAGS	Makefile	/^CFLAGS = -O2 $/;"	m
+Category	src/TabelaID/bucket.c	/^enum Category$/;"	g	file:
 Conclus   o	report/chapters/concl.tex	/^\\chapter*{Conclusão}$/;"	c
 DECLTYPE	src/structures/uthash.h	37;"	d
 DECLTYPE	src/structures/uthash.h	40;"	d
@@ -152,6 +154,8 @@ INT32_MAX	lex.yy.c	74;"	d	file:
 INT32_MIN	lex.yy.c	65;"	d	file:
 INT8_MAX	lex.yy.c	68;"	d	file:
 INT8_MIN	lex.yy.c	59;"	d	file:
+ITEM	src/TabelaID/bucket.c	/^} * ITEM;$/;"	t	typeref:struct:item	file:
+ITEM	src/TabelaID/bucket.h	/^typedef bucket_item * ITEM;$/;"	t
 ITEM	src/structures/simple_hashtable.c	/^} ITEM;$/;"	t	typeref:struct:item	file:
 ITEM	src/structures/simple_hashtable.h	/^typedef struct item ITEM;$/;"	t	typeref:struct:item
 Instruction	src/gerador.y	/^Instruction : Atribution ';' $/;"	l
@@ -164,6 +168,7 @@ LATEXMK	Makefile	/^LATEXMK=latexmk$/;"	m
 LATEXMKBIBTEX	Makefile	/^LATEXMKBIBTEX=-bibtex$/;"	m
 LATEXMKOPT	Makefile	/^LATEXMKOPT=-pdf$/;"	m
 LATEXOPT	Makefile	/^LATEXOPT=--shell-escape$/;"	m
+Level	src/TabelaID/bucket.c	/^enum Level$/;"	g	file:
 M   dia e m   ximo de uma matriz texttt   N   M 	report/chapters/apendice.tex	/^\\section{Média e máximo de uma matriz \\texttt{[N][M]}}$/;"	s
 MUR_FMIX	src/structures/uthash.h	562;"	d
 MUR_GETBLOCK	src/structures/uthash.h	540;"	d
@@ -202,6 +207,7 @@ Term	src/gerador.y	/^Term : id$/;"	l
 Term	src/gramatica3.y	/^Term  : id$/;"	l
 Testes e Resultados	report/chapters/cap3-testes-resultados.tex	/^\\chapter{Testes e Resultados}$/;"	c
 Turma	src/tp2.y	/^Turma : TURMA nome ';' Alunos {printf("Média da Turma %s: %.1f\\n", $2,($4\/total));}$/;"	l
+Type	src/TabelaID/bucket.c	/^enum Type$/;"	g	file:
 UINT16_MAX	lex.yy.c	80;"	d	file:
 UINT32_MAX	lex.yy.c	83;"	d	file:
 UINT8_MAX	lex.yy.c	77;"	d	file:
@@ -406,11 +412,14 @@ add_coautor	src/structures/hashtable.h	/^void add_coautor(char *nome_autor, char
 add_key	src/structures/simple_hashtable.c	/^void add_key ( char *key )$/;"	f	signature:( char *key )
 add_key	src/structures/simple_hashtable.h	/^void add_key(char *key);$/;"	p	signature:(char *key)
 alloca	gerador.tab.c	276;"	d	file:
+array	src/TabelaID/bucket.c	/^    array$/;"	e	enum:Type	file:
 autores	src/structures/hashtable.c	/^AUTOR *autores = NULL;$/;"	v
 bloom_bv	src/structures/uthash.h	/^   uint8_t *bloom_bv;$/;"	m	struct:UT_hash_table	access:public
 bloom_nbits	src/structures/uthash.h	/^   uint8_t bloom_nbits;$/;"	m	struct:UT_hash_table	access:public
 bloom_sig	src/structures/uthash.h	/^   uint32_t bloom_sig; \/* used only to test bloom exists in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
 buckets	src/structures/uthash.h	/^   UT_hash_bucket *buckets;$/;"	m	struct:UT_hash_table	access:public
+called_function	src/TabelaID/bucket.c	/^    called_function$/;"	e	enum:Level	file:
+category	src/TabelaID/bucket.c	/^    Category category;$/;"	m	struct:item	file:	access:public
 count	src/structures/uthash.h	/^   unsigned count;$/;"	m	struct:UT_hash_bucket	access:public
 delete_all	src/structures/hashtable.c	/^void delete_all()$/;"	f
 delete_all	src/structures/hashtable.h	/^void delete_all(void);$/;"	p	signature:(void)
@@ -418,6 +427,7 @@ delete_all	src/structures/simple_hashtable.c	/^void delete_all()$/;"	f
 delete_all	src/structures/simple_hashtable.h	/^void delete_all(void);$/;"	p	signature:(void)
 delete_autor	src/structures/hashtable.c	/^void delete_autor ( AUTOR *autor )$/;"	f	signature:( AUTOR *autor )
 delete_autor	src/structures/hashtable.h	/^void delete_autor(AUTOR *autor);$/;"	p	signature:(AUTOR *autor)
+delete_item	src/TabelaID/bucket.c	/^void delete_item(ITEM * t)$/;"	f	signature:(ITEM * t)
 delete_key	src/structures/simple_hashtable.c	/^void delete_key ( ITEM *key )$/;"	f	signature:( ITEM *key )
 delete_key	src/structures/simple_hashtable.h	/^void delete_key(ITEM *key);$/;"	p	signature:(ITEM *key)
 expand_mult	src/structures/uthash.h	/^   unsigned expand_mult;$/;"	m	struct:UT_hash_bucket	access:public
@@ -438,9 +448,16 @@ flex_uint32_t	lex.yy.c	/^typedef unsigned int flex_uint32_t;$/;"	t	file:
 flex_uint8_t	lex.yy.c	/^typedef uint8_t flex_uint8_t;$/;"	t	file:
 flex_uint8_t	lex.yy.c	/^typedef unsigned char flex_uint8_t; $/;"	t	file:
 free	gerador.tab.c	/^void free (void *); \/* INFRINGES ON USER NAME SPACE *\/$/;"	p	file:	signature:(void *)
+function	src/TabelaID/bucket.c	/^    function,$/;"	e	enum:Category	file:
 get16bits	src/structures/uthash.h	475;"	d
 get16bits	src/structures/uthash.h	478;"	d
 get16bits	src/structures/uthash.h	482;"	d
+getCategory	src/TabelaID/bucket.c	/^Category getCategory(ITEM * it)$/;"	f	signature:(ITEM * it)
+getLevel	src/TabelaID/bucket.c	/^Level getLevel(ITEM * it)$/;"	f	signature:(ITEM * it)
+getLimitDim	src/TabelaID/bucket.c	/^int getLimitDim(ITEM * it)$/;"	f	signature:(ITEM * it)
+getNDim	src/TabelaID/bucket.c	/^int getNDim(ITEM * it)$/;"	f	signature:(ITEM * it)
+getType	src/TabelaID/bucket.c	/^int getType(ITEM * it)$/;"	f	signature:(ITEM * it)
+getType	src/TabelaID/bucket.c	/^int getType(ITEM * it, Type type )$/;"	f	signature:(ITEM * it, Type type )
 hashv	src/structures/uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle	access:public
 hh	src/structures/hashtable.c	/^    UT_hash_handle hh;$/;"	m	struct:item	file:	access:public
 hh	src/structures/simple_hashtable.c	/^    UT_hash_handle hh;$/;"	m	struct:item	file:	access:public
@@ -453,29 +470,44 @@ id	gerador.tab.h	/^    id = 258,$/;"	e	enum:yytokentype
 id	src/structures/hashtable.c	/^    int id;$/;"	m	struct:item	file:	access:public
 ideal_chain_maxlen	src/structures/uthash.h	/^   unsigned ideal_chain_maxlen;$/;"	m	struct:UT_hash_table	access:public
 ineff_expands	src/structures/uthash.h	/^   unsigned ineff_expands, noexpand;$/;"	m	struct:UT_hash_table	access:public
+init_bucket	src/TabelaID/bucket.c	/^ITEM init_bucket()$/;"	f
 input	lex.yy.c	/^static int input (void );$/;"	p	file:	signature:(void )
+integer	src/TabelaID/bucket.c	/^    integer,$/;"	e	enum:Type	file:
+item	src/TabelaID/bucket.c	/^typedef struct item$/;"	s	file:
 item	src/structures/hashtable.c	/^typedef struct item$/;"	s	file:
 item	src/structures/simple_hashtable.c	/^typedef struct item$/;"	s	file:
+item::category	src/TabelaID/bucket.c	/^    Category category;$/;"	m	struct:item	file:	access:public
 item::hh	src/structures/hashtable.c	/^    UT_hash_handle hh;$/;"	m	struct:item	file:	access:public
 item::hh	src/structures/simple_hashtable.c	/^    UT_hash_handle hh;$/;"	m	struct:item	file:	access:public
 item::id	src/structures/hashtable.c	/^    int id;$/;"	m	struct:item	file:	access:public
 item::key	src/structures/simple_hashtable.c	/^    char *key;$/;"	m	struct:item	file:	access:public
+item::level	src/TabelaID/bucket.c	/^    Level level;$/;"	m	struct:item	file:	access:public
+item::limitDim	src/TabelaID/bucket.c	/^    int limitDim;$/;"	m	struct:item	file:	access:public
+item::nDim	src/TabelaID/bucket.c	/^    int nDim;$/;"	m	struct:item	file:	access:public
 item::nome_autor	src/structures/hashtable.c	/^    char *nome_autor;$/;"	m	struct:item	file:	access:public
+item::numBytes	src/TabelaID/bucket.c	/^    int numBytes;$/;"	m	struct:item	file:	access:public
 item::sub	src/structures/hashtable.c	/^    struct item *sub;$/;"	m	struct:item	typeref:struct:item::item	file:	access:public
 item::total_ocurrences	src/structures/simple_hashtable.c	/^{   int total_ocurrences;$/;"	m	struct:item	file:	access:public
+item::type	src/TabelaID/bucket.c	/^    Type type;$/;"	m	struct:item	file:	access:public
 items	src/structures/simple_hashtable.c	/^ITEM *items = NULL;$/;"	v
 key	src/structures/simple_hashtable.c	/^    char *key;$/;"	m	struct:item	file:	access:public
 key	src/structures/uthash.h	/^   void *key;                        \/* ptr to enclosing struct's key  *\/$/;"	m	struct:UT_hash_handle	access:public
 keylen	src/structures/uthash.h	/^   unsigned keylen;                  \/* enclosing struct's key len     *\/$/;"	m	struct:UT_hash_handle	access:public
+level	src/TabelaID/bucket.c	/^    Level level;$/;"	m	struct:item	file:	access:public
+limitDim	src/TabelaID/bucket.c	/^    int limitDim;$/;"	m	struct:item	file:	access:public
 log2_num_buckets	src/structures/uthash.h	/^   unsigned num_buckets, log2_num_buckets;$/;"	m	struct:UT_hash_table	access:public
 main	gerador.tab.c	/^int main() {$/;"	f
+main	src/TabelaID/main.c	/^int main()$/;"	f
+main_function	src/TabelaID/bucket.c	/^    main_function,$/;"	e	enum:Level	file:
 malloc	gerador.tab.c	/^void *malloc (YYSIZE_T); \/* INFRINGES ON USER NAME SPACE *\/$/;"	p	file:
+nDim	src/TabelaID/bucket.c	/^    int nDim;$/;"	m	struct:item	file:	access:public
 next	src/structures/uthash.h	/^   void *next;                       \/* next element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
 noexpand	src/structures/uthash.h	/^   unsigned ineff_expands, noexpand;$/;"	m	struct:UT_hash_table	access:public
 nome_autor	src/structures/hashtable.c	/^    char *nome_autor;$/;"	m	struct:item	file:	access:public
 nonideal_items	src/structures/uthash.h	/^   unsigned nonideal_items;$/;"	m	struct:UT_hash_table	access:public
 num	gerador.tab.c	/^    num = 259,$/;"	e	enum:yytokentype	file:
 num	gerador.tab.h	/^    num = 259,$/;"	e	enum:yytokentype
+numBytes	src/TabelaID/bucket.c	/^    int numBytes;$/;"	m	struct:item	file:	access:public
 num_buckets	src/structures/uthash.h	/^   unsigned num_buckets, log2_num_buckets;$/;"	m	struct:UT_hash_table	access:public
 num_items	src/structures/uthash.h	/^   unsigned num_items;$/;"	m	struct:UT_hash_table	access:public
 prev	src/structures/uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
@@ -487,6 +519,11 @@ print_item_by_key	src/structures/simple_hashtable.c	/^void print_item_by_key ( c
 print_item_by_key	src/structures/simple_hashtable.h	/^void print_item_by_key(char *key);$/;"	p	signature:(char *key)
 print_items	src/structures/simple_hashtable.c	/^void print_items ()$/;"	f
 print_items	src/structures/simple_hashtable.h	/^void print_items(void);$/;"	p	signature:(void)
+procedure	src/TabelaID/bucket.c	/^    procedure$/;"	e	enum:Category	file:
+setCategory	src/TabelaID/bucket.c	/^int setCategory(ITEM * it, Category category)$/;"	f	signature:(ITEM * it, Category category)
+setLevel	src/TabelaID/bucket.c	/^int setLevel(ITEM * it, Level level)$/;"	f	signature:(ITEM * it, Level level)
+setLimitDim	src/TabelaID/bucket.c	/^int setLimitDim(ITEM * it, int limitlDim)$/;"	f	signature:(ITEM * it, int limitlDim)
+setNDim	src/TabelaID/bucket.c	/^int setNDim(ITEM * it, int nDim)$/;"	f	signature:(ITEM * it, int nDim)
 short	gerador.tab.c	154;"	d	file:
 signature	src/structures/uthash.h	/^   uint32_t signature; \/* used only to find hash tables in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
 string	gerador.tab.c	/^    string = 260,$/;"	e	enum:yytokentype	file:
@@ -499,6 +536,7 @@ total_items	src/structures/hashtable.h	/^int total_items(void);$/;"	p	signature:
 total_items	src/structures/simple_hashtable.c	/^int total_items(){$/;"	f
 total_items	src/structures/simple_hashtable.h	/^int total_items();$/;"	p	signature:()
 total_ocurrences	src/structures/simple_hashtable.c	/^{   int total_ocurrences;$/;"	m	struct:item	file:	access:public
+type	src/TabelaID/bucket.c	/^    Type type;$/;"	m	struct:item	file:	access:public
 uint32_t	src/structures/uthash.h	/^typedef unsigned int uint32_t;$/;"	t
 uint8_t	src/structures/uthash.h	/^typedef unsigned char uint8_t;$/;"	t
 unput	lex.yy.c	194;"	d	file:
@@ -513,6 +551,7 @@ valNro	gerador.tab.c	/^char * valString; int valNro; char* valID;$/;"	m	union:YY
 valNro	gerador.tab.h	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	access:public
 valString	gerador.tab.c	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	file:	access:public
 valString	gerador.tab.h	/^char * valString; int valNro; char* valID;$/;"	m	union:YYSTYPE	access:public
+variable	src/TabelaID/bucket.c	/^    variable,$/;"	e	enum:Category	file:
 yy_accept	lex.yy.c	/^static yyconst flex_int16_t yy_accept[52] =$/;"	v	file:
 yy_at_bol	lex.yy.c	/^	int yy_at_bol;$/;"	m	struct:yy_buffer_state	file:	access:public
 yy_base	lex.yy.c	/^static yyconst flex_int16_t yy_base[54] =$/;"	v	file:

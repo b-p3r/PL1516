@@ -1,6 +1,6 @@
 VAR matriz [10] [5], media, restomedia, total, max, i, j, n , m, tmp, cont;
 
-BEGIN
+BEGINNING
 	max = 0;
 	media = 0;
 	total = 0;

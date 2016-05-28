@@ -1,6 +1,6 @@
 VAR array [20], pos, n, x;
 
-BEGIN
+BEGINNING
 	pos = 0;
 	READ n;
 

@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 int yylex();
+int yylineno;
+
 int yyerror(char *s);
 
 	
@@ -14,10 +16,16 @@ int yyerror(char *s);
 %token <valID>id
 %token <valNro>num
 %token <valString>string
-%token BEGI
+%token BEGINNING
 %token END
 
 %token VAR
+%token G
+%token L
+%token GEQ
+%token LEQ
+%token EQ
+%token NEQ
 %token NOT
 %token AND
 %token OR
@@ -32,7 +40,7 @@ int yyerror(char *s);
 
 Program : Declarations Body 
 ;
-Body : BEGI InstructionsList END
+Body : BEGINNING InstructionsList END
 ;
 Declaration : id
 | id '[' num ']'
@@ -48,31 +56,31 @@ Term : id
 | id '[' ExpAdditiv ']'
 | id '[' ExpAdditiv ']' '[' ExpAdditiv ']'
 | '(' Exp ')'
-| NOT Exp
+| NOT '(' Exp ')'
 ;
 Variable : id
 | id '[' ExpAdditiv ']'
 | id '[' ExpAdditiv ']' '[' ExpAdditiv ']' 
 ;
 ExMultipl : Term
-| '(' ExMultipl '*' Term ')'  
-| '(' ExMultipl '/' Term ')' 
-| '(' ExMultipl '%' Term ')' 
-| '(' ExMultipl AND Term ')' 
+|  ExMultipl '*' Term   
+|  ExMultipl '/' Term  
+|  ExMultipl '%' Term  
+|  ExMultipl AND Term  
 ;
 ExpAdditiv : ExMultipl 
-|'(' ExpAdditiv '+' ExMultipl')'
-|'(' ExpAdditiv '-' ExMultipl')' 
-|'(' ExpAdditiv OR ExMultipl ')'
+| ExpAdditiv '+' ExMultipl
+| ExpAdditiv '-' ExMultipl 
+| ExpAdditiv OR ExMultipl 
 ;
 
 Exp : ExpAdditiv             
-| '(' ExpAdditiv '>'  ExpAdditiv ')'
-| '(' ExpAdditiv '<'  ExpAdditiv ')'
-| '(' ExpAdditiv '>''=' ExpAdditiv ')'
-| '(' ExpAdditiv '<''=' ExpAdditiv ')'
-| '(' ExpAdditiv '=''=' ExpAdditiv ')'
-| '(' ExpAdditiv '!''=' ExpAdditiv ')'
+|  ExpAdditiv L  ExpAdditiv 
+|  ExpAdditiv G  ExpAdditiv 
+|  ExpAdditiv GEQ ExpAdditiv
+|  ExpAdditiv LEQ ExpAdditiv
+|  ExpAdditiv EQ ExpAdditiv 
+|  ExpAdditiv NEQ ExpAdditiv
 ;
 
 
@@ -102,7 +110,8 @@ Instruction : Atribution ';'
 #include "lex.yy.c"
 
 int yyerror(char * mensagem) {
-	printf("Erro Sintático %s\n", mensagem);
+printf("%d: %s at %s\n", yylineno, mensagem, yytext);
+//	printf("Erro Sintático %s\n", mensagem);
 	return 0;
 }
 

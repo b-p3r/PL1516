@@ -15,6 +15,9 @@ LATEXMKBIBTEX=-bibtex
 all: gerador relatorio.pdf clean compress  
 
 
+compiler: clean_exec gerador clean 
+
+
 
 ############################# - Documentação - #########################################
 
@@ -37,7 +40,9 @@ compress:  ./src
 ############################### - Exercício 2.1  ###########################################
 
 
-gerador: ./src/gerador.l ./src/gerador.y
+
+
+gerador: ./src/gerador.l ./src/gerador.y 
 	flex ./src/gerador.l
 	bison -v -t -d ./src/gerador.y
 	$(CC) $(CFLAGS) -c ./src/structures/simple_hashtable.c -o \

@@ -1,6 +1,6 @@
 VAR n, current, sum, counter;
 
-BEGIN 
+BEGINNING 
 
 	WRITE "Escreva o total de numeros :";
 	READ n;
