@@ -1,15 +1,13 @@
 #ifndef HASH_TABLE_H_INCLUDED
 #define HASH_TABLE_H_INCLUDED
+#include "entry.h"
 /* simple_hashtable.c */
 typedef struct item ITEM;
-void add_key(char *key);
-ITEM *find_key(char *key);
-void delete_key(ITEM *key);
-void delete_all(void);
-void print_items(void);
-void print_item_by_key(char *key);
-int total_items();
-
-
+ITEM *init_hashtable(void);
+void add_key(ITEM *items, char *key, Entry *entry);
+Entry *find_key(ITEM *items, char *key);
+void delete_key(ITEM *items, char *key);
+void delete_all(ITEM *items);
+int total_items(ITEM *items);
 
 #endif // HASH_TABLE_H_INCLUDED

@@ -2,20 +2,20 @@
 #define ENTRY_INCLUDED
 #include "types.h"
 
-typedef struct entry ENTRY;
+typedef struct entry Entry;
 /* entry.c */
-ENTRY *init_bucket(void);
-Category getCategory(ENTRY *it);
-Level getLevel(ENTRY *it);
-int getLimitDim(ENTRY *it);
-int getNDim(ENTRY *it);
-Type getType(ENTRY *it);
-int setCategory(ENTRY *it, Category category);
-int setLevel(ENTRY *it, Level level);
-int setLimitDim(ENTRY *it, int limitlDim);
-int setNDim(ENTRY *it, int nDim);
-int setType(ENTRY *it, Type type);
-void delete_item(ENTRY *t);
+Entry *init_entry(void);
+Category getCategory(Entry *it);
+Level getLevel(Entry *it);
+int getLimitDim(Entry *it);
+int getNDim(Entry *it);
+Type getType(Entry *it);
+int setCategory(Entry *it, Category category);
+int setLevel(Entry *it, Level level);
+int setLimitDim(Entry *it, int limitlDim);
+int setNDim(Entry *it, int nDim);
+int setType(Entry *it, Type type);
+void delete_item(Entry *t);
 
 
 

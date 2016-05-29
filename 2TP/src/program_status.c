@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "program_status.h"
+#include "hash_table.h"
 #define MAX_LABEL_STACK 256
 #define MAX_LABEL 1024
 
@@ -12,8 +13,10 @@ struct status
     int  labelStack[ MAX_LABEL_STACK ];
     int  labelNumberSize[ MAX_LABEL_STACK ];
 
-    int spointer, strpointer, adresspointer;
+    int spointer, strpointer, addresspointer;
     int sizeLabelString;
+    ITEM *items;
+
 
 
 
@@ -29,7 +32,8 @@ ProgramStatus *init()
     tmp->spointer = 0;
     tmp->strpointer = 0;
     tmp->sizeLabelString = 0;
-    tmp->adresspointer = -1;
+    tmp->addresspointer = -1;
+    tmp->items = init_hashtable();
 
     for ( i = 0; i < MAX_LABEL_STACK; tmp->labelStack[i++]=0 );
 }
@@ -112,6 +116,40 @@ int popLabel ( ProgramStatus *status )
     status->strpointer-=status->labelNumberSize[status->spointer];
     return 0;
 }
+
+int atribute_adress_for_var ( ProgramStatus *status )
+{   int address;
+
+    if ( status==NULL )
+        return -1;
+
+    address = ++status->addresspointer;
+    return address;
+}
+
+int atribute_adress_for_array ( ProgramStatus *status, int size)
+{   int address=0;
+
+    if ( status==NULL )
+        return -1;
+    address = ++status->addresspointer;
+    status->addresspointer+=size;
+
+    return address;
+}
+
+void add_identifier ( ProgramStatus *status, char *key, Entry *entry )
+{
+}
+
+Entry *find_identifier ( ITEM *items, char *key )
+{
+}
+
+
+
+
+
 
 
 

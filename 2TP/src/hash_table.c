@@ -3,41 +3,56 @@
 #include <string.h>
 #include "uthash.h"
 #include "hash_table.h"
+#include "entry.h"
 
 typedef struct item
-{   int total_ocurrences;
+{   
     char *key;
+    Entry *value;
     UT_hash_handle hh;
 } ITEM;
 
+
+
+ITEM * init_hashtable (){
+
+
 ITEM *items = NULL;
 
-void add_key ( char *key )
+return items;
+
+}
+
+
+void add_key ( ITEM *items, char *key , Entry * entry)
 {   ITEM *s;
     HASH_FIND_STR ( items, key, s );
 
     if ( s==NULL )
     {   s = ( ITEM * ) malloc ( sizeof ( ITEM ) );
         s->key = strdup ( key );
-        s->total_ocurrences = 0;
+	s->value = entry;
         HASH_ADD_KEYPTR ( hh,  items, s->key, strlen ( s->key ), s );
     }
 
-    s->total_ocurrences++;
 }
 
-ITEM *find_key ( char *key )
+Entry *find_key ( ITEM *items, char *key )
 {   ITEM *s;
     HASH_FIND_STR ( items, key, s );
-    return s;
+    return s->value;
 }
 
-void delete_key ( ITEM *key )
-{   HASH_DEL ( items, key );
+void delete_key ( ITEM *items, char *key )
+{   
+    
+    ITEM *s;
+    HASH_FIND_STR ( items, key, s );
+    HASH_DEL ( items, s );
     free ( key );
 }
 
-void delete_all()
+void delete_all(ITEM *items)
 {   ITEM *item1, *tmp1;
     HASH_ITER ( hh, items, item1, tmp1 )
     {   HASH_DEL ( items, item1 );
@@ -45,30 +60,9 @@ void delete_all()
     }
 }
 
-void print_items ()
-{   ITEM *s = items, *item1, *tmp1;
-    HASH_ITER ( hh, s, item1, tmp1 )
-    {   printf ( "<tr>\n" );
-        printf ( "      <td> %s </td>\n", item1->key );
-        printf ( "      <td> %d </td>\n", item1->total_ocurrences );
-        printf ( "</tr>\n" );
-    }
-}
 
 
-void print_item_by_key ( char *key )
-{   ITEM *s, *item1, *item2, *tmp1, *tmp2;
-    s = find_key ( key );
-
-    if ( s )
-    {   HASH_ITER ( hh, s, item1, tmp1 )
-        {   printf ( "%s = %d\n", item1->key, item1->total_ocurrences );
-        }
-    }
-}
-
-
-int total_items()
+int total_items(ITEM *items)
 {   unsigned int num_items;
     num_items = HASH_COUNT ( items );
     return num_items;
