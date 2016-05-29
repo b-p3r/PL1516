@@ -1,0 +1,14 @@
+Program
+Declarations
+Body
+InstructionsList
+Declaration
+DeclarationsList
+Term
+ExpAdditiv
+Exp
+Variable
+ExMultipl
+Atribution
+Instruction
+Else

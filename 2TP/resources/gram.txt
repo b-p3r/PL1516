@@ -1,0 +1,74 @@
+
+Program -> Declarations Body .
+
+Body -> BEGINNING InstructionsList END.
+
+Declaration -> id
+| id '[' num ']'
+| id '[' num ']' '[' num ']'
+.
+
+Declarations -> VAR DeclarationsList ';' 
+.
+DeclarationsList -> Declaration 
+| DeclarationsList ',' Declaration
+.
+Term -> id 
+| num  
+| id '[' ExpAdditiv ']'  
+| id '[' ExpAdditiv ']' '[' ExpAdditiv ']' 
+| '(' Exp ')'
+| NOT '(' Exp ')'  
+.
+Variable -> id
+| id '[' ExpAdditiv ']'  
+| id '[' ExpAdditiv ']' '[' ExpAdditiv ']' 
+.
+ExMultipl -> Term
+|  ExMultipl '*' Term 
+|  ExMultipl '/' Term 
+|  ExMultipl '%' Term 
+|  ExMultipl 'AND' Term 
+.
+
+ExpAdditiv -> ExMultipl 
+| ExpAdditiv '+' ExMultipl  
+| ExpAdditiv '-' ExMultipl  
+| ExpAdditiv 'OR' ExMultipl
+.  
+
+Exp -> ExpAdditiv
+|  ExpAdditiv '<'  ExpAdditiv 
+|  ExpAdditiv '>'  ExpAdditiv 
+|  ExpAdditiv '>=' ExpAdditiv
+|  ExpAdditiv '<=' ExpAdditiv
+|  ExpAdditiv '==' ExpAdditiv 
+|  ExpAdditiv '!=' ExpAdditiv
+.  
+
+
+Atribution ->  Variable '=' ExpAdditiv 
+.
+
+
+InstructionsList -> Instruction
+| InstructionsList Instruction  
+.
+
+
+Instruction -> Atribution ';'  
+| READ  Variable ';' 
+| WRITE ExpAdditiv ';'  
+| WRITE string ';'
+| IF '('  Exp ')' '{' InstructionsList '}' Else  
+| WHILE  '(' Exp ')' '{' InstructionsList '}'
+| DO '{' InstructionsList '}' WHILE '(' Exp ')' ';'
+. 
+
+Else ->
+| ELSE '{' InstructionsList '}' 
+.
+
+
+
+
