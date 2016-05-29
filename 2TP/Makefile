@@ -42,13 +42,22 @@ compress:  ./src
 
 
 
-gerador: ./src/gerador.l ./src/gerador.y 
+gerador: program_status.o hash_table.o entry.o ./src/gerador.l ./src/gerador.y 
 	flex ./src/gerador.l
 	bison -v -t -d ./src/gerador.y
-	$(CC) $(CFLAGS) -c ./src/structures/simple_hashtable.c -o \
-	simple_hashtable.o
-	$(CC) $(CFLAGS) -g simple_hashtable.o gerador.tab.c -o gerador
+	$(CC) $(CFLAGS) -g program_status.o hash_table.o entry.o gerador.tab.c -o gerador
 
+hash_table.o: ./src/hash_table.h ./src/hash_table.c
+	 $(CC) $(CFLAGS) -c ./src/hash_table.c -o \
+		         hash_table.o
+
+
+program_status.o: ./src/program_status.h ./src/program_status.c
+	 $(CC) $(CFLAGS) -c ./src/program_status.c -o program_status.o
+
+entry.o: ./src/entry.h ./src/entry.c
+	$(CC) $(CFLAGS) -c ./src/entry.c -o \
+		         entry.o
 
 clean:  
 	@echo "A limpar diretoria...."
