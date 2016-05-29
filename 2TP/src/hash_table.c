@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "uthash.h"
-#include "simple_hashtable.h"
+#include "hash_table.h"
 
 typedef struct item
 {   int total_ocurrences;

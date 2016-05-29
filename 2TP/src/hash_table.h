@@ -1,3 +1,5 @@
+#ifndef HASH_TABLE_H_INCLUDED
+#define HASH_TABLE_H_INCLUDED
 /* simple_hashtable.c */
 typedef struct item ITEM;
 void add_key(char *key);
@@ -7,3 +9,7 @@ void delete_all(void);
 void print_items(void);
 void print_item_by_key(char *key);
 int total_items();
+
+
+
+#endif // HASH_TABLE_H_INCLUDED

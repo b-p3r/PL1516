@@ -2,16 +2,19 @@
 %{
 #include <stdio.h>
 #include <string.h>
+#include "./src/program_status.h"
 int yylex();
 int yylineno;
 
 int yyerror(char *s);
-
-	
+int stack[ 1024 ];
+int sp = 0, str = 0;
+char * auxstr;
+char label[ 1024 ];
 
 %}
 
-%union{char * valString; int valNro; char* valID;}
+%union{char * valString; int valNro; char* valID; int valType;}
 
 %token <valID>id
 %token <valNro>num
@@ -35,6 +38,9 @@ int yyerror(char *s);
 %token ELSE
 %token WHILE
 %token DO
+
+//%type <valType>
+
 
 %%
 
@@ -93,13 +99,46 @@ Instruction : Atribution ';'
 | READ  Variable ';'
 | WRITE ExpAdditiv ';'                      
 | WRITE string ';'
-| IF '(' Exp ')' '{' InstructionsList '}' 
-| IF '(' Exp ')' '{' InstructionsList '}' ELSE '{' InstructionsList '}' 
-| WHILE '(' Exp ')' '{' InstructionsList '}' 
+| IF 
+
+{
+sp++;
+
+
+
+stack[sp-1]++;
+char buffer[10];
+snprintf(buffer, 10, "%d", stack[sp-1]);
+strcpy(label+ str, buffer);
+printf("ifLabel%s\t\n", label);
+str++;
+
+
+}
+
+'('  Exp ')' '{' InstructionsList '}' 
+Else
+{
+
+str--;
+label[str+1]='\0';
+
+printf("ifLabelEnd-%s\t:NOP\n", label);
+
+
+stack[sp] = 0;
+sp--;
+
+}
+
+| WHILE {printf("Ola");}'(' Exp ')' '{' InstructionsList '}' 
 | DO'{' InstructionsList '}' WHILE '(' Exp ')' ';'
 ; 
 
-
+Else : 
+| 
+{printf("jz L2\n");} ELSE '{' InstructionsList '}' {printf("L2:NOP\n");}
+;
 
 
 
@@ -110,14 +149,16 @@ Instruction : Atribution ';'
 #include "lex.yy.c"
 
 int yyerror(char * mensagem) {
-printf("%d: %s at %s\n", yylineno, mensagem, yytext);
-//	printf("Erro Sintático %s\n", mensagem);
+printf("Erro sintático %d: %s em %s\n", yylineno, mensagem, yytext);
 	return 0;
 }
 
 int main() {
-	
+int i;
+for(i = 0; i < 1024; stack[i++]=0);
+sp++;
 	yyparse();
+sp--;
 	return 0;
 }
 
