@@ -1,4 +1,3 @@
-
 %{
 #include <stdio.h>
 #include <string.h>
@@ -6,11 +5,9 @@
 int yylex();
 int yylineno;
 
+ProgramStatus * status;
+
 int yyerror(char *s);
-int stack[ 1024 ];
-int sp = 0, str = 0;
-char * auxstr;
-char label[ 1024 ];
 
 %}
 
@@ -102,16 +99,10 @@ Instruction : Atribution ';'
 | IF 
 
 {
-sp++;
 
-
-
-stack[sp-1]++;
-char buffer[10];
-snprintf(buffer, 10, "%d", stack[sp-1]);
-strcpy(label+ str, buffer);
-printf("ifLabel%s\t\n", label);
-str++;
+pushLabelStack(status);
+char * tmp = pushLabel(status);
+printf("ifLabel%s\t\n", tmp);
 
 
 }
@@ -120,14 +111,13 @@ str++;
 Else
 {
 
-str--;
-label[str+1]='\0';
+popLabel(status);
+char * tmp = getLabel(status);
 
-printf("ifLabelEnd-%s\t:NOP\n", label);
+printf("ifLabelEnd-%s\t:NOP\n", tmp);
 
-
-stack[sp] = 0;
-sp--;
+resetLabelStack(status);
+popLabelStack(status);
 
 }
 
@@ -154,11 +144,12 @@ printf("Erro sintático %d: %s em %s\n", yylineno, mensagem, yytext);
 }
 
 int main() {
-int i;
-for(i = 0; i < 1024; stack[i++]=0);
-sp++;
+
+status = init();
+
+pushLabelStack(status);
 	yyparse();
-sp--;
+popLabel(status);
 	return 0;
 }
 

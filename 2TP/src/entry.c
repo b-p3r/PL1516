@@ -10,18 +10,18 @@ typedef struct entry
     Level level;
     Type type;
     int numBytes;
-//lista de parametros
+    //lista de parametros
     int nDim;
     int limitDim;
-}ENTRY;
+} ENTRY;
 
 
-ENTRY * init_bucket()
-{
+ENTRY *init_bucket()
+{   ENTRY *it = ( ENTRY * ) malloc ( sizeof ( struct entry ) );
 
-    ENTRY * it = (ENTRY *)malloc(sizeof(struct entry));
-    if(it==NULL)
+    if ( it==NULL )
         return NULL;
+
     it->category = 0;
     it->level = 0;
     it->limitDim = 0;
@@ -29,109 +29,82 @@ ENTRY * init_bucket()
     it->numBytes = 0;
     it->type = 0;
     return it;
-
 }
 
-Category getCategory(ENTRY * it)
-{
-    if(it)
-
+Category getCategory ( ENTRY *it )
+{   if ( it )
         return it->category;
-    
-    return nothing;
 
+    return nothing;
 }
 
-Level getLevel(ENTRY * it)
-{
-    if(it)
-
+Level getLevel ( ENTRY *it )
+{   if ( it )
         return it->level;
+
     else return -1;
-
 }
-int getLimitDim(ENTRY * it)
-{
-    if(it)
-
+int getLimitDim ( ENTRY *it )
+{   if ( it )
         return it->limitDim;
+
     else return -1;
-
 }
-int getNDim(ENTRY * it)
-{
-    if(it)
-
+int getNDim ( ENTRY *it )
+{   if ( it )
         return it->nDim;
-    else return -1;
 
+    else return -1;
 }
-Type getType(ENTRY * it)
-{
-    if(it)
-return it->type;
+Type getType ( ENTRY *it )
+{   if ( it )
+        return it->type;
 
     return nothing;
-
 }
 
 /****************************/
 
-int setCategory(ENTRY * it, Category category)
-{
-    if(it == NULL)
-    return -1;
-        it->category = category;
+int setCategory ( ENTRY *it, Category category )
+{   if ( it == NULL )
+        return -1;
+
+    it->category = category;
     return 0;
-
-
 }
 
-int setLevel(ENTRY * it, Level level)
-{
-    if(it==NULL)
-    return -1;
-        it->level = level;
+int setLevel ( ENTRY *it, Level level )
+{   if ( it==NULL )
+        return -1;
+
+    it->level = level;
     return 0;
-
-
 }
-int setLimitDim(ENTRY * it, int limitlDim)
-{
-    if(it==NULL)
-    return -1;
-        it->limitDim = limitlDim;
+int setLimitDim ( ENTRY *it, int limitlDim )
+{   if ( it==NULL )
+        return -1;
+
+    it->limitDim = limitlDim;
     return 0;
-
-
 }
-int setNDim(ENTRY * it, int nDim)
-{
-    if(it==NULL)
-    return -1;
-        it->nDim = nDim;
+int setNDim ( ENTRY *it, int nDim )
+{   if ( it==NULL )
+        return -1;
+
+    it->nDim = nDim;
     return 0;
-
-
 }
-int setType(ENTRY * it, Type type )
-{
-    if(it==NULL)
-    return -1;
-        it->type = type;
+int setType ( ENTRY *it, Type type )
+{   if ( it==NULL )
+        return -1;
+
+    it->type = type;
     return 0;
-
-
 }
 
-void delete_item(ENTRY * t)
-{
-
-    if(t)
-    {
-        free(t);
+void delete_item ( ENTRY *t )
+{   if ( t )
+    {   free ( t );
         t=NULL;
     }
-
-
 }

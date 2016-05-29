@@ -68,10 +68,8 @@ void print_item_by_key ( char *key )
 }
 
 
-int total_items(){
-
-unsigned int num_items;
-num_items = HASH_COUNT(items);
-return num_items;
-
+int total_items()
+{   unsigned int num_items;
+    num_items = HASH_COUNT ( items );
+    return num_items;
 }
