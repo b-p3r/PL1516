@@ -7,11 +7,34 @@ int yylineno;
 
 ProgramStatus * status;
 
+typedef struct ast_type_inference {
+
+Type type;
+
+
+
+};
+
 int yyerror(char *s);
+
+char *  addLabel(){
+
+pushLabelStack(status);
+return pushLabel(status);
+
+
+
+}
+void removeLabel(){
+
+resetLabelStack(status);
+popLabelStack(status);
+
+}
 
 %}
 
-%union{char * valString; int valNro; char* valID; int valType;}
+%union{char * valString; int valNro; char* valID; Type valType;}
 
 %token <valID>id
 %token <valNro>num
@@ -36,98 +59,157 @@ int yyerror(char *s);
 %token WHILE
 %token DO
 
-//%type <valType>
+//%type<valID>Variable
+//%type <valType> Program
+//%type<valType>Declarations
+//%type<valType>Body
+//%type<valType>InstructionsList
+//%type<valType>Declaration
+//%type<valType>DeclarationsList
+
+%type<valID>Variable
+
+//%type<valType>Atribution
+//%type<valType>Instruction
+//%type<valType>Else
+
+%type<valType>Constant
+%type<valType>Term
+%type<valType>ExpAdditiv
+%type<valType>ExMultipl
+%type<valType>Exp
 
 
 %%
 
-Program : Declarations Body 
+Program : Declarations Body                   
 ;
-Body : BEGINNING InstructionsList END
+Body : BEGINNING InstructionsList END         
 ;
-Declaration : id
-| id '[' num ']'
-| id '[' num ']' '[' num ']' 
+Declaration : id                           {printf("pushi 0\n", );}
+| id '[' num ']'                           {printf("pushn %d\n", $3 );}   
+| id '[' num ']' '[' num ']'               {printf("pushn %d\n", $3*$6 );}   
 ;
-Declarations : VAR DeclarationsList ';' 
+Declarations : VAR DeclarationsList ';'       
 ;
-DeclarationsList : Declaration 
-| DeclarationsList ',' Declaration 
+DeclarationsList : Declaration                
+| DeclarationsList ',' Declaration            
 ;
-Term : id
-| num
-| id '[' ExpAdditiv ']'
-| id '[' ExpAdditiv ']' '[' ExpAdditiv ']'
-| '(' Exp ')'
-| NOT '(' Exp ')'
+Variable : id                              {printf("pushg %d\n", 1); 
+
+	                                    $$=integer;}
+| id '[' ExpAdditiv ']' SecondDimension {printf("pushgp\npushg %d\npadd\n", 1);
+                                           $$=integer;}    
 ;
-Variable : id
-| id '[' ExpAdditiv ']'
-| id '[' ExpAdditiv ']' '[' ExpAdditiv ']' 
+
+SecondDimension : 
+		| '[' {printf("pushi %d\n", 20)}
+                     
+		   ExpAdditiv 
+		   
+		   ']' {printf("mul\n");
+		        printf("add\n");       }
+		;
+
+Constant : num  {printf("pushi %d\n", $1)
+	         $$=integer;}
+         ;
+Term : Constant
+| Variable                                {$$=$1;}
+| '-' Exp                                 {printf("pushi -1\n");      
+                                           printf("sub\n");
+                                          }
+| '(' Exp ')'                             {$$=$2;}                          
+| NOT '(' Exp ')'                         {$$=$3;}                          
 ;
+
+
 ExMultipl : Term
-|  ExMultipl '*' Term   
-|  ExMultipl '/' Term  
-|  ExMultipl '%' Term  
-|  ExMultipl AND Term  
-;
-ExpAdditiv : ExMultipl 
-| ExpAdditiv '+' ExMultipl
-| ExpAdditiv '-' ExMultipl 
-| ExpAdditiv OR ExMultipl 
+|  ExMultipl '*' Term                    {printf("mul\n");}  
+|  ExMultipl '/' Term                    {printf("div\n");}  
+|  ExMultipl '%' Term                    {printf("mod\n");}  
+|  ExMultipl AND Term                    {printf("mul\n");}  
+;                                             
+
+ExpAdditiv : ExMultipl                   {;}
+| ExpAdditiv '+' ExMultipl               {printf("add\n");}  
+| ExpAdditiv '-' ExMultipl               {printf("sub\n");}  
+| ExpAdditiv OR ExMultipl                {printf("add\n");}  
+;                                         
+                                          
+Exp : ExpAdditiv                         {;}  
+|  ExpAdditiv L  ExpAdditiv              {printf("inf\n");}  
+|  ExpAdditiv G  ExpAdditiv              {printf("sup\n");}  
+|  ExpAdditiv GEQ ExpAdditiv             {printf("supeq\n");}  
+|  ExpAdditiv LEQ ExpAdditiv             {printf("infeq\n");}  
+|  ExpAdditiv EQ ExpAdditiv              {printf("equal\n");}  
+|  ExpAdditiv NEQ ExpAdditiv             {printf("equal\nnot\n");}  
+;                                      
+
+
+Atribution :  Variable '=' ExpAdditiv    {
+	                                if($3==matriz||$3==array)
+	   				printf("loadn %s\n", $1);
+					//getType()
+	                                if($1==matriz||$1==array)
+	   				printf("storen\n");
+				        else	
+	   				printf("storeg %s\n", $1);
+					
+					 }
 ;
 
-Exp : ExpAdditiv             
-|  ExpAdditiv L  ExpAdditiv 
-|  ExpAdditiv G  ExpAdditiv 
-|  ExpAdditiv GEQ ExpAdditiv
-|  ExpAdditiv LEQ ExpAdditiv
-|  ExpAdditiv EQ ExpAdditiv 
-|  ExpAdditiv NEQ ExpAdditiv
-;
 
-
-Atribution :  Variable '=' ExpAdditiv 
-;
 InstructionsList : Instruction
 | InstructionsList Instruction  
 ;
-Instruction : Atribution ';' 
-| READ  Variable ';'
-| WRITE ExpAdditiv ';'                      
-| WRITE string ';'
-| IF 
-
-{
-
-pushLabelStack(status);
-char * tmp = pushLabel(status);
-printf("ifLabel%s\t\n", tmp);
 
 
-}
+Instruction : Atribution ';'           
+| READ  Variable ';'                   {printf("pushi %d\n", 1);}
+| WRITE ExpAdditiv ';'                 {printf("writei\n");}   
+| WRITE string ';'                     {printf("pushs %s\n", $2);
+                                        printf("writes\n");
+					}
 
-'('  Exp ')' '{' InstructionsList '}' 
-Else
-{
 
-popLabel(status);
-char * tmp = getLabel(status);
+| IF '('  Exp ')'                      {printf("jz l1level%d\n",addLabel());
 
-printf("ifLabelEnd-%s\t:NOP\n", tmp);
 
-resetLabelStack(status);
-popLabelStack(status);
 
 }
 
-| WHILE {printf("Ola");}'(' Exp ')' '{' InstructionsList '}' 
-| DO'{' InstructionsList '}' WHILE '(' Exp ')' ';'
+'{' InstructionsList '}' 
+Else                                   {removeLabel();}
+| WHILE 	                       { printf("loop%s: nop\t\n", addLabel()); }
+
+'(' Exp ')' 	                       { printf("jz done%d\n", getLabel(status));}
+
+
+
+
+'{' InstructionsList '}'               { printf("jump loop%d\n", getLabel(status)); 
+                                         printf("done%d: nop\n", getLabel(status));
+			                 removeLabel();
+			               }
+
+| DO                                   { printf("loop%s: nop\t\n", addLabel());
+                                       }
+
+
+
+
+'{' InstructionsList '}' WHILE '(' Exp ')' ';' { printf("jz loop%s\t\n", getLabel());
+                                                 removeLabel();
+                                               }
 ; 
 
-Else : 
-| 
-{printf("jz L2\n");} ELSE '{' InstructionsList '}' {printf("L2:NOP\n");}
+Else :        {  printf("l1level%d: nop\n", getLabel(status)); } 
+
+|             {  printf("jz l2level%d\n", getLabel(status)); 
+                 printf("l1level%d: nop\n", getLabel(status));
+	      }
+ELSE '{' InstructionsList '}' { printf("l2level%s:nop\n", getLabel(status)); }
 ;
 
 
