@@ -1,0 +1,357 @@
+VAR x, y, max;
+
+
+BEGINNING
+
+	
+	IF ( x > y )
+	{
+	  max = x;
+	IF ( x > y )
+	{
+	  max = x;
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	
+	IF ( x > y )
+	{
+	  max = x;
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	IF ( x > y )
+	{
+	  max = x;
+	
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	}
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	
+	}
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	IF ( x > y )
+	{
+	  max = x;
+	IF ( x > y )
+	{
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	  max = x;
+	
+	}
+	
+	}
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	
+END
