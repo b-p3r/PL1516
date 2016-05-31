@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 CC = gcc 
 
-CFLAGS = -O2 
+CFLAGS =  
 LATEX=pdflatex
 LATEXOPT=--shell-escape
 LATEXMK=latexmk
@@ -45,7 +45,7 @@ compress:  ./src
 gerador: program_status.o hash_table.o entry.o ./src/gerador.l ./src/gerador.y 
 	flex ./src/gerador.l
 	bison -v -t -d ./src/gerador.y
-	$(CC) $(CFLAGS) -g program_status.o hash_table.o entry.o gerador.tab.c -o gerador
+	$(CC) $(CFLAGS)  program_status.o hash_table.o entry.o gerador.tab.c -o gerador
 
 hash_table.o: ./src/hash_table.h ./src/hash_table.c
 	 $(CC) $(CFLAGS) -c ./src/hash_table.c -o \
