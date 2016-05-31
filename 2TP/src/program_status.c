@@ -5,7 +5,7 @@
 #include "entry.h"
 #include "types.h"
 #include "hash_table.h"
-#define MAX_LABEL_STACK 256
+#define MAX_LABEL_STACK 1024
 #define MAX_LABEL 1024
 
 typedef struct status
@@ -28,7 +28,6 @@ Program_status *init()
 {
     int i;
     Program_status *tmp = ( Program_status * ) malloc ( sizeof ( struct status ) );
-    printf("-------------------------------------------------->SP %p\n", tmp);
 
     if ( tmp == NULL )
         return NULL;
@@ -39,7 +38,12 @@ Program_status *init()
     tmp->addresspointer =  0;
     tmp->items = init_hashtable();
 
-    for ( i = 0; i < MAX_LABEL_STACK; tmp->label_stack[i++]=0 );
+    for ( i = 0; i < MAX_LABEL_STACK; i++ ){
+    
+     tmp->label_stack[i]=0;
+      tmp->label_number_size[i]=0;
+    
+    }
 }
 
 int push_label_stack ( Program_status *status )
@@ -48,7 +52,6 @@ int push_label_stack ( Program_status *status )
         return -1;
 
     status->spointer++;
-    printf("-------------------------------------------------->SP %d\n", status->spointer);
     return 0;
 }
 
@@ -58,7 +61,6 @@ int pop_label_stack ( Program_status *status )
         return -1;
 
     status->spointer--;
-    printf("-------------------------------------------------->SP %d\n", status->spointer);
     return 0;
 }
 
@@ -81,7 +83,7 @@ int reset_label_stack ( Program_status *status )
         return -1;
 
     status->label_stack[status->spointer]=0;
-    printf("-------------------------------------------------->RESET %d\n", status->label_stack[status->spointer]);
+    status->label_number_size[status->spointer]=0;
     return 0;
 }
 int increment_top_label_stack ( Program_status *status )
@@ -113,7 +115,6 @@ char *push_label ( Program_status *status )
     status->size_label_string = strlen ( buffer );
     strcpy ( status->label + status->strpointer, buffer );
     tmp = strdup ( status->label );
-    printf("-------------------------------------------------->LABEL %s\n", status->label);
     status->label_number_size[status->spointer] = status->size_label_string;
     status->strpointer+=status->size_label_string;
     return tmp;
@@ -131,7 +132,6 @@ int pop_label ( Program_status *status )
 
     status->strpointer-=status->label_number_size[status->spointer];
 
-    printf("-------------------------------------------------->STRPPP %d\n",  status->strpointer);
     return 0;
 }
 

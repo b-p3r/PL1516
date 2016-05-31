@@ -9,7 +9,7 @@
 int yylex();
 int yylineno;
 
-Program_status * status;
+Program_status * status = NULL;
 char *  add_label(){
 
 push_label_stack(status);
@@ -109,7 +109,7 @@ Constant : num  {printf("pushi %d\n", $1);
          ;
 Term : Constant                           {$$=$1;}
 | Variable                                {;}
-| '-' Exp                                 {printf("pushi -1\n");      
+| '-''('Exp')'                                 {printf("pushi -1\n");      
                                            printf("sub\n");
                                           }
 | '(' Exp ')'                             {$$=$2;}                          
@@ -166,14 +166,29 @@ Instruction : Atribution ';'
 					}
 
 
-| IF '('  Exp ')'                      {printf("jz l1level%s\n", add_label());
+| IF '('  Exp ')'                      {
+
+
+push_label_stack(status);
+char * tmp = push_label(status);
+//add_label();
+printf("jz l1level%s\n", tmp);
 
 
 
 }
 
-'{' InstructionsList '}' 
-Else                                   {remove_label();}
+'{' InstructionsList '}' Else   {
+
+                                //       remove_label();
+				       pop_label(status);
+				
+				       char * tmp = get_label(status);
+				        remove_label();
+				       }
+
+
+
 | WHILE 	                       { printf("loop%s: nop\t\n", add_label()); }
 
 '(' Exp ')' 	                       { printf("jz done%s\n", get_label(status));}
@@ -197,10 +212,15 @@ Else                                   {remove_label();}
                                                }
 ; 
 
-Else :        {  printf("l1level%s: nop\n", get_label(status)); } 
+Else :        {  
+     
+              //printf("l1level%s: nop\n", get_label(status)); 
+	      
+	      } 
 
-|             {  printf("jz l2level%s\n", get_label(status)); 
-                 printf("l1level%s: nop\n", get_label(status));
+|             {  
+                 //printf("jz l2level%s\n", get_label(status)); 
+                 //printf("l1level%s: nop\n", get_label(status));
 	      }
 ELSE '{' InstructionsList '}' { printf("l2level%s:nop\n", get_label(status)); }
 ;
@@ -223,7 +243,9 @@ int main()
 {
 
     status = init();
-    printf("STATUS %p", status);
+    printf("STATUS %p\n", status);
+   if(status==NULL)
+   return -1;
 
     push_label_stack(status);
     yyparse();
