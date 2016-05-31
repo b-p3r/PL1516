@@ -18,14 +18,14 @@ char *s;
 } Instr;
 
 Program_status * status = NULL;
-char *  add_label(CompoundInstruction cpd)
+int  add_label(CompoundInstruction cpd)
 {
 
     push_label_stack(status, cpd);
     return push_label(status, cpd);
 }
 void remove_label(CompoundInstruction cpd)
-{
+{  
     reset_label_stack(status, cpd);
     pop_label_stack(status, cpd);
 }
@@ -77,76 +77,76 @@ void remove_label(CompoundInstruction cpd)
 
 
 
-%type<val_id> Variable
+%type<instr> Variable
 
 
-
+%start Program
 
 %%
 
-Program : Declarations Body                   
+Program : Declarations Body    {printf("%s%s", $1.s, $2.s);} 
 ;
-Body : BEGINNING {printf("start\n");} InstructionsList END      {printf("%sstop\n", $3.s); }
+Body : BEGINNING {asprintf(&$<instr>$.s, "start\n");} InstructionsList END      {asprintf(&$$.s, "%sstop\n", $3.s); }
 ;
-Declaration : id                           {printf("pushi 0\n");}
-| id '[' num ']'                           {printf("pushn %d\n", $3 );}   
-| id '[' num ']' '[' num ']'               {printf("pushn %d\n", $3*$6 );}   
+Declaration : id                           {asprintf(&$$.s, "pushi 0\n");}
+| id '[' num ']'                           {asprintf(&$$.s, "pushn %d\n", $3 );}   
+| id '[' num ']' '[' num ']'               {asprintf(&$$.s, "pushn %d\n", $3*$6 );}   
 ;
-Declarations : VAR DeclarationsList ';'    {$$=$2;}   
+Declarations : VAR DeclarationsList ';'    {$$.s=$2.s;}   
 ;
-DeclarationsList : Declaration             {;}
-| DeclarationsList ',' Declaration         {;}
+DeclarationsList : Declaration             {$$.s=$1.s;}
+| DeclarationsList ',' Declaration         {asprintf(&$$.s, "%s%s", $1.s, $3.s);}
 ;
-Variable : id                              {printf("pushg %d\n", 1); 
+Variable : id                              {asprintf(&$$.s, "pushg %d\n", 1); 
 
 	                                    //$$=Integer;
 					    }
 
-| id '[' ExpAdditiv ']'                    {printf("pushgp\npushg %d\npadd\n%s", 1, $3.s);
+| id '[' ExpAdditiv ']'                    {asprintf(&$$.s, "pushgp\npushg %s\npadd\n%s", $1, $3.s);
                                            //$$=Integer;
 					   }    
-| id '[' ExpAdditiv ']' '[' ExpAdditiv ']' {printf("pushgp\npushg %s\npadd\n%s\npushi %d\nmul\nadd\n%s\n", $1, $3.s, 20, $6.s );
+| id '[' ExpAdditiv ']' '[' ExpAdditiv ']' {asprintf(&$$.s, "pushgp\npushg %s\npadd\n%s\npushi %d\nmul\nadd\n%s\n", $1, $3.s, 20, $6.s );
                                            //$$=Integer;
 					   }    
 ;
 
 
-Constant : num  {printf("pushi %d\n", $1);};
+Constant : num  {asprintf(&$$.s, "pushi %d\n", $1);};
 	         
          ;
-Term : Constant                           {$$=$1;}
-| Variable                                {;}
+Term : Constant                           {$$.s=$1.s;}
+| Variable                                {$$.s=$1.s;}
 | '-''('Exp')'                            {asprintf(&$$.s, "%s pushi -1\nsub\n", $3.s);      
                                           }
-| '(' Exp ')'                             {$$=$2;}                          
-| NOT '(' Exp ')'                         {$$=$3;}                          
+| '(' Exp ')'                             {$$.s=$2.s;}                          
+| NOT '(' Exp ')'                         {$$.s=$3.s;}                          
 ;
 
 
 ExMultipl : Term
-|  ExMultipl '*' Term                    {asprintf(&$$.s, "mul\n");}  
-|  ExMultipl '/' Term                    {asprintf(&$$.s, "div\n");}  
-|  ExMultipl '%' Term                    {asprintf(&$$.s, "mod\n");}  
-|  ExMultipl AND Term                    {asprintf(&$$.s, "mul\n");}  
+|  ExMultipl '*' Term                    {asprintf(&$$.s, "%s%smul\n", $1.s, $3.s);}  
+|  ExMultipl '/' Term                    {asprintf(&$$.s, "%s%sdiv\n", $1.s, $3.s);}  
+|  ExMultipl '%' Term                    {asprintf(&$$.s, "%s%smod\n", $1.s, $3.s);}  
+|  ExMultipl AND Term                    {asprintf(&$$.s, "%s%smul\n", $1.s, $3.s);}  
 ;                                             
 
-ExpAdditiv : ExMultipl                   {$$=$1;}
-| ExpAdditiv '+' ExMultipl               {asprintf(&$$.s, "add\n");}  
-| ExpAdditiv '-' ExMultipl               {asprintf(&$$.s, "sub\n");}  
-| ExpAdditiv OR  ExMultipl               {asprintf(&$$.s, "add\n");}  
+ExpAdditiv : ExMultipl                   {$$.s=$1.s;}
+| ExpAdditiv '+' ExMultipl               {asprintf(&$$.s, "%s%sadd  \n", $1.s, $3.s    );}  
+| ExpAdditiv '-' ExMultipl               {asprintf(&$$.s, "%s%ssub  \n", $1.s, $3.s    );}  
+| ExpAdditiv OR  ExMultipl               {asprintf(&$$.s, "%s%sadd  \n", $1.s, $3.s    );}  
 ;                                         
 
-Exp : ExpAdditiv                         {$$=$1;}  
-|  ExpAdditiv L   ExpAdditiv             {asprintf(&$$.s, "inf\n"      );}  
-|  ExpAdditiv G   ExpAdditiv             {asprintf(&$$.s, "sup\n"      );}  
-|  ExpAdditiv GEQ ExpAdditiv             {asprintf(&$$.s, "supeq\n"    );}  
-|  ExpAdditiv LEQ ExpAdditiv             {asprintf(&$$.s, "infeq\n"    );}  
-|  ExpAdditiv EQ  ExpAdditiv             {asprintf(&$$.s, "equal\n"    );}  
-|  ExpAdditiv NEQ ExpAdditiv             {asprintf(&$$.s, "equal\nnot\n");}  
+Exp : ExpAdditiv                         {$$.s=$1.s;}  
+|  ExpAdditiv L   ExpAdditiv             {asprintf(&$$.s, "%s%sinf  \n", $1.s, $3.s    );}  
+|  ExpAdditiv G   ExpAdditiv             {asprintf(&$$.s, "%s%ssup  \n", $1.s, $3.s    );}  
+|  ExpAdditiv GEQ ExpAdditiv             {asprintf(&$$.s, "%s%ssupeq\n", $1.s, $3.s    );}  
+|  ExpAdditiv LEQ ExpAdditiv             {asprintf(&$$.s, "%s%sinfeq\n", $1.s, $3.s    );}  
+|  ExpAdditiv EQ  ExpAdditiv             {asprintf(&$$.s, "%s%sequal\n", $1.s, $3.s    );}  
+|  ExpAdditiv NEQ ExpAdditiv             {asprintf(&$$.s, "%s%sequal\nnot\n", $1.s, $3.s);}  
 ;                                      
 
 
-Atribution :  Variable '=' ExpAdditiv    {asprintf(&$$.s, "storeg %d\n", 1);
+Atribution :  Variable '=' ExpAdditiv    {asprintf(&$$.s, "%s%sstoreg %d\n", $1.s, $3.s, 1);
 	                                //if($3==matriz||$3==array)
 	   				//printf("loadn %s\n", $1);
 					//get_type()
@@ -159,34 +159,34 @@ Atribution :  Variable '=' ExpAdditiv    {asprintf(&$$.s, "storeg %d\n", 1);
 ;
 
 
-InstructionsList : Instruction           {$$=$1;}
-| InstructionsList Instruction           {asprintf(&$$.s, "%s %s", $1.s, $2.s);}
+InstructionsList : Instruction           {$$.s=$1.s;}
+| InstructionsList Instruction           {asprintf(&$$.s, "%s%s", $1.s, $2.s);}
 ;
 
-Else :        {  asprintf(&$$.s,"l1level%s: nop\n", get_label(status, if_inst));
-                 remove_label(if_inst);
+Else :        {  
+                 
               } 
 
-|             {  
-                 printf("jz l2level%s\n", add_label(else_inst)); 
-                 printf("l1level%s: nop\n", get_label(status, if_inst));
-		         remove_label(if_inst);
-	          }
+|            
 
-ELSE '{' InstructionsList '}'          { asprintf(&$$.s,"%s l2level%s:nop\n", $4.s, get_label(status, else_inst)); 
-		                                 remove_label(if_inst);
+ELSE '{' InstructionsList '}'          { 
+                                         asprintf(&$$.s, "%sjz l2level%d\nsl1level%d: nop\n", $3.s,  add_label(else_inst)); 
+                                         asprintf(&$$.s, "%sl1level%d: nop\n", get_label(status, if_inst));
+		                         remove_label(if_inst);
+                                         asprintf(&$$.s,"%sl2level%d:nop\n", $3.s, get_label(status, else_inst)); 
+		                         remove_label(else_inst);
                                        }
 
-Instruction : Atribution ';'           {$$=$1;}
-| READ  Variable ';'                   {asprintf(&$$.s,"pushi %s\n", $2);}
-| WRITE ExpAdditiv ';'                 {asprintf(&$$.s,"%swritei\n", $2.s);}   
+Instruction : Atribution ';'           {$$.s=$1.s;}
+| READ  Variable ';'                   {asprintf(&$$.s,"%spushi %d\nread\n", $2.s, 1);}
+| WRITE ExpAdditiv ';'                 {asprintf(&$$.s,"%swritei %d\n", $2.s, 1);}   
 | WRITE string ';'                     {asprintf(&$$.s,"pushs %s\nwrites\n", $2);
                                        
 					}
 
 
 | IF '('  Exp ')' '{' InstructionsList '}' Else          
-                                       { asprintf(&$$.s, "%s jz l1level%s\n %s %s\n",$3.s, add_label(if_inst), $6.s, $8.s);  } 
+                                       { asprintf(&$$.s, "%sjz l1level%d\nl1level%d: nop\n%s%s",$3.s, add_label(if_inst), get_label(status, if_inst),  $6.s, $8.s);  } 
 
 				       
 
@@ -197,14 +197,14 @@ Instruction : Atribution ';'           {$$=$1;}
 
 | WHILE 	                          
 '(' Exp ')' 	                        
-'{' InstructionsList '}'               { asprintf(&$$.s,"loop%s: nop\t\n%s\njump loop%s\n%sjz done%s\n",add_label(while_inst), $3.s, 
+'{' InstructionsList '}'               { asprintf(&$$.s,"loop%d: nop\t\n%s\njump loop%d\n%sjz done%d\n",add_label(while_inst), $3.s, 
                                          get_label(status,while_inst), $6.s, get_label(status, while_inst)); 
-                                         asprintf(&$$.s,"done%s: nop\n", get_label(status, while_inst ));
+                                         asprintf(&$$.s,"done%d: nop\n", get_label(status, while_inst ));
 			                 remove_label(while_inst);
 			               }
 
 | DO '{' InstructionsList '}' WHILE '(' Exp ')' ';' 
-                                       { asprintf(&$$.s,"loop%s: nop\t\n%s %s jz loop%s\t\n",add_label(do_while_inst),  $3.s, $7.s, get_label(status, do_while_inst));
+                                       { asprintf(&$$.s,"%$loop%d: nop\t\n%s %s jz loop%d\t\n",add_label(do_while_inst),  $3.s, $7.s, get_label(status, do_while_inst));
                                                  remove_label(do_while_inst);
                                        }
 ; 
