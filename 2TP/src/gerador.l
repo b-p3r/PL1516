@@ -27,9 +27,9 @@ lixo .|\n
 (IF)                      {return IF;}
 (ELSE)                    {return ELSE;}
 (DO)                      {return DO;}
-\"[^"]+\"                 {yylval.valString = strdup(yytext); return string;}
-{digito}+                 {yylval.valNro = atoi(yytext); return num;}
-{letra}+                  {yylval.valID= strdup(yytext); return id;}
+\"[^"]+\"                 {yylval.val_string = strdup(yytext); return string;}
+{digito}+                 {yylval.val_nro = atoi(yytext); return num;}
+{letra}+                  {yylval.val_id= strdup(yytext); return id;}
 {lixo}                    {;}
 
 %%

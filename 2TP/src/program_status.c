@@ -2,148 +2,314 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "program_status.h"
+#include "entry.h"
+#include "types.h"
 #include "hash_table.h"
 #define MAX_LABEL_STACK 256
 #define MAX_LABEL 1024
 
-struct status
+typedef struct status
 {
 
     char label[ MAX_LABEL ];
-    int  labelStack[ MAX_LABEL_STACK ];
-    int  labelNumberSize[ MAX_LABEL_STACK ];
+    int  label_stack[ MAX_LABEL_STACK ];
+    int  label_number_size[ MAX_LABEL_STACK ];
 
     int spointer, strpointer, addresspointer;
-    int sizeLabelString;
+    int size_label_string;
     ITEM *items;
 
 
 
 
-};
+} STATUS;
 
-ProgramStatus *init()
-{   int i;
-    ProgramStatus *tmp = ( ProgramStatus * ) malloc ( sizeof ( struct status ) );
+Program_status *init()
+{
+    int i;
+    Program_status *tmp = ( Program_status * ) malloc ( sizeof ( struct status ) );
+    printf("-------------------------------------------------->SP %p\n", tmp);
 
     if ( tmp == NULL )
         return NULL;
 
     tmp->spointer = 0;
     tmp->strpointer = 0;
-    tmp->sizeLabelString = 0;
-    tmp->addresspointer = -1;
+    tmp->size_label_string = 0;
+    tmp->addresspointer =  0;
     tmp->items = init_hashtable();
 
-    for ( i = 0; i < MAX_LABEL_STACK; tmp->labelStack[i++]=0 );
+    for ( i = 0; i < MAX_LABEL_STACK; tmp->label_stack[i++]=0 );
 }
 
-int pushLabelStack ( ProgramStatus *status )
-{   if ( status==NULL )
+int push_label_stack ( Program_status *status )
+{
+    if ( status==NULL )
         return -1;
 
     status->spointer++;
+    printf("-------------------------------------------------->SP %d\n", status->spointer);
     return 0;
 }
 
-int popLabelStack ( ProgramStatus *status )
-{   if ( status==NULL )
+int pop_label_stack ( Program_status *status )
+{
+    if ( status==NULL )
         return -1;
 
     status->spointer--;
+    printf("-------------------------------------------------->SP %d\n", status->spointer);
     return 0;
 }
 
-int topLabelStack ( ProgramStatus *status )
-{   int res = -1;
+int top_label_stack ( Program_status *status )
+{
+    int res = -1;
 
     if ( status==NULL )
         return -1;
 
-    res = status->labelStack[status->spointer - 1 ];
+    res = status->label_stack[status->spointer - 1 ];
     return res;
 }
 
-int resetLabelStack ( ProgramStatus *status )
-{   int res = -1;
+int reset_label_stack ( Program_status *status )
+{
+    int res = -1;
 
     if ( status==NULL )
         return -1;
 
-    status->labelStack[status->spointer]=0;
+    status->label_stack[status->spointer]=0;
+    printf("-------------------------------------------------->RESET %d\n", status->label_stack[status->spointer]);
     return 0;
 }
-int incrementTopLabelStack ( ProgramStatus *status )
-{   if ( status == NULL )
+int increment_top_label_stack ( Program_status *status )
+{
+    if ( status == NULL )
         return -1;
 
-    status->labelStack[status->spointer - 1 ]++;
+    status->label_stack[status->spointer - 1 ]++;
     return 0;
 }
 
-char *getLabel ( ProgramStatus *status )
-{   if ( status==NULL )
+char *get_label ( Program_status *status )
+{
+    if ( status==NULL )
         return NULL;
 
     return strdup ( status->label );
 }
-char *pushLabel ( ProgramStatus *status )
-{   char buffer[10];
+char *push_label ( Program_status *status )
+{
+    char buffer[10];
     char *tmp;
 
     if ( status==NULL )
         return NULL;
 
-    incrementTopLabelStack ( status );
-    snprintf ( buffer, 10, "%d", topLabelStack ( status ) );
-    status->sizeLabelString = strlen ( buffer );
+    increment_top_label_stack ( status );
+    snprintf ( buffer, 10, "%d", top_label_stack ( status ) );
+    status->size_label_string = strlen ( buffer );
     strcpy ( status->label + status->strpointer, buffer );
     tmp = strdup ( status->label );
-    status->labelNumberSize[status->spointer] = status->sizeLabelString;
-    status->strpointer+=status->sizeLabelString;
+    printf("-------------------------------------------------->LABEL %s\n", status->label);
+    status->label_number_size[status->spointer] = status->size_label_string;
+    status->strpointer+=status->size_label_string;
     return tmp;
 }
 
-int popLabel ( ProgramStatus *status )
-{   int i;
+int pop_label ( Program_status *status )
+{
+    int i;
 
     if ( status==NULL )
         return -1;
 
-    for ( i = status->sizeLabelString + 1; i >= 0; i-- )
+    for ( i = status->size_label_string + 1; i >= 0; i-- )
         status->label[status->strpointer + i] = '\0';
 
-    status->strpointer-=status->labelNumberSize[status->spointer];
+    status->strpointer-=status->label_number_size[status->spointer];
+
+    printf("-------------------------------------------------->STRPPP %d\n",  status->strpointer);
     return 0;
 }
 
-int atribute_adress_for_var ( ProgramStatus *status )
-{   int address;
+int atribute_adress_for_var ( Program_status *status )
+{
+    int address;
 
     if ( status==NULL )
         return -1;
 
-    address = ++status->addresspointer;
+    status->addresspointer++;
+    address = status->addresspointer-1;
+
     return address;
 }
 
-int atribute_adress_for_array ( ProgramStatus *status, int size)
-{   int address=0;
+int atribute_adress_for_array ( Program_status *status, int size)
+{
+    int address=0;
 
     if ( status==NULL )
         return -1;
-    address = ++status->addresspointer;
+
+    address = status->addresspointer-1;
     status->addresspointer+=size;
 
     return address;
 }
 
-void add_identifier ( ProgramStatus *status, char *key, Entry *entry )
+
+
+
+
+int check_type ( Type a, Type b)
 {
+
+    return a == b;
 }
 
-Entry *find_identifier ( ITEM *items, char *key )
+
+Type get_class_integer_type ( Entry *entry )
 {
+    Class id_class;
+    Type res = Any;
+
+    if(entry==NULL)
+        return Any;
+
+    id_class = get_class(entry);
+
+    switch(id_class)
+        {
+
+        case Variable:
+        case Array:
+        case Matrix:
+            res = Integer;
+            break;
+
+        default :
+            break;
+
+        }
+
+    return res;
+}
+
+int add_Variable ( Program_status *status, char *key, Type type, Class id_class, Level level)
+{
+    Entry * entry = NULL;
+    int address = -1;
+
+    if(status==NULL)
+        return -1;
+
+    address = atribute_adress_for_var(status);
+
+    if(address==-1)
+        return -1;
+
+    address = atribute_adress_for_var(status);
+    entry  = new_entry_variable(address, type, id_class, level);
+
+    if(entry==NULL)
+        return -1;
+
+    add_key(status->items, key, entry);
+
+    return 0;
+}
+
+int add_Array ( Program_status *status, char *key, Type type, Class id_class, int size, Level level)
+{
+    Entry * entry = NULL;
+    int address = -1;
+
+    if(status==NULL)
+        return -1;
+
+    address = atribute_adress_for_array(status, size);
+
+    if(address==-1)
+        return -1;
+
+    entry  = new_entry_array(address, type, id_class, size, level);
+
+    if(entry==NULL)
+        return -1;
+
+    add_key(status->items, key, entry);
+    return 0;
+}
+
+int add_Matrix ( Program_status *status, char *key, Type type, Class id_class, int size, int ncols, Level level)
+{
+    Entry * entry = NULL;
+    int address = -1;
+
+    if(status==NULL)
+        return -1;
+
+    address = atribute_adress_for_array(status, size);
+
+
+    if(address==-1)
+        return -1;
+
+    entry  = new_entry_matrix(address, type, id_class,size, ncols, level);
+
+    if(entry==NULL)
+        return -1;
+
+    add_key(status->items, key, entry);
+
+    return 0;
+}
+
+Entry *find_identifier ( Program_status *status, char *key )
+{
+    Entry * entry = NULL;
+
+    if(status==NULL)
+        return NULL;
+
+    entry = find_key(status->items, key);
+
+    return entry;
+
+}
+
+void delete_identifier ( Program_status *status, char *key )
+{
+    Entry * entry = NULL;
+
+    if(status==NULL)
+        return;
+
+    entry = find_key(status->items, key);
+
+    if(entry)
+        delete_key(status->items, key);
+
+}
+
+void delete_all_identifiers ( Program_status *status)
+{
+    if(status==NULL)
+        return;
+
+    delete_all(status->items);
+
+}
+
+void destroy_status(Program_status * status)
+{
+    delete_all_identifiers (status);
+    free(status);
+    status = NULL;
 }
 
 

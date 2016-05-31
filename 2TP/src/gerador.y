@@ -1,44 +1,34 @@
+// *INDENT-OFF*
 %{
+// *INDENT-ON*
 #include <stdio.h>
 #include <string.h>
 #include "./src/program_status.h"
+#include "./src/entry.h"
+#include "./src/types.h"
 int yylex();
 int yylineno;
 
-ProgramStatus * status;
+Program_status * status;
+char *  add_label(){
 
-typedef struct ast_type_inference {
-
-Type type;
-
-
-
-};
-
+push_label_stack(status);
+return push_label(status);
+}
+void remove_label(){
+reset_label_stack(status);
+pop_label_stack(status);
+}
 int yyerror(char *s);
 
-char *  addLabel(){
-
-pushLabelStack(status);
-return pushLabel(status);
-
-
-
-}
-void removeLabel(){
-
-resetLabelStack(status);
-popLabelStack(status);
-
-}
-
+// *INDENT-OFF*
 %}
 
-%union{char * valString; int valNro; char* valID; Type valType;}
+%union{char * val_string; int val_nro; char* val_id; Type val_type;}
 
-%token <valID>id
-%token <valNro>num
-%token <valString>string
+%token <val_iD>id
+%token <val_nro>num
+%token <val_string>string
 %token BEGINNING
 %token END
 
@@ -59,25 +49,26 @@ popLabelStack(status);
 %token WHILE
 %token DO
 
-//%type<valID>Variable
-//%type <valType> Program
-//%type<valType>Declarations
-//%type<valType>Body
-//%type<valType>InstructionsList
-//%type<valType>Declaration
-//%type<valType>DeclarationsList
+//%type <val_type> Program
+//%type<val_type>Declarations
+//%type<val_type>Body
+//%type<val_type>Instructions_list
+//%type<val_type>Declaration
+//%type<val_type>Declarations_list
 
-%type<valID>Variable
 
-//%type<valType>Atribution
-//%type<valType>Instruction
-//%type<valType>Else
 
-%type<valType>Constant
-%type<valType>Term
-%type<valType>ExpAdditiv
-%type<valType>ExMultipl
-%type<valType>Exp
+//%type<val_type>Atribution
+//%type<val_type>Instruction
+//%type<val_type>Else
+
+%type<val_id>Variable
+
+%type<val_type>Constant
+%type<val_type>Term
+%type<val_type>ExpAdditiv
+%type<val_type>ExMultipl
+%type<val_type>Exp
 
 
 %%
@@ -86,7 +77,7 @@ Program : Declarations Body
 ;
 Body : BEGINNING InstructionsList END         
 ;
-Declaration : id                           {printf("pushi 0\n", );}
+Declaration : id                           {printf("pushi 0\n");}
 | id '[' num ']'                           {printf("pushn %d\n", $3 );}   
 | id '[' num ']' '[' num ']'               {printf("pushn %d\n", $3*$6 );}   
 ;
@@ -97,25 +88,27 @@ DeclarationsList : Declaration
 ;
 Variable : id                              {printf("pushg %d\n", 1); 
 
-	                                    $$=integer;}
+	                                    //$$=Integer;
+					    }
 | id '[' ExpAdditiv ']' SecondDimension {printf("pushgp\npushg %d\npadd\n", 1);
-                                           $$=integer;}    
+                                           //$$=Integer;
+					   }    
 ;
 
 SecondDimension : 
-		| '[' {printf("pushi %d\n", 20)}
-                     
+		| '[' {printf("pushi %d\n", 20);}
+
 		   ExpAdditiv 
-		   
+
 		   ']' {printf("mul\n");
 		        printf("add\n");       }
 		;
 
-Constant : num  {printf("pushi %d\n", $1)
-	         $$=integer;}
+Constant : num  {printf("pushi %d\n", $1);
+	         $$=Integer;}
          ;
-Term : Constant
-| Variable                                {$$=$1;}
+Term : Constant                           {$$=$1;}
+| Variable                                {;}
 | '-' Exp                                 {printf("pushi -1\n");      
                                            printf("sub\n");
                                           }
@@ -134,28 +127,28 @@ ExMultipl : Term
 ExpAdditiv : ExMultipl                   {;}
 | ExpAdditiv '+' ExMultipl               {printf("add\n");}  
 | ExpAdditiv '-' ExMultipl               {printf("sub\n");}  
-| ExpAdditiv OR ExMultipl                {printf("add\n");}  
+| ExpAdditiv OR  ExMultipl                {printf("add\n");}  
 ;                                         
-                                          
+
 Exp : ExpAdditiv                         {;}  
-|  ExpAdditiv L  ExpAdditiv              {printf("inf\n");}  
-|  ExpAdditiv G  ExpAdditiv              {printf("sup\n");}  
+|  ExpAdditiv L   ExpAdditiv              {printf("inf\n");}  
+|  ExpAdditiv G   ExpAdditiv              {printf("sup\n");}  
 |  ExpAdditiv GEQ ExpAdditiv             {printf("supeq\n");}  
 |  ExpAdditiv LEQ ExpAdditiv             {printf("infeq\n");}  
-|  ExpAdditiv EQ ExpAdditiv              {printf("equal\n");}  
+|  ExpAdditiv EQ  ExpAdditiv              {printf("equal\n");}  
 |  ExpAdditiv NEQ ExpAdditiv             {printf("equal\nnot\n");}  
 ;                                      
 
 
 Atribution :  Variable '=' ExpAdditiv    {
-	                                if($3==matriz||$3==array)
-	   				printf("loadn %s\n", $1);
-					//getType()
-	                                if($1==matriz||$1==array)
-	   				printf("storen\n");
-				        else	
-	   				printf("storeg %s\n", $1);
-					
+	                                //if($3==matriz||$3==array)
+	   				//printf("loadn %s\n", $1);
+					//get_type()
+	                                //if($1==matriz||$1==array)
+	   				//printf("storen\n");
+				        //else	
+	   				printf("storeg %d\n", 1);
+
 					 }
 ;
 
@@ -173,43 +166,43 @@ Instruction : Atribution ';'
 					}
 
 
-| IF '('  Exp ')'                      {printf("jz l1level%d\n",addLabel());
+| IF '('  Exp ')'                      {printf("jz l1level%s\n", add_label());
 
 
 
 }
 
 '{' InstructionsList '}' 
-Else                                   {removeLabel();}
-| WHILE 	                       { printf("loop%s: nop\t\n", addLabel()); }
+Else                                   {remove_label();}
+| WHILE 	                       { printf("loop%s: nop\t\n", add_label()); }
 
-'(' Exp ')' 	                       { printf("jz done%d\n", getLabel(status));}
-
-
+'(' Exp ')' 	                       { printf("jz done%s\n", get_label(status));}
 
 
-'{' InstructionsList '}'               { printf("jump loop%d\n", getLabel(status)); 
-                                         printf("done%d: nop\n", getLabel(status));
-			                 removeLabel();
+
+
+'{' InstructionsList '}'               { printf("jump loop%s\n", get_label(status)); 
+                                         printf("done%s: nop\n", get_label(status));
+			                 remove_label();
 			               }
 
-| DO                                   { printf("loop%s: nop\t\n", addLabel());
+| DO                                   { printf("loop%s: nop\t\n", add_label());
                                        }
 
 
 
 
-'{' InstructionsList '}' WHILE '(' Exp ')' ';' { printf("jz loop%s\t\n", getLabel());
-                                                 removeLabel();
+'{' InstructionsList '}' WHILE '(' Exp ')' ';' { printf("jz loop%s\t\n", get_label(status));
+                                                 remove_label();
                                                }
 ; 
 
-Else :        {  printf("l1level%d: nop\n", getLabel(status)); } 
+Else :        {  printf("l1level%s: nop\n", get_label(status)); } 
 
-|             {  printf("jz l2level%d\n", getLabel(status)); 
-                 printf("l1level%d: nop\n", getLabel(status));
+|             {  printf("jz l2level%s\n", get_label(status)); 
+                 printf("l1level%s: nop\n", get_label(status));
 	      }
-ELSE '{' InstructionsList '}' { printf("l2level%s:nop\n", getLabel(status)); }
+ELSE '{' InstructionsList '}' { printf("l2level%s:nop\n", get_label(status)); }
 ;
 
 
@@ -217,21 +210,24 @@ ELSE '{' InstructionsList '}' { printf("l2level%s:nop\n", getLabel(status)); }
 
 
 %%
-
+// *INDENT-ON*
 #include "lex.yy.c"
 
-int yyerror(char * mensagem) {
-printf("Erro sintático %d: %s em %s\n", yylineno, mensagem, yytext);
-	return 0;
+int yyerror(char * mensagem)
+{
+    printf("Erro sintático %d: %s em %s\n", yylineno, mensagem, yytext);
+    return 0;
 }
 
-int main() {
+int main()
+{
 
-status = init();
+    status = init();
+    printf("STATUS %p", status);
 
-pushLabelStack(status);
-	yyparse();
-popLabel(status);
-	return 0;
+    push_label_stack(status);
+    yyparse();
+    pop_label(status);
+    return 0;
 }
 

@@ -1,23 +1,21 @@
-#ifndef TYPES_INCLUDED
-#define TYPES_INCLUDED
-
-
-#include <stdlib.h>
-#include "entry.h"
+#ifndef TYPES_H_INCLUDED
+#define TYPES_H_INCLUDED
 
 typedef enum cl
 {
-    variable,
-    function,
-    procedure,
-    nothing
+    Variable,
+    Array,
+    Matrix,
+    Function,
+    Procedure,
+    Nothing
 
-}Category;
+}Class;
 
 typedef enum lv
 {
-    main_function,
-    called_function
+    Program,
+    Subprogram
 
 
 }Level;
@@ -25,7 +23,9 @@ typedef enum lv
 
 typedef enum tp
 {
-    integer,
-    array
+    Any,
+    Integer,
+    Boolean
+
 }Type;
-#endif // TYPES_INCLUDED
+#endif // TYPES_H_INCLUDED
