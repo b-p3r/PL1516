@@ -2,107 +2,95 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "program_status.h"
-#include "entry.h"
-#include "types.h"
-#include "hash_table.h"
-#define MAX_LABEL_STACK 1024
-#define MAX_LABEL 1024
-
-typedef struct status
-{
-
-    char label[ MAX_LABEL ];
-    int  label_stack[ MAX_LABEL_STACK ];
-    int  label_number_size[ MAX_LABEL_STACK ];
-
-    int spointer, strpointer, addresspointer;
-    int size_label_string;
-    ITEM *items;
 
 
-
-
-} STATUS;
-
-Program_status *init()
+Program_status *init(Program_status * status)
 {
     int i;
-    Program_status *tmp = ( Program_status * ) malloc ( sizeof ( struct status ) );
 
-    if ( tmp == NULL )
+    if ( status == NULL )
         return NULL;
 
-    tmp->spointer = 0;
-    tmp->strpointer = 0;
-    tmp->size_label_string = 0;
-    tmp->addresspointer =  0;
-    tmp->items = init_hashtable();
+    for ( i = 0; i < MAX_CONDITION_ROW; i++ ){
+    status->spointer         [i][1] = 0;
+    status->strpointer       [i][1] = 0;
+    status->size_label_string[i][1] = 0;
+
+    }
+    status->addresspointer = 0;
+    status->items = init_hashtable();
 
     for ( i = 0; i < MAX_LABEL_STACK; i++ ){
     
-     tmp->label_stack[i]=0;
-      tmp->label_number_size[i]=0;
+     status->label_stack      [0][i]=0;
+     status->label_stack      [1][i]=0;
+     status->label_stack      [2][i]=0;
+     status->label_stack      [3][i]=0;
+     status->label_number_size[0][i]=0;
+     status->label_number_size[1][i]=0;
+     status->label_number_size[2][i]=0;
+     status->label_number_size[3][i]=0;
     
     }
 }
 
-int push_label_stack ( Program_status *status )
+int push_label_stack ( Program_status *status, CompoundInstruction cpd )
 {
     if ( status==NULL )
         return -1;
 
-    status->spointer++;
+    status->spointer[cpd][1]++;
     return 0;
 }
 
-int pop_label_stack ( Program_status *status )
+int pop_label_stack ( Program_status *status, CompoundInstruction cpd )
 {
     if ( status==NULL )
         return -1;
 
-    status->spointer--;
+    status->spointer[cpd][1]--;
     return 0;
 }
 
-int top_label_stack ( Program_status *status )
+int top_label_stack ( Program_status *status , CompoundInstruction cpd)
 {
     int res = -1;
 
     if ( status==NULL )
         return -1;
 
-    res = status->label_stack[status->spointer - 1 ];
+    res = status->label_stack[cpd][status->spointer[cpd][1] - 1 ];
     return res;
 }
 
-int reset_label_stack ( Program_status *status )
+int reset_label_stack ( Program_status *status , CompoundInstruction cpd)
 {
     int res = -1;
 
     if ( status==NULL )
         return -1;
 
-    status->label_stack[status->spointer]=0;
-    status->label_number_size[status->spointer]=0;
+    status->label_stack[cpd][status->spointer[cpd][1]]=0;
+    status->label_number_size[cpd][status->spointer[cpd][1]]=0;
     return 0;
 }
-int increment_top_label_stack ( Program_status *status )
+int increment_top_label_stack ( Program_status *status, CompoundInstruction cpd )
 {
     if ( status == NULL )
         return -1;
 
-    status->label_stack[status->spointer - 1 ]++;
+    status->label_stack[cpd][status->spointer[cpd][1] - 1 ]++;
     return 0;
 }
 
-char *get_label ( Program_status *status )
+char *get_label ( Program_status *status , CompoundInstruction cpd)
 {
     if ( status==NULL )
         return NULL;
 
-    return strdup ( status->label );
+    return strdup ( status->label[cpd] );
 }
-char *push_label ( Program_status *status )
+char *push_label ( Program_status *status, CompoundInstruction cpd)
 {
     char buffer[10];
     char *tmp;
@@ -110,27 +98,27 @@ char *push_label ( Program_status *status )
     if ( status==NULL )
         return NULL;
 
-    increment_top_label_stack ( status );
-    snprintf ( buffer, 10, "%d", top_label_stack ( status ) );
-    status->size_label_string = strlen ( buffer );
-    strcpy ( status->label + status->strpointer, buffer );
-    tmp = strdup ( status->label );
-    status->label_number_size[status->spointer] = status->size_label_string;
-    status->strpointer+=status->size_label_string;
+    increment_top_label_stack ( status, cpd );
+    snprintf ( buffer, 10, "%d", top_label_stack ( status, cpd ) );
+    status->size_label_string[cpd][1] = strlen ( buffer );
+    strcpy ( status->label[cpd] + status->strpointer[cpd][1], buffer );
+    tmp = strdup ( status->label[cpd] );
+    status->label_number_size[cpd][status->spointer[cpd][1]] = status->size_label_string[cpd][1];
+    status->strpointer[cpd][1]+=status->size_label_string[cpd][1];
     return tmp;
 }
 
-int pop_label ( Program_status *status )
+int pop_label ( Program_status *status, CompoundInstruction cpd )
 {
     int i;
 
     if ( status==NULL )
         return -1;
 
-    for ( i = status->size_label_string + 1; i >= 0; i-- )
-        status->label[status->strpointer + i] = '\0';
+    for ( i = status->size_label_string[cpd][1] + 1; i >= 0; i-- )
+        status->label[cpd][status->strpointer[cpd][1] + i] = '\0';
 
-    status->strpointer-=status->label_number_size[status->spointer];
+    status->strpointer[cpd][1]-=status->label_number_size[cpd][status->spointer[cpd][1]];
 
     return 0;
 }
