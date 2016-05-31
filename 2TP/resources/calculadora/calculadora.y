@@ -40,8 +40,7 @@ atribuicao : var '=' e    {asprintf(&$$, "%s storeg %d\n",
                                           $3, atoindice($1));}
            ; 
 
-escrita    : '!' e        {asprintf(&$$, "%s writei\n",
-                                              $2);}
+escrita    : '!' e        {asprintf(&$$, "%s writei\n", $2);}
            ;
 
 
