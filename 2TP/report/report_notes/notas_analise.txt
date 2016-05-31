@@ -1,0 +1,21 @@
+ANÁLISE DO PROBLEMA
+
+Neste segundo trabalho prático, foi proposto o desenvolvimento de uma linguagem de programação imperativa simples (LPIS), e a implementação do respetivo compilador. A LPIS definida deve permitir determinadas operaçãos necessárias ao bom funcionamento de uma linguagem imperativa, especificamente:
+
+-declaração e manuseamento de variáveis atómicas do tipo inteiro que permitam a realização de operaçãoes aritméticas, relacionais e lógicas;
+
+-declararação e manuseamento variáveis estruturadas do tipo array de inteiros, com 1 ou 2 dimensões, que permitam apenas operações de indexação;
+
+-realização de instruções algorítmicas básicas como a atribuição de expressões a variáveis;
+
+-leitura do standard input e escrita no standard output;
+
+-realização de instruções de controlo do fluxo de execução que permitam aninhamento;
+
+Opcionalmente, a linguagem definidad deve ser capaz de definir e invocar subprogramas sem parâmetros, mas que possam retornar um resultado atmico.
+
+A LPIS definida não deve permitir re-declarações de variáveis, ou utilização destas sem declaração prévia. Adicionalmente, todas as variáveis devem ser declaradas no ínicio do programa.
+
+O compilador da LPIS desenvolvida deve ser criado recorrendo ao Gerador Yacc/Flex. Deve também gerar pseudo-código Assempbley da máquina virtual VM, disponibilizada com o enunciado.
+
+

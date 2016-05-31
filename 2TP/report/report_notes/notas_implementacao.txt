@@ -1,0 +1,31 @@
+IMPLEMENTAÇÃO
+
+
+Programas escritos na LPIS estão divididos em dois blocos. O primeiro bloco corresponde á declaração de variáveis, o segundo á  lista de instruções.
+
+Declaração de variáveis
+
+O bloco de declaração de variáveis é iniciado com a palavra reservada 'VAR'. Este termo é seguido por a declaração de todos as variáveis utilizados no programa. A linguagem permite apenas variáveis do tipo inteiro, pelo que não existe necessidade de identificar individualmente cada variável declarada. Tal como referido nas especificações da linguagem, são permitidas variáveis atómicas, ou arrays até 2 dimensões.
+
+Bloco de instruções
+
+A lista de instruções de qualquer programa deve estar delimitada por as palavras reservadas 'BEGIN' e 'END'. São permitidas as operações aritméticas básicas ///
+
+
+Quatro métodos para controlo de fluxo estão disponíveis:
+
+- IF(Expressão){Lista de instruçoes}: 
+
+- IF(Expressão){Lista de instruçoes}ELSE{Lista de instruçoes}:
+
+- WHILE(Expressão){Lista de instruçoes}:
+
+- DO{Lista de instruçoes}WHILE(Expressão):
+
+
+
+
+
+controlo de fluxo: if, if-else, while, do-while
+
+<Gramatica da linguagem>
