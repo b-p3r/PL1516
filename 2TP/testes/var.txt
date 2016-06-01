@@ -1,0 +1,11 @@
+VAR x, y, max;
+
+
+BEGINNING
+
+	
+	  max = x;
+	
+	
+	
+END
