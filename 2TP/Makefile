@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 CC = gcc 
 
-CFLAGS =  
+CFLAGS = -g 
 LATEX=pdflatex
 LATEXOPT=--shell-escape
 LATEXMK=latexmk
