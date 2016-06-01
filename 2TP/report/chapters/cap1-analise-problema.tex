@@ -2,8 +2,8 @@
 \label{cap:analise}
 
 O desafio deste projeto consiste na criação de uma linguagem de programação imperativa simples (LPIS) e respetivo compilador.
-Para tal é necessário criar uma gramática em ?//, definir símbolos terminais e não terminais, e desenvolver o analisador léxico. Adicionalmente, é necessário o desenvolvimento do analisador sintático, com base nas regras da gramática e tendo em conta a análise léxica. O compilador da linguagem irá incorporar ambas as análises?// supramencionadas, e procederá a uma análise de ações semânticas e á geração do código. 
-O código gerado será pseudo-código da maquina virtual VM, o analisador léxico será elaborado no Flex, e o Yacc será usado pora a ge//? do código e análises sintática e semântica.   
+Para tal é necessário criar uma gramática em ?//, definir símbolos terminais e não terminais, e desenvolver o analisador léxico. Adicionalmente, é necessário o desenvolvimento do analisador sintático, com base nas regras da gramática e tendo em conta a análise léxica. O compilador da linguagem irá incorporar ambas as análises supramencionadas, e procederá a uma análise de ações semânticas e á geração do código. 
+O código gerado será pseudo-código da maquina virtual VM, o analisador léxico será elaborado no Flex, e o Yacc será usado para a geração do código e análises sintática e semântica.   
 
 
 \section{Especificação dos requisitos}
@@ -37,7 +37,7 @@ Uma linguagem imperativa completa necessita de permitir pelo menos três estrutu
 
 Por uma questão de simplificação do código, poderá adicionalmente permitir a estrutura IF()THEN\{\}.\\
 
-De igual modo, permitindo a linguagem acesso a estruturas do tipo array, é necessário ter em conta que qualquer array, independentemente da dimensão, é representado em memória como um único array // uma dimensão. Contudo, é necessário establecer regras para o acesso a arrays uni e bidimensionais. Para garantir a eficácia da linguagem, considerar-se-á que o acesso será feito em "row major" para arrays bidimensionais.\\
+De igual modo, permitindo a linguagem acesso a estruturas do tipo array, é necessário ter em conta que qualquer array, independentemente da dimensão, é representado em memória como um único array de uma dimensão. Contudo, é necessário establecer regras para o acesso a arrays uni e bidimensionais. Para garantir a eficácia da linguagem, considerar-se-á que o acesso será feito em "row major" para arrays bidimensionais.\\
 
 Genericamente, o acesso a um array pode ser representado por a seguinte fórmula:\\
 
@@ -70,7 +70,7 @@ Onde:
 \item w é o tamanho do elemento em bytes;
 \item lr é o limite inferior da linha;
 \item lc é o limite inferior da coluna;
-\item N é o número máximo de colunas?;
+\item N é o número máximo de colunas;
 \end{itemize}
 
 Assumindo w = 1 e lr = lc = 0, temos:\\
@@ -83,8 +83,8 @@ A[i][j] = b + i + N * j;\\
 
 Para o cálculo das expressões é necessário ter em conta algumas propriedades de cada tipo de expressão. Ou seja, é necessário verificar os tipos atómicos (variáveis, constantes, elementos de arrays), que assumimos como inteiros, e os resultados das expressões por inferência. Assim:\\
 \begin{itemize}
-\item Para as expressões aritméticas (soma, subtração, multiplicação, divisão, divisão inteira e módulo), bem como os elementos // da expressão, o tipo deverá ser um inteiro;
-\item Para as expressões relacionais (maior, menor, maior ou igual, menor ou igual, igual e diferente), os elementos da expressão deverão ser do tipo inteiro e o resulatdo um valor booleano;
+\item Para as expressões aritméticas (soma, subtração, multiplicação, divisão, divisão inteira e módulo), bem como os elementos constituintes da expressão, o tipo deverá ser um inteiro;
+\item Para as expressões relacionais (maior, menor, maior ou igual, menor ou igual, igual e diferente), os elementos da expressão deverão ser do tipo inteiro e o resultado um valor booleano;
 \item Para as expressões lógicas, os elementos deverão ser booleanos e o resultado deverá também ser booleano;
 \end{itemize}
 
