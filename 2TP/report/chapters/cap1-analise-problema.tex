@@ -2,7 +2,7 @@
 \label{cap:analise}
 
 O desafio deste projeto consiste na criação de uma linguagem de programação imperativa simples (LPIS) e respetivo compilador.
-Para tal é necessário criar uma gramática em ?//, definir símbolos terminais e não terminais, e desenvolver o analisador léxico. Adicionalmente, é necessário o desenvolvimento do analisador sintático, com base nas regras da gramática e tendo em conta a análise léxica. O compilador da linguagem irá incorporar ambas as análises supramencionadas, e procederá a uma análise de ações semânticas e á geração do código. 
+Para tal é necessário criar uma gramática em ???, definir símbolos terminais e não terminais, e desenvolver o analisador léxico. Adicionalmente, é necessário o desenvolvimento do analisador sintático, com base nas regras da gramática e tendo em conta a análise léxica. O compilador da linguagem irá incorporar ambas as análises supramencionadas, e procederá a uma análise de ações semânticas e á geração do código. 
 O código gerado será pseudo-código da maquina virtual VM, o analisador léxico será elaborado no Flex, e o Yacc será usado para a geração do código e análises sintática e semântica.   
 
 
@@ -88,7 +88,7 @@ Para o cálculo das expressões é necessário ter em conta algumas propriedades
 \item Para as expressões lógicas, os elementos deverão ser booleanos e o resultado deverá também ser booleano;
 \end{itemize}
 
-De notar que várias expressões podem ser compostas, pelo que ///. Adicionalmente, existe uma relação de precedência das operações, bem como de fatores. Um factor é uma expressão aninhada, um // ou uma variável. De igual modo, subprogramas e operações // fazem parte deste conjunto. Consequentemente, um factor é prioritário em relação a todas as operações, uma vez que // é o elemento atómico de uma expressão.\\
+De notar que várias expressões podem ser compostas, cuja verificação estará descrita na análise semântica. Adicionalmente, existe uma relação de precedência das operações, bem como de fatores. Um factor é uma expressão aninhada, um // ou uma variável. De igual modo, subprogramas e operações unárias? (uma vez que são funções) fazem parte deste conjunto. Consequentemente, um factor é prioritário em relação a todas as operações, uma vez que é o elemento atómico de uma expressão.\\
 
 Seguidamente temos os termos. Um termo é composto por operações multiplicativas entre fatores, sendo estas a multiplicação, a divisão inteira, e módulo. Poderá também ser incluida a operação lógica "AND", por razões posteriormente explicitadas. As expressões seguintes na escala de prioridades são as expressões aditivas (soma, subtração, //). Poderá ser incluida a operação lógica "OR", por razões que tal como a inclusão de "AND", serão posteriormente explicitadas. As expressões de menor prioridade são as expressões relacionais (>, <, >=, <=, == e !=).\\
 
