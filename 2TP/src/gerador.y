@@ -11,6 +11,8 @@
 int yylex();
 int yylineno;
 
+int is_only_if = 0;
+
 typedef struct aux {
 Type val_type;
 char *s;
@@ -18,7 +20,7 @@ char *s;
 } Instr;
 
 Program_status * status = NULL;
-int  add_label(CompoundInstruction cpd)
+char *  add_label(CompoundInstruction cpd)
 {
 
     push_label_stack(status, cpd);
@@ -84,13 +86,13 @@ void remove_label(CompoundInstruction cpd)
 
 %%
 
-Program : Declarations Body    {printf("%s%s", $1.s, $2.s);} 
+Program : Declarations Body    {printf("%s", $2.s);} 
 ;
-Body : BEGINNING {asprintf(&$<instr>$.s, "start\n");} InstructionsList END      {asprintf(&$$.s, "%sstop\n", $3.s); }
+Body : BEGINNING {printf("start\n");} InstructionsList END      {asprintf(&$$.s, "%sstop\n", $3.s); }
 ;
-Declaration : id                           {asprintf(&$$.s, "pushi 0\n");}
-| id '[' num ']'                           {asprintf(&$$.s, "pushn %d\n", $3 );}   
-| id '[' num ']' '[' num ']'               {asprintf(&$$.s, "pushn %d\n", $3*$6 );}   
+Declaration : id                           {printf("pushi 0\n");}
+| id '[' num ']'                           {printf("pushn %d\n", $3 );}   
+| id '[' num ']' '[' num ']'               {printf("pushn %d\n", $3*$6 );}   
 ;
 Declarations : VAR DeclarationsList ';'    {$$.s=$2.s;}   
 ;
@@ -163,18 +165,50 @@ InstructionsList : Instruction           {$$.s=$1.s;}
 | InstructionsList Instruction           {asprintf(&$$.s, "%s%s", $1.s, $2.s);}
 ;
 
-Else :        {  
-                 
+Else :         { 
+is_only_if=1;
+pop_label(status,if_inst);
+char * tmp = get_label(status,if_inst);
+
+printf("l1level%s:nop\n", tmp);
+//printf("l1level%s:nop\n", tmp);
+free(tmp);
+reset_label_stack(status,if_inst);
+pop_label_stack(status, if_inst);
+
+
               } 
 
 |            
 
 ELSE '{' InstructionsList '}'          { 
-                                         asprintf(&$$.s, "%sjz l2level%d\nsl1level%d: nop\n", $3.s,  add_label(else_inst)); 
-                                         asprintf(&$$.s, "%sl1level%d: nop\n", get_label(status, if_inst));
-		                         remove_label(if_inst);
-                                         asprintf(&$$.s,"%sl2level%d:nop\n", $3.s, get_label(status, else_inst)); 
-		                         remove_label(else_inst);
+                                           
+ 
+
+//push_label_stack(status, else_inst);
+//char * tmp1 = push_label(status,else_inst);
+//printf("jz l2level%s\t\n",tmp1);
+//pop_label(status,else_inst);
+//free(tmp1);
+//char * tmp2 = get_label(status,if_inst);
+//printf("%sjump l2level%s\t\nl1level%s:nop\n", $$.s, tmp1, tmp2);
+//free(tmp2);
+//reset_label_stack(status,if_inst);
+//pop_label_stack(status, if_inst);
+
+                 //printf("jz l2level%s\n", add_label(else_inst)); 
+                 //printf("l1level%s: nop\n", get_label(status, if_inst));
+		         //remove_label(if_inst);
+	          
+                                          char * tmp = get_label(status,else_inst);
+                                          asprintf(&$$.s, "%sl2level%s:nop\n", $3.s,  tmp);
+                                          free(tmp);
+                                          reset_label_stack(status,else_inst);
+                                          pop_label_stack(status, else_inst);
+
+                                         //asprintf(&$$.s,"%s l2level%s:nop\n", $4.s, get_label(status, else_inst)); 
+		                                 //remove_label(if_inst);
+                                      
                                        }
 
 Instruction : Atribution ';'           {$$.s=$1.s;}
@@ -185,8 +219,42 @@ Instruction : Atribution ';'           {$$.s=$1.s;}
 					}
 
 
-| IF '('  Exp ')' '{' InstructionsList '}' Else          
-                                       { asprintf(&$$.s, "%sjz l1level%d\nl1level%d: nop\n%s%s",$3.s, add_label(if_inst), get_label(status, if_inst),  $6.s, $8.s);  } 
+| IF '('  Exp ')' 
+{
+push_label_stack(status, if_inst);
+char * tmp = push_label(status,if_inst);
+asprintf(&$<instr>$.s,"%s", $3.s);
+printf("%sjz l1level%s\t\n", $3.s, tmp);
+free(tmp);
+
+
+}
+
+
+
+
+
+
+'{' InstructionsList '}' 
+Else          
+                                          { 
+if(is_only_if==0){
+push_label_stack(status, else_inst);
+char * tmp1 = push_label(status,else_inst);
+//printf("jz l2level%s\t\n",tmp1);
+pop_label(status,else_inst);
+free(tmp1);
+char * tmp2 = get_label(status,if_inst);
+printf("%sjump l2level%s\t\nl1level%s:nop\n", $7.s, tmp1, tmp2);
+free(tmp2);
+reset_label_stack(status,if_inst);
+pop_label_stack(status, if_inst);
+}
+asprintf(&$$.s,"%s%s", $7.s,$9.s);
+
+//asprintf(&$$.s, "%sjz l1level%s\nl1level%d: nop\n%s%s",$3.s, add_label(if_inst), 
+                                                 //    get_label(status, if_inst),  $6.s, $8.s);  
+                                           } 
 
 				       
 
@@ -195,17 +263,39 @@ Instruction : Atribution ';'           {$$.s=$1.s;}
 
 
 
-| WHILE 	                          
-'(' Exp ')' 	                        
-'{' InstructionsList '}'               { asprintf(&$$.s,"loop%d: nop\t\n%s\njump loop%d\n%sjz done%d\n",add_label(while_inst), $3.s, 
-                                         get_label(status,while_inst), $6.s, get_label(status, while_inst)); 
-                                         asprintf(&$$.s,"done%d: nop\n", get_label(status, while_inst ));
-			                 remove_label(while_inst);
+| WHILE '(' Exp ')' 	{ 
+
+push_label_stack(status, while_inst);
+char * tmp = push_label(status,while_inst);
+asprintf(&$<instr>$.s,"%s", $3.s);
+printf("whileloop%s:nop\n%s\t\n", tmp, $3.s);
+free(tmp);
+//push_label_stack(status, while_inst);
+char * tmp2 = get_label(status,while_inst);
+//asprintf(&$<instr>$.s,"%s", $3.s);
+printf("%sjz whiledone%s\t\n", $3.s, tmp2);
+free(tmp2);
+
+
+}                      
+'{' InstructionsList '}'               {  pop_label(status,while_inst);
+                                          char * tmp2 = get_label(status,while_inst);
+                                          //printf("jump whileloop%s\n",tmp2);
+                                          free(tmp2);
+                                          reset_label_stack(status,while_inst);
+                                          pop_label_stack(status, while_inst);
+
+                                          char * tmp1 = get_label(status,while_inst);
+                                          asprintf(&$$.s, "jump whileloop%s\n%swhiledone%s:nop\n", tmp2, $7.s,  tmp1);
+                                          free(tmp1);
+                                          reset_label_stack(status,while_inst);
+                                          pop_label_stack(status, while_inst);
 			               }
 
 | DO '{' InstructionsList '}' WHILE '(' Exp ')' ';' 
-                                       { asprintf(&$$.s,"%$loop%d: nop\t\n%s %s jz loop%d\t\n",add_label(do_while_inst),  $3.s, $7.s, get_label(status, do_while_inst));
-                                                 remove_label(do_while_inst);
+                                       { 
+                                         //asprintf(&$$.s,"%sloop%s: nop\t\n%s jz loop%s\t\n", $3.s, add_label(do_while_inst),   $7.s, get_label(status, do_while_inst));
+                                         //remove_label(do_while_inst);
                                        }
 ; 
 
