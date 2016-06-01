@@ -1,14 +1,75 @@
 \chapter{Análise do Problema}
 \label{cap:analise}
 
+O desafio deste projeto consiste na criação de uma linguagem de programação imperativa simples (LPIS) e respetivo compilador.
+Para tal é necessário criar uma gramática em ?//, definir símbolos terminais e não terminais, e desenvolver o analisador léxico. Adicionalmente, é necessário o desenvolvimento do analisador sintático, com base nas regras da gramática e tendo em conta a análise léxica. O compilador da linguagem irá incorporar ambas as análises?// supramencionadas, e procederá a uma análise de ações semânticas e á geração do código. 
+O código gerado será pseudo-código da maquina virtual VM, o analisador léxico será elaborado no Flex, e o Yacc será usado pora a ge//? do código e análises sintática e semântica.   
+
+
 \section{Especificação dos requisitos}
 \label{sec:especificacao:analise}
 %Especificação dos requisitos (ver enunciado)
 
+A LPIS definida deve permitir determinadas operaçãos necessárias ao bom funcionamento de uma linguagem imperativa, especificamente:
+
+-declaração e manuseamento de variáveis atómicas do tipo inteiro que permitam a realização de operaçãoes aritméticas, relacionais e lógicas;
+
+-declararação e manuseamento variáveis estruturadas do tipo array de inteiros, com 1 ou 2 dimensões, que permitam apenas operações de indexação;
+
+-realização de instruções algorítmicas básicas como a atribuição de expressões a variáveis;
+
+-leitura do standard input e escrita no standard output;
+
+-realização de instruções de controlo do fluxo de execução que permitam aninhamento;
+
+Opcionalmente, a linguagem definidad deve ser capaz de definir e invocar subprogramas sem parâmetros, mas que possam retornar um resultado atómico.
 
 
 \section{Dados}
 \label{sec:dados:analise}
 
+Uma linguagem imperativa completa necessita de permitir pelo menos três estruturas de controlo:
+
+- IF()THEN{}ELSE{};
+
+- WHILE(){};
+
+- DO{}WHILE();
+
+Por uma questão de simplificação do código, poderá adicionalmente permitir a estrutura IF()THEN{}.
+
+De igual modo, permitindo a linguagem acesso a estruturas do tipo array, é necessário ter em conta que qualquer array, independentemente da dimensão, é representado em memória como um único array // uma dimensão. Contudo, é necessário establecer regras para o acesso a arrays uni e bidimensionais. Para garantir a eficácia da linguagem, considerar-se-á que o acesso será feito em "row major" para arrays bidimensionais.
+Genericamente, o acesso a um array pode ser representado por a seguinte fórmula:
+
+A[i] = b + w * (i - lb);
+
+sendo:
+
+- b o endereço base;
+
+- w o tamanho do elemento;
+
+- i o índice do elemento;
+
+- lb o limite inferior na memória;
+
+No caso do acesso em questão, w = 1 e lb = 0, logo:
+
+A[i] = b + i
+
+
+Para um array bidimensional temos:
+
+A[i][j] = b + w [(i - lr) + N(j - lr)];
+
+onde:
+
+- b é o endereço base;
+
+- i é o índice da linha do elemento;
+
+- j é o índice da coluna do elemento;
+
+- lr //;
 
 
