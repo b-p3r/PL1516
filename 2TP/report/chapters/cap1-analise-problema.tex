@@ -120,7 +120,20 @@ E !=).\\
 
 Para a execução do programa é necessário definir as instruções e operações que
 o definem. O programa pode efetuar cálculos utilizando as expressões previamente
-mencionadas. Note-se no entanto que subprogramas podem ter ou não parâmetros,
+mencionadas. No entanto, é necessário guardar o resultado. Nas linguagem imperativas, 
+a interação base é a atribuição, que pode ser atribuição do valor de uma expressão 
+a uma variável. Esta poderá ser uma variável atómica ou a posição de um array. 
+As restantes instruções terão por base estes cálculos de expressões e atribuições, 
+usando restrições de contrlo de fluxo, tais como "IF..THEN..ELSE..", "WHILE" 
+e "DO..WHILE..".\\
+
+Devido á necessidade de armazenar o valor de expressões, torna-se necessário 
+declarar as variáveis, alocando espaço em memória para as mesmas. As declarações 
+podem designar o nome da variável, o seu tipo, e o seu valor, não // redeclarações 
+da mesma variável. Neste projeto, considerar-se-á que todas as variáveis são globais, 
+ou seja, declaradas antes da execução do programa, e assumem número inteiro.   
+
+Note-se que subprogramas podem ter ou não parâmetros,
 e devolver ou não um valor. Visto que a alocação de memória é efetuada numa
 stack virtual, é necessário, no momento da sua //, criar uma frame no topo da
 stack com todas as variáveis locais declaradas, e parâmetros alocados em
@@ -129,8 +142,9 @@ níveis, em que um nível assume o valor 0 para o programa principal ou o valor
 1 para subprogramas. Finalmente, o início e fim de cada programa ou subprograma
 deve estar devidamente assinalado.  
 
-   
-
+ 
+ 
+ 
 
 
 
