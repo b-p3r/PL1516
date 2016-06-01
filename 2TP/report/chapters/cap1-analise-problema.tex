@@ -39,11 +39,7 @@ Por uma questão de simplificação do código, poderá adicionalmente permitir 
 
 De igual modo, permitindo a linguagem acesso a estruturas do tipo array, é necessário ter em conta que qualquer array, independentemente da dimensão, é representado em memória como um único array de uma dimensão. Contudo, é necessário establecer regras para o acesso a arrays uni e bidimensionais. Para garantir a eficácia da linguagem, considerar-se-á que o acesso será feito em "row major" para arrays bidimensionais.\\
 
-Genericamente, o acesso a um array pode ser representado por a seguinte fórmula:\\
-
-A[i] = b + w * (i - lb);\\
-
-Sendo:
+Genericamente, o acesso a um array pode ser representado por a fórmula $A[i] = b + w * (i - lb)$, sendo:
 
 \begin{itemize}
 \item b o endereço base;
@@ -52,16 +48,9 @@ Sendo:
 \item lb o limite inferior na memória;
 \end{itemize}
 
-No caso do acesso em questão, w = 1 e lb = 0, logo:\\
+No caso do acesso em questão, w = 1 e lb = 0, logo $A[i] = b + i$.\\\\
 
-A[i] = b + i;\\
-
-
-Para um array bidimensional temos:\\
-
-A[i][j] = b + w [(i - lr) + N(j - lc)];\\
-
-Onde:
+Para um array bidimensional temos $A[i][j] = b + w [(i - lr) + N(j - lc)]$, onde:
 
 \begin{itemize}
 \item b é o endereço base;
@@ -73,10 +62,7 @@ Onde:
 \item N é o número máximo de colunas;
 \end{itemize}
 
-Assumindo w = 1 e lr = lc = 0, temos:\\
-
-A[i][j] = b + i + N * j;\\
-
+Assumindo w = 1 e lr = lc = 0, temos $A[i][j] = b + i + N * j$.\\
 
 \section{Relações}
 \label{sec:relacoes:analise}
