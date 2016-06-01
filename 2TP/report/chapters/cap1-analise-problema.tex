@@ -20,14 +20,14 @@ A LPIS definida deve permitir determinadas operaçãos necessárias ao bom funci
 \item realização de instruções de controlo do fluxo de execução que permitam aninhamento;
 \end{itemize}
 
-Opcionalmente, a linguagem definidad deve ser capaz de definir e invocar subprogramas sem parâmetros, mas que possam retornar um resultado atómico.
+Opcionalmente, a linguagem definida deve ser capaz de definir e invocar subprogramas sem parâmetros, mas que possam retornar um resultado atómico.
 
 \newpage
 
 \section{Dados}
 \label{sec:dados:analise}
 
-Uma linguagem imperativa completa necessita de permitir pelo menos três estruturas de controlo:
+Uma linguagem imperativa completa deve de permitir pelo menos três estruturas de controlo:
 
 \begin{itemize}
 \item IF()THEN\{\}ELSE\{\};
@@ -83,16 +83,16 @@ A[i][j] = b + i + N * j;\\
 
 Para o cálculo das expressões é necessário ter em conta algumas propriedades de cada tipo de expressão. Ou seja, é necessário verificar os tipos atómicos (variáveis, constantes, elementos de arrays), que assumimos como inteiros, e os resultados das expressões por inferência. Assim:\\
 \begin{itemize}
-\item Para as expressões aritméticas (soma, subtração, multiplicação, divisão, divisão inteira e módulo), bem como os elementos constituintes da expressão, o tipo deverá ser um inteiro;
+\item Para as expressões aritméticas (soma, subtração, multiplicação, divisão inteira e módulo), bem como os elementos constituintes da expressão, o tipo deverá ser um inteiro;
 \item Para as expressões relacionais (maior, menor, maior ou igual, menor ou igual, igual e diferente), os elementos da expressão deverão ser do tipo inteiro e o resultado um valor booleano;
 \item Para as expressões lógicas, os elementos deverão ser booleanos e o resultado deverá também ser booleano;
 \end{itemize}
 
-De notar que várias expressões podem ser compostas, pelo que ///. Adicionalmente, existe uma relação de precedência das operações, bem como de fatores. Um fator é uma expressão aninhada, um // ou uma variável. De igual modo, subprogramas e operações // fazem parte deste conjunto. Desta forma, um fator é prioritário em relação a todas as operações, uma vez que // é o elemento atómico de uma expressão.\\
+De notar que várias expressões podem ser compostas, pelo que ///. Adicionalmente, existe uma relação de precedência das operações, bem como de fatores. Um factor é uma expressão aninhada, um // ou uma variável. De igual modo, subprogramas e operações // fazem parte deste conjunto. Consequentemente, um factor é prioritário em relação a todas as operações, uma vez que // é o elemento atómico de uma expressão.\\
 
-Seguidamente temos os termos. Um termo é composto por operações multiplicativas entre fatores, sendo estas a multiplicação, a divisão inteira, e módulo. Posteriormente, poderá ser incluida a operação lógica "AND", por razões posteriormente explicitadas. As expressões seguintes na escala de prioridades são as expressões aditivas (soma, subtração, //). Poderá ser incluida a operação lógica "OR", por razões que tal como a inclusão de "AND", serão posteriormente explicitadas. As expressões de menor prioridade são as expressões relacionais (>, <, >=, <=, == e !=).\\
+Seguidamente temos os termos. Um termo é composto por operações multiplicativas entre fatores, sendo estas a multiplicação, a divisão inteira, e módulo. Poderá também ser incluida a operação lógica "AND", por razões posteriormente explicitadas. As expressões seguintes na escala de prioridades são as expressões aditivas (soma, subtração, //). Poderá ser incluida a operação lógica "OR", por razões que tal como a inclusão de "AND", serão posteriormente explicitadas. As expressões de menor prioridade são as expressões relacionais (>, <, >=, <=, == e !=).\\
 
-Para a execução do programa é necessário definir as instruções e operações que o definem. O programa pode efetuar cálculos utilizando as expressões previamente mencionadas. Note-se no entanto que subprogrmas podem ter ou não parâmetros, e devolver ou não um valor. Visto que a alocação de memória é efetuada numa stack virtual, é necessário, no momento da sua //, criar uma frame no topo da stack com todas as variáveis locais declaradas, e parâmetros alocados em memória. Para distinguir o programa principal, a linguagem usa um sistema de níveis, em cada nível assume o valor 0 para o programa principal e o valor 1 para subprogramas. Finalmente, o início e fim de cada programa ou subprograma deve estar devidamente assinalado.  
+Para a execução do programa é necessário definir as instruções e operações que o definem. O programa pode efetuar cálculos utilizando as expressões previamente mencionadas. Note-se no entanto que subprogramas podem ter ou não parâmetros, e devolver ou não um valor. Visto que a alocação de memória é efetuada numa stack virtual, é necessário, no momento da sua //, criar uma frame no topo da stack com todas as variáveis locais declaradas, e parâmetros alocados em memória. Para identificar o programa principal, a linguagem usa um sistema de níveis, em que um nível assume o valor 0 para o programa principal ou o valor 1 para subprogramas. Finalmente, o início e fim de cada programa ou subprograma deve estar devidamente assinalado.  
 
    
 
