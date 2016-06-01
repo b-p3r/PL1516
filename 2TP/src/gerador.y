@@ -8,36 +8,43 @@
 #include "./src/program_status.h"
 #include "./src/entry.h"
 #include "./src/types.h"
-int yylex();
-int yylineno;
+    int yylex();
+    int yylineno;
 
-int is_only_if = 0;
+    int is_only_if = 0;
 
-typedef struct aux {
-Type val_type;
-char *s;
+    typedef struct aux {
+        Type val_type;
+        char *s;
 
-} Instr;
+    } Instr;
+    typedef struct auxvar {
+        Type val_type;
+	Entry * entry;
+        char *s;
 
-Program_status * status = NULL;
-char *  add_label(CompoundInstruction cpd)
-{
+    } Var;
 
-    push_label_stack(status, cpd);
-    return push_label(status, cpd);
-}
-void remove_label(CompoundInstruction cpd)
-{  
-    reset_label_stack(status, cpd);
-    pop_label_stack(status, cpd);
-}
+
+    Program_status * status = NULL;
+    char *  add_label(CompoundInstruction cpd)
+    {
+
+        push_label_stack(status, cpd);
+        return push_label(status, cpd);
+    }
+    void remove_label(CompoundInstruction cpd)
+    {
+        reset_label_stack(status, cpd);
+        pop_label_stack(status, cpd);
+    }
 
     int yyerror(char *s);
 
 // *INDENT-OFF*
 %}
 
-%union{char * val_string; int val_nro; char* val_id;  Instr instr;}
+%union{char * val_string; int val_nro; char* val_id;  Instr instr; Var var;}
 
 %token <val_id>id
 %token <val_nro>num
@@ -79,7 +86,7 @@ void remove_label(CompoundInstruction cpd)
 
 
 
-%type<instr> Variable
+%type<var> Variable
 
 
 %start Program
@@ -90,31 +97,91 @@ Program : Declarations Body    {printf("%s", $2.s);}
 ;
 Body : BEGINNING {printf("start\n");} InstructionsList END      {asprintf(&$$.s, "%sstop\n", $3.s); }
 ;
-Declaration : id                           {printf("pushi 0\n");}
-| id '[' num ']'                           {printf("pushn %d\n", $3 );}   
-| id '[' num ']' '[' num ']'               {printf("pushn %d\n", $3*$6 );}   
+Declaration : id                           {printf("pushi 0\n");
+	                                    add_Variable(status, $1, Integer, Variable, Program); 
+	    
+	    
+	                                   }
+| id '[' num ']'                           {
+                                             add_Array(status, $1, Integer, Array, $3, Program);
+                                            printf("pushn %d\n", $3 );
+					    
+					    
+					    
+					    }   
+| id '[' num ']' '[' num ']'               {
+                                              add_Matrix(status, $1, Integer, Matrix, $3*$6, $6, Program);
+
+                                            printf("pushn %d\n", $3*$6 );
+					    
+					    
+					    }   
 ;
 Declarations : VAR DeclarationsList ';'    {$$.s=$2.s;}   
 ;
 DeclarationsList : Declaration             {$$.s=$1.s;}
 | DeclarationsList ',' Declaration         {asprintf(&$$.s, "%s%s", $1.s, $3.s);}
 ;
-Variable : id                              {asprintf(&$$.s, "pushg %d\n", 1); 
+Variable : id                              {
+	                                    Entry * entry =  find_identifier(status, $1); 
+	                                    if(entry)
+					    {
+					    int address = get_address(entry); 
+	                                    asprintf(&$$.s, "pushg %d\n", address); 
+	                                    $$.val_type=Integer;
+	                                    $$.entry=entry;
+					    }else{
+					    printf("Erro!! Variável não está declarada!\n");
+					    exit(-1); 
+					    
+					    } 
+	 
 
-	                                    //$$=Integer;
+
+
 					    }
 
-| id '[' ExpAdditiv ']'                    {asprintf(&$$.s, "pushgp\npushg %s\npadd\n%s", $1, $3.s);
-                                           //$$=Integer;
-					   }    
-| id '[' ExpAdditiv ']' '[' ExpAdditiv ']' {asprintf(&$$.s, "pushgp\npushg %s\npadd\n%s\npushi %d\nmul\nadd\n%s\n", $1, $3.s, 20, $6.s );
-                                           //$$=Integer;
+| id '[' ExpAdditiv ']'                    { Entry * entry =  find_identifier(status, $1);
+                                             if(entry)
+					     {
+					    int address = get_address(entry); 
+                                            asprintf(&$$.s, "pushgp\npushg %d\npadd\n%s", address, $3.s);
+					    $$.val_type=Integer;
+	                                    $$.entry=entry;
+					    }else{
+					    printf("Erro!! Variável não está declarada!\n");
+					    exit(-1); 
+					    
+					    } 
+					     
+					     
+					     
+					     }
+
+
+| id '[' ExpAdditiv ']' '[' ExpAdditiv ']' {
+                                             Entry * entry =  find_identifier(status, $1);
+                                             if(entry)
+					     {
+					    int address = get_address(entry); 
+					    int nCols = get_nCols(entry); 
+                                            asprintf(&$$.s, "pushgp\npushg %d\npadd\n%spushi %d\nmul\nadd\n%s", address, $3.s, nCols, $6.s );
+					    $$.val_type=Integer;
+	                                    $$.entry=entry;
+					    }else{
+					    printf("Erro!! Variável não está declarada!\n");
+					    exit(-1); 
+					    
+					    } 
+
+
+                                           
 					   }    
 ;
 
 
 Constant : num  {asprintf(&$$.s, "pushi %d\n", $1);};
-	         
+
          ;
 Term : Constant                           {$$.s=$1.s;}
 | Variable                                {$$.s=$1.s;}
@@ -148,15 +215,17 @@ Exp : ExpAdditiv                         {$$.s=$1.s;}
 ;                                      
 
 
-Atribution :  Variable '=' ExpAdditiv    {asprintf(&$$.s, "%s%sstoreg %d\n", $1.s, $3.s, 1);
-	                                //if($3==matriz||$3==array)
-	   				//printf("loadn %s\n", $1);
-					//get_type()
-	                                //if($1==matriz||$1==array)
-	   				//printf("storen\n");
-				        //else	
-	   				
-
+Atribution :  Variable '=' ExpAdditiv    {if( get_class($1.entry) == Matrix || get_class($1.entry) == Array){
+	   
+	                                 asprintf(&$$.s, "%s%sstoren\n", $1.s, $3.s);
+	   
+	   
+	                                 }else {
+					 
+					 int address = get_address($1.entry); 
+	                                 asprintf(&$$.s, "%s%sstoreg %d\n", $1.s, $3.s, address);
+					 
+					 } 
 					 }
 ;
 
@@ -165,7 +234,9 @@ InstructionsList : Instruction           {$$.s=$1.s;}
 | InstructionsList Instruction           {asprintf(&$$.s, "%s%s", $1.s, $2.s);}
 ;
 
-Else :         { 
+Else :         {
+
+
 is_only_if=1;
 pop_label(status,if_inst);
 char * tmp = get_label(status,if_inst);
@@ -182,8 +253,9 @@ pop_label_stack(status, if_inst);
 |            
 
 ELSE '{' InstructionsList '}'          { 
-                                           
- 
+
+
+// *INDENT-ON*
 
 //push_label_stack(status, else_inst);
 //char * tmp1 = push_label(status,else_inst);
@@ -196,67 +268,71 @@ ELSE '{' InstructionsList '}'          {
 //reset_label_stack(status,if_inst);
 //pop_label_stack(status, if_inst);
 
-                 //printf("jz l2level%s\n", add_label(else_inst)); 
-                 //printf("l1level%s: nop\n", get_label(status, if_inst));
-		         //remove_label(if_inst);
-	          
-                                          char * tmp = get_label(status,else_inst);
-                                          asprintf(&$$.s, "%sl2level%s:nop\n", $3.s,  tmp);
-                                          free(tmp);
-                                          reset_label_stack(status,else_inst);
-                                          pop_label_stack(status, else_inst);
+//printf("jz l2level%s\n", add_label(else_inst));
+//printf("l1level%s: nop\n", get_label(status, if_inst));
+//remove_label(if_inst);
 
-                                         //asprintf(&$$.s,"%s l2level%s:nop\n", $4.s, get_label(status, else_inst)); 
-		                                 //remove_label(if_inst);
-                                      
+char * tmp = get_label(status,else_inst);
+asprintf(&$$.s, "%sl2level%s:nop\n", $3.s,  tmp);
+free(tmp);
+reset_label_stack(status,else_inst);
+pop_label_stack(status, else_inst);
+
+//asprintf(&$$.s,"%s l2level%s:nop\n", $4.s, get_label(status, else_inst));
+//remove_label(if_inst);
+
+// *INDENT-OFF*
                                        }
 
 Instruction : Atribution ';'           {$$.s=$1.s;}
 | READ  Variable ';'                   {asprintf(&$$.s,"%spushi %d\nread\n", $2.s, 1);}
 | WRITE ExpAdditiv ';'                 {asprintf(&$$.s,"%swritei %d\n", $2.s, 1);}   
 | WRITE string ';'                     {asprintf(&$$.s,"pushs %s\nwrites\n", $2);
-                                       
+
 					}
 
 
 | IF '('  Exp ')' 
 {
-push_label_stack(status, if_inst);
-char * tmp = push_label(status,if_inst);
-asprintf(&$<instr>$.s,"%s", $3.s);
-printf("%sjz l1level%s\t\n", $3.s, tmp);
-free(tmp);
 
+// *INDENT-ON*
+    push_label_stack(status, if_inst);
+    char * tmp = push_label(status,if_inst);
+    asprintf(&$<instr>$.s,"%s", $3.s);
+    printf("%sjz l1level%s\t\n", $3.s, tmp);
+    free(tmp);
+
+// *INDENT-OFF*
 
 }
-
-
-
-
-
 
 '{' InstructionsList '}' 
 Else          
-                                          { 
-if(is_only_if==0){
+                                          {
+
+// *INDENT-ON*
+    if(is_only_if==0)
+{
 push_label_stack(status, else_inst);
-char * tmp1 = push_label(status,else_inst);
+    char * tmp1 = push_label(status,else_inst);
 //printf("jz l2level%s\t\n",tmp1);
-pop_label(status,else_inst);
-free(tmp1);
-char * tmp2 = get_label(status,if_inst);
-printf("%sjump l2level%s\t\nl1level%s:nop\n", $7.s, tmp1, tmp2);
-free(tmp2);
-reset_label_stack(status,if_inst);
-pop_label_stack(status, if_inst);
+    pop_label(status,else_inst);
+    free(tmp1);
+    char * tmp2 = get_label(status,if_inst);
+    printf("%sjump l2level%s\t\nl1level%s:nop\n", $7.s, tmp1, tmp2);
+    free(tmp2);
+    reset_label_stack(status,if_inst);
+    pop_label_stack(status, if_inst);
 }
 asprintf(&$$.s,"%s%s", $7.s,$9.s);
 
-//asprintf(&$$.s, "%sjz l1level%s\nl1level%d: nop\n%s%s",$3.s, add_label(if_inst), 
-                                                 //    get_label(status, if_inst),  $6.s, $8.s);  
+//asprintf(&$$.s, "%sjz l1level%s\nl1level%d: nop\n%s%s",$3.s, add_label(if_inst),
+//    get_label(status, if_inst),  $6.s, $8.s);
+
+// *INDENT-OFF*
                                            } 
 
-				       
+
 
 
 
@@ -265,31 +341,38 @@ asprintf(&$$.s,"%s%s", $7.s,$9.s);
 
 | WHILE '(' Exp ')' 	{ 
 
-push_label_stack(status, while_inst);
-char * tmp = push_label(status,while_inst);
-asprintf(&$<instr>$.s,"%s", $3.s);
-printf("whileloop%s:nop\n%s\t\n", tmp, $3.s);
-free(tmp);
+// *INDENT-ON*
+    push_label_stack(status, while_inst);
+    char * tmp = push_label(status,while_inst);
+    asprintf(&$<instr>$.s,"%s", $3.s);
+    printf("whileloop%s:nop\n%s\t\n", tmp, $3.s);
+    free(tmp);
 //push_label_stack(status, while_inst);
-char * tmp2 = get_label(status,while_inst);
+    char * tmp2 = get_label(status,while_inst);
 //asprintf(&$<instr>$.s,"%s", $3.s);
-printf("%sjz whiledone%s\t\n", $3.s, tmp2);
-free(tmp2);
+    printf("%sjz whiledone%s\t\n", $3.s, tmp2);
+    free(tmp2);
 
+// *INDENT-OFF*
 
 }                      
-'{' InstructionsList '}'               {  pop_label(status,while_inst);
-                                          char * tmp2 = get_label(status,while_inst);
-                                          //printf("jump whileloop%s\n",tmp2);
-                                          free(tmp2);
-                                          reset_label_stack(status,while_inst);
-                                          pop_label_stack(status, while_inst);
+'{' InstructionsList '}'               {  
 
-                                          char * tmp1 = get_label(status,while_inst);
-                                          asprintf(&$$.s, "jump whileloop%s\n%swhiledone%s:nop\n", tmp2, $7.s,  tmp1);
-                                          free(tmp1);
-                                          reset_label_stack(status,while_inst);
-                                          pop_label_stack(status, while_inst);
+// *INDENT-ON*
+    pop_label(status,while_inst);
+    char * tmp2 = get_label(status,while_inst);
+    //printf("jump whileloop%s\n",tmp2);
+    free(tmp2);
+    reset_label_stack(status,while_inst);
+    pop_label_stack(status, while_inst);
+
+    char * tmp1 = get_label(status,while_inst);
+    asprintf(&$$.s, "jump whileloop%s\n%swhiledone%s:nop\n", tmp2, $7.s,  tmp1);
+    free(tmp1);
+    reset_label_stack(status,while_inst);
+    pop_label_stack(status, while_inst);
+
+// *INDENT-OFF*
 			               }
 
 | DO '{' InstructionsList '}' WHILE '(' Exp ')' ';' 

@@ -18,7 +18,6 @@ typedef struct stat
     int strpointer          [MAX_CONDITION_ROW] [1];
     int size_label_string   [MAX_CONDITION_ROW] [1];
     int addresspointer;
-    ITEM *items;
 } Program_status;
 
 Program_status *init(Program_status * status);

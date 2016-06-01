@@ -18,7 +18,6 @@ Program_status *init(Program_status * status)
 
     }
     status->addresspointer = 0;
-    status->items = init_hashtable();
 
     for ( i = 0; i < MAX_LABEL_STACK; i++ ){
     
@@ -143,8 +142,9 @@ int atribute_adress_for_array ( Program_status *status, int size)
     if ( status==NULL )
         return -1;
 
+    status->addresspointer++;
     address = status->addresspointer-1;
-    status->addresspointer+=size;
+    status->addresspointer+=(size-1);
 
     return address;
 }
@@ -200,13 +200,11 @@ int add_Variable ( Program_status *status, char *key, Type type, Class id_class,
     if(address==-1)
         return -1;
 
-    address = atribute_adress_for_var(status);
     entry  = new_entry_variable(address, type, id_class, level);
 
     if(entry==NULL)
         return -1;
-
-    add_key(status->items, key, entry);
+    add_key(key, entry);
 
     return 0;
 }
@@ -221,6 +219,7 @@ int add_Array ( Program_status *status, char *key, Type type, Class id_class, in
 
     address = atribute_adress_for_array(status, size);
 
+printf("ENTRY adress %p %s %d\n", entry, key, address);
     if(address==-1)
         return -1;
 
@@ -229,7 +228,8 @@ int add_Array ( Program_status *status, char *key, Type type, Class id_class, in
     if(entry==NULL)
         return -1;
 
-    add_key(status->items, key, entry);
+    add_key( key, entry);
+printf("ENTRY %p %s\n", entry, key);
     return 0;
 }
 
@@ -252,7 +252,7 @@ int add_Matrix ( Program_status *status, char *key, Type type, Class id_class, i
     if(entry==NULL)
         return -1;
 
-    add_key(status->items, key, entry);
+    add_key( key, entry);
 
     return 0;
 }
@@ -264,7 +264,7 @@ Entry *find_identifier ( Program_status *status, char *key )
     if(status==NULL)
         return NULL;
 
-    entry = find_key(status->items, key);
+    entry = find_key( key);
 
     return entry;
 
@@ -277,10 +277,10 @@ void delete_identifier ( Program_status *status, char *key )
     if(status==NULL)
         return;
 
-    entry = find_key(status->items, key);
+    entry = find_key( key);
 
     if(entry)
-        delete_key(status->items, key);
+        delete_key(key);
 
 }
 
@@ -289,7 +289,7 @@ void delete_all_identifiers ( Program_status *status)
     if(status==NULL)
         return;
 
-    delete_all(status->items);
+    delete_all();
 
 }
 

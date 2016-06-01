@@ -4,7 +4,7 @@
 #include "uthash.h"
 #include "hash_table.h"
 #include "entry.h"
-
+ITEM *items = NULL;
 typedef struct item
 {
     char *key;
@@ -14,18 +14,8 @@ typedef struct item
 
 
 
-ITEM * init_hashtable ()
-{
 
-
-    ITEM *items = NULL;
-
-    return items;
-
-}
-
-
-void add_key ( ITEM *items, char *key, Entry * entry)
+void add_key ( char *key, Entry * entry)
 {
     ITEM *s;
     HASH_FIND_STR ( items, key, s );
@@ -40,14 +30,14 @@ void add_key ( ITEM *items, char *key, Entry * entry)
 
 }
 
-Entry *find_key ( ITEM *items, char *key )
+Entry *find_key ( char *key )
 {
     ITEM *s;
     HASH_FIND_STR ( items, key, s );
-    return s->value;
+    return (s?s->value: NULL);
 }
 
-void delete_key ( ITEM *items, char *key )
+void delete_key ( char *key )
 {
 
     ITEM *s;
@@ -58,7 +48,7 @@ void delete_key ( ITEM *items, char *key )
     free (key );
 }
 
-void delete_all(ITEM *items)
+void delete_all()
 {
     ITEM *item1, *tmp1;
     HASH_ITER ( hh, items, item1, tmp1 )
@@ -72,7 +62,7 @@ void delete_all(ITEM *items)
 
 
 
-int total_items(ITEM *items)
+int total_items()
 {
     unsigned int num_items;
     num_items = HASH_COUNT ( items );
