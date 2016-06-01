@@ -9,4 +9,25 @@
 \subsection{Estruturas de dados}
 \label{sec:subsec:estruturas:desenho}
 
+\begin{verbatim}
+typedef struct entry Entry;
+\end{verbatim}
+\\
+\begin{verbatim}
+typedef struct item ITEM;
+\end{verbatim}
+\\
+\begin{verbatim}
+typedef struct stat
+{
+    char label              [MAX_CONDITION_ROW] [ MAX_LABEL ];
+    int  label_stack        [MAX_CONDITION_ROW] [ MAX_LABEL_STACK ];
+    int  label_number_size  [MAX_CONDITION_ROW] [ MAX_LABEL_STACK ];
+    int spointer            [MAX_CONDITION_ROW] [1];
+    int strpointer          [MAX_CONDITION_ROW] [1];
+    int size_label_string   [MAX_CONDITION_ROW] [1];
+    int addresspointer;
+} Program_status;
+\end{verbatim}
+
 \url{http://lh3lh3.users.sourceforge.net/udb.shtml.}
