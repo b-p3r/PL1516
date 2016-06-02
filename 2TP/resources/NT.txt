@@ -12,3 +12,4 @@ ExMultipl
 Atribution
 Instruction
 Else
+Constant

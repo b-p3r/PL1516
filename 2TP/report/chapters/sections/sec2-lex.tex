@@ -16,8 +16,8 @@ será para ser rejeitado da seguinte forma:
 
 \begin{minted}{text}
 letra [A-Za-z]
-digito [0-9]
-lixo .|\n
+digito [0\-9]
+lixo \.|\\n
 \end{minted}
 
 
@@ -35,7 +35,7 @@ Com esta expressão regular são capturados os símbolos referentes às operaç�
 aditivas e multiplicativas, bem como caracteres usados para delimitar expressões
 e na construção de estruturas de controlo (chavetas e parêntesis). De igual
 modo, são capturados o símbolo unário de um número negativo, delimitadores de
-final de instruções (';'), separadores de declarações (','), elementos de declaração
+final de instruções (ponto e vírgula), separadores de declarações (vírgula), elementos de declaração
 de \emph{arrays} (parêntesis retos) e o sinal de atribuição, que nesta
 linguagem é o sinal de igual. 
 
@@ -54,17 +54,26 @@ de cada caractere capturado.
 (==)                      {return EQ;}
 (!=)                      {return NEQ;}
 \end{minted}
-	\item 
+	\item Captura de palavra reserva para início e fim de programa. 
 \begin{minted}{text}
 (BEGINNING)               {return BEGINNING;}
 (END)                     {return END;}
 \end{minted}
-	\item 
+
+A ação será retornar um valor numérico, que será atribuído aquando
+o \emph{linking} do ficheiro \emph{Flex} e do ficheiro \emph{YACC}, no
+\texttt{yy.tab.c}.    
+
+	\item Captura das palavras reservadas para funções de leitura e escrita. 
 \begin{minted}{text}
 (READ)                    {return READ;}
 (WRITE)                   {return WRITE;}
 \end{minted}
-	\item 
+
+Ação a mesma que a anterior.
+
+	\item Captura das palavras reservadas usadas para declarações e estruturas de
+		controlo.
 \begin{minted}{text}
 (VAR)                     {return VAR;}
 (WHILE)                   {return WHILE;}
@@ -72,22 +81,42 @@ de cada caractere capturado.
 (ELSE)                    {return ELSE;}
 (DO)                      {return DO;}
 \end{minted}
-	\item 
+
+Ação: \emph{ibidem}. 
+
+	\item Captura de uma \emph{string}  
+  
+		\verb|\"[^"]+\"|                 
+
+Neste caso é atribuído ao valor da variável global \texttt{yylval} no elemento
+da união \texttt{char * val\_string} uma cópia da \emph{string}, sendo retornado
+uma valor que será atribuído pelo \emph{YACC}. 
+
+	\item Captura de um dígito
 \begin{minted}{text}
-\"[^"]+\"                 {yylval.val_string = strdup(yytext); return string;}
+{digito}+                 
 \end{minted}
-	\item 
+
+A ação é atribuir ao valor da variável global \texttt{yylval} no elemento
+da união \texttt{int val\_nro} o valor do digito capturado., sendo retornado 
+uma valor que será atribuído pelo \emph{YACC}. 
+
+
+	\item Captura de um identificador. 
 \begin{minted}{text}
-{digito}+                 {yylval.val_nro = atoi(yytext); return num;}
+{letra}+                  
 \end{minted}
-	\item 
-\begin{minted}{text}
-{letra}+                  {yylval.val_id= strdup(yytext); return id;}
-\end{minted}
-	\item 
+Neste caso é atribuído ao valor da variável global \texttt{yylval} no elemento
+da união \texttt{char * val\_id} uma cópia da palavra capturada, sendo retornado
+uma valor que será atribuído pelo \emph{YACC}. 
+
+	\item Outros 
 \begin{minted}{text}
 {lixo}                    {;}
 \end{minted}
+
+Ação: ignorar.
+
 \end{itemize}
 
 

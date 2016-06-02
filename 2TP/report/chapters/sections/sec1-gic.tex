@@ -1,44 +1,183 @@
 \subsection{Gramática Independente de Contexto}
 \label{subsec:gramatica:desenho}
 
+O conjunto dos símbolos terminais da gramática é o que se segue:
+
+T = {id, num, string, BEGINNING, END, VAR, NOT, AND, OR, READ, WRITE, IF,
+	WHILE, DO, ELSE,`[', `]', `;', `,', `(', `)', `*', `/', `\%', `{', `}', `+',
+`-', `<', `>', `>=', `<=', `==', `!=', `='}
+
+
+O conjunto dos símbolos não-terminais da gramática é o que se segue:
+
+NT = {Program, Declarations, Body, InstructionsList, Declaration,
+DeclarationsList, Factor, ExpAdditiv, Exp, Variable, Term, Atribution,
+Instruction, Else, Constant }
 \subsubsection{Axioma}
 \label{subsec:subsubsec:axioma:desenho}
 
+Nesta linguagem, um programa é composto por declarações e um corpo.
+
 \begin{grammar}
+<Program> ::= <Declarations> <Body> 
+\end{grammar}
 
-<Program> ::= <Declarations> <Body>
+O corpo do programa terá sempre que ter as palavras reservadas \emph{BEGIN},
+para iniciar a execução do programa, e \emph{END}, para terminar a execução do
+programa. Entre estas duas palavras reservadas estará um conjunto de instruções.  
 
+\begin{grammar}
 <Body> ::= `BEGIN' <InstructionList> `END'
-
-<Declaration> ::= <id>
-\alt <id> `[' <num> `]'
-\alt <id> `[' <num> `]' `[' <num> `]'
-
-<Declarations> ::= 'VAR' <DeclarationsList> `;' 
-
-<DeclarationsList> ::= <Declaration> 
-\alt <DeclarationsList> `,' <Declaration> 
-
-<Term> ::= <id>
-\alt <num>
-\alt <id> `[' <ExpAdditiv> `]'
-\alt <id> `[' <ExpAdditiv> `]' `[' <ExpAdditiv> `]'
-\alt `(' <Exp> `)'
-\alt `NOT' <Exp>
-
 \end{grammar}
 
 
 \subsubsection{Declarações de variáveis}
 \label{subsec:subsubsec:declaracoes:desenho}
 
+Assumiu-se que as variáveis seriam todas do tipo inteiro, tendo estas um
+identificador, podendo ser variáveis, \emph{arrays} unidimensionais, ou
+\emph{arrays} bidimensionais. O tamanho dos \emph{arrays} será sempre um valor
+não negativo.   
+
+\begin{grammar}
+<Declaration> ::= <id>
+\alt <id> `[' <num> `]'
+\alt <id> `[' <num> `]' `[' <num> `]' 
+\end{grammar}
+
+Uma ou mais declarações formam um conjunto de declarações. Note-se que
+é mandatório pelo menos uma declaração.
+
+\begin{grammar}
+<DeclarationsList> ::= <Declaration> 
+\alt <DeclarationsList> `,' <Declaration> 
+\end{grammar}
+
+As declarações devem começar sempre pela palavra reservada \emph{VAR}.
+
+\begin{grammar}
+<Declarations> ::= `VAR' <DeclarationsList> `;' 
+\end{grammar}
+
 
 \subsubsection{Expressões}
 \label{subsec:subsubsec:expressoes:desenho}
 
+Uma constante é um número não negativo.
+
+\begin{grammar}
+<Constant> ::= <num>
+\end{grammar}
+
+Uma variável será sempre um identificador, um \emph{array}, com uma expressão
+inteira no seu índice, ou índices, se for multidimensional.
+
+\begin{grammar}
+<Variable> ::= <id>
+\alt <id> `[' <ExpAdditiv> `]'
+\alt <id> `[' <ExpAdditiv> `]' `[' <ExpAdditiv> `]' 
+\end{grammar} 
+
+Um fator pode ser uma constante, uma variável, uma expressão, uma expressão
+negativa, ou a negação de uma expressão.
+\begin{grammar}
+<Factor> ::= <Constant>
+\alt <Variable>
+\alt `(' <Exp> `)'
+\alt `(' `-' <Exp> `)'
+\alt `NOT' <Exp>
+\end{grammar}
+
+
+Um termo será sempre um conjunto de um ou mais fatores, em que as operações que o compõem
+serão sempre multiplicativas. Note-se que dado não haver instruções lógicas na
+VM, o \emph{AND} terá que ser uma multiplicação entre valores inteiros entre
+0 e 1. 
+
+\begin{grammar}
+<Term> ::= <Factor>
+\alt <Term> `*'  <Factor>
+\alt <Term> `/' <Factor>
+\alt <Term> `%' <Factor>
+\alt <Term> `AND' <Factor>
+\end{grammar}
+
+
+Uma expressão aditiva será sempre um conjunto de um ou mais termos, em que as operações que o compõem
+serão sempre aditivas. Note-se que dado não haver instruções lógicas na
+VM, o \emph{OR} terá que ser uma soma entre valores inteiros não negativos.
+
+\begin{grammar}
+<ExpAdditiv> ::= <Term> 
+\alt <ExpAdditiv> `+' <Term>
+\alt <ExpAdditiv> `-' <Term> 
+\alt <ExpAdditiv> `OR' <Term> 
+\end{grammar}
+
+Uma expressão será uma expressão aditiva ou duas expressões aditivas com
+determinada relação.
+
+\begin{grammar}
+<Exp> ::= <ExpAdditiv>             
+\alt  <ExpAdditiv> `>'  <ExpAdditiv> 
+\alt  <ExpAdditiv> `<'  <ExpAdditiv> 
+\alt  <ExpAdditiv> `>=' <ExpAdditiv> 
+\alt  <ExpAdditiv> `<=' <ExpAdditiv> 
+\alt  <ExpAdditiv> `==' <ExpAdditiv> 
+\alt  <ExpAdditiv> `!=' <ExpAdditiv> 
+\end{grammar}
+
 
 \subsubsection{Instruções}
 \label{subsec:subsubsec:instrucoes:desenho}
+
+Uma atribuição será sempre uma variável a tomar o valor de uma expressão
+inteira.
+\begin{grammar}
+<Atribution> ::=  <Variable> `=' <ExpAdditiv> 
+\end{grammar}
+
+
+Uma instrução pode ser uma atribuição, a leitura de uma variável de
+\emph{stdin}, a escrita de um valor inteiro ou uma \emph{string} no
+\emph{stdout}, ou uma estrutura de controlo com a avaliação de uma expressão
+booleana, com um conjunto de instruções associados a cada condição.
+
+\begin{grammar}
+<Instruction> ::= <Atribution> `;' 
+\alt `READ'  <Variable> `;'
+\alt `WRITE' <ExpAdditiv> `;'                      
+\alt `WRITE' <string> `;'
+\alt `IF' `(' <Exp> `)' `{' <InstructionsList> `}' <Else>
+\alt `WHILE `(' <Exp> `)' `{' <InstructionsList> `}' 
+\alt `DO'`{' <InstructionsList> `}'`WHILE `(' <Exp> `)' `;' 
+\end{grammar}
+
+
+A bloco seguinte representa a existência ou não de instruções alternativas a um
+\emph{if}. 
+
+\begin{grammar}
+<Else> ::= <>
+\alt `ELSE' '{'<InstructionsList> '}'
+\end{grammar}
+
+Uma lista de instruções é um conjunto de uma ou mais instruções. Note-se que
+a existência de instruções é mandatória, isto é, um programa ou uma estrutura de
+controlo terá sempre pelo menos uma instrução.
+
+\begin{grammar}
+<InstructionList> ::= <Instruction>
+\alt <InstructionList> <Instruction>  
+\end{grammar}
+
+
+
+
+
+
+
+
 
 
 

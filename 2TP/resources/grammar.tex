@@ -43,14 +43,16 @@
 \alt <id> `[' <num> `]'
 \alt <id> `[' <num> `]' `[' <num> `]' 
 
-<Declarations> ::= 'VAR' <DeclarationsList> `;' 
+<Declarations> ::= `VAR' <DeclarationsList> `;' 
 
 <DeclarationsList> ::= <Declaration> 
 \alt <DeclarationsList> `,' <Declaration> 
 
-<Term> ::= <id>
-\alt <num>
-\alt <id> `[' <ExpAdditiv> `]'
+<Constant> ::= <num>
+
+
+<Term> ::= <Constant>>
+\alt <Variable>
 \alt <id> `[' <ExpAdditiv> `]' `[' <ExpAdditiv> `]'
 \alt `(' <Exp> `)'
 \alt `NOT' <Exp>
@@ -79,7 +81,8 @@
 \alt `(' <ExpAdditiv> `==' <ExpAdditiv> `)'
 \alt `(' <ExpAdditiv> `!=' <ExpAdditiv> `)'
 
-
+<Else> ::= <>
+\alt `ELSE' '{'<InstructionsList> '}'
 
 <Atribution> ::=  <Variable> `=' <ExpAdditiv> 
 
@@ -87,8 +90,7 @@
 \alt `READ'  <Variable> `;'
 \alt `WRITE' <ExpAdditiv> `;'                      
 \alt `WRITE' <string> `;'
-\alt `IF' `(' <Exp> `)' `{' <InstructionsList> `}' 
-\alt `IF' `(' <Exp> `)' `{' <InstructionsList> `}' `ELSE' `{' <InstructionsList> `}' 
+\alt `IF' `(' <Exp> `)' `{' <InstructionsList> `}' <Else>
 \alt `WHILE `(' <Exp> `)' `{' <InstructionsList> `}' 
 \alt `DO'`{' <InstructionsList> `}'`WHILE `(' <Exp> `)' `;' 
 
