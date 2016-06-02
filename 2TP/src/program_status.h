@@ -32,7 +32,6 @@ int pop_label(Program_status *status, CompoundInstruction cpd);
 int atribute_adress_for_var(Program_status *status);
 int atribute_adress_for_array(Program_status *status, int size);
 int check_type(Type a, Type b);
-Type get_class_integer_type(Entry *entry);
 int add_Variable(Program_status *status, char *key, Type type, Class id_class, Level level);
 int add_Array(Program_status *status, char *key, Type type, Class id_class, int size, Level level);
 int add_Matrix(Program_status *status, char *key, Type type, Class id_class, int size, int ncols, Level level);
