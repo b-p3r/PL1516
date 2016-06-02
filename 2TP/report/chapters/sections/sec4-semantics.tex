@@ -1,0 +1,71 @@
+\subsection{Análise Semântica Estática}
+\label{subsec:semantica:desenho}
+
+A análise semântica estática complementa a análise lexical e sintática, pois
+existem situações em que a apesar de a análise léxica e sintática estarem
+corretas, as sequências de símbolos não têm sentido. A título de exemplo, a data
+\texttt{2016-45-00} está sintaticamente correta pois segue o formato
+\texttt{aaaa-mm-dd}, mas não tem sentido do ponto de vista semântico.
+
+Na \emph{LPIS} existem situações em que a gramática e análise léxica não são
+suficientes, nomeadamente na verificação de tipos, ou seja, se estes são
+consistentes na sua definição.  Anteriormente, é mencionada a inferência de
+tipos em fatores, variáveis, arrays, aditivos, termos, expressões e expressões
+relacionais. Assim é necessário não só verificar os elementos de cada operação
+binária, como inferir o tipo do seu resultado.  Como já foi mencionado, esta
+\emph{LPIS} apenas permite valores inteiros, mas no entanto o resultado das
+expressões lógicas e relacionais são do tipo booleano. Por uma questão de
+consistência, considera-se que as instruções terão o tipo \texttt{Any}.
+
+Assim, as instruções assumem o tipo \texttt{Any}, variáveis atómicas e arrays
+o tipo \texttt{Integer} (exceto subprogramas sem valor de retorno),
+e o resultado de uma operação aditiva entre fatores como variáveis e arrays
+assumirá o tipo \texttt{Integer}, bem como o tipo de cada de cada membro da
+operação binária aditiva. O resultado de uma operação multiplicativa entre
+termos (resultantes da operação aditiva) também tomará o tipo \texttt{Integer},
+bem como ambos os membros da operação binária em questão. Seguidamente,
+o resultado de expressões relacionais deverá ser do tipo \texttt{Boolean}. No
+entanto, os membros desta operação binária assumirão o tipo \texttt{Integer}.
+Para concluir, o resultado de uma expressão lógica assumirá o tipo
+\texttt{Boolean} e ambos os membros da operação binária assumem também o tipo
+\texttt{Boolean}.
+
+Para além da verificação de tipos, a análise semântica deve assegurar
+a existência de etiquetas, ou \texttt{labels}, de referência no resultado da
+geração de código. Dado que a linguagem em causa tem quatro tipos de estruturas
+de controlo de fluxo, existirá um mecanismo que cria as \texttt{labels} para
+cada tipo de estrutura de controlo e que permita o aninhamento das mesmas. Ou
+seja, as etiquetas devem ter a referência do nível em que estão, e devem ser
+colocadas no seu devido lugar.  Posteriormente, será descrito o algoritmo
+e a implementação do mecanismo de criação de \texttt{labels}.
+
+Adicionalmente, as estruturas de controlo devem ser verificadas para confirmar
+a sua devida utilização.  Por exemplo, se existem \texttt{breaks} fora de um
+\texttt{loop} ou \texttt{switch}. Na gramática desta linguagem não existem
+formas de //..
+
+Finalmente, é necessário considerar outro tipo de análise semântica: a análise
+semântica dinâmica.  Ao contrário da anterior, este tipo de análise não
+é efetuada em tempo de compilação, mas sim em tempo de execução. Existem
+exemplos retirados da gramática da linguagem alvo deste projeto, que não serão
+considerados, visto que a máquina virtual VM já os inclui, como é o caso da
+divisão por zero, em que os valores retirados da pilha não têm o tipo esperado,
+ou acessos indefinidos a uma //? de código. Na especificação léxica da
+linguagem, definiu-se que todos os números tomarão valores não negativos,
+e previu-se a existência de números negativos na gramática // a uma operação
+unária?.  Deste modo não é necessária a reespecificação? semântica estática de
+declarações de arrays com tamanho zero, resultados negativos em cálculos de
+índices e divisões por zero, uma vez que estes casos fazem parte da análise
+semântica dinâmica.
+
+
+\input{./report/chapters/sections/sec1-gic.tex}
+\input{./report/chapters/sections/sec2-lex.tex}
+\input{./report/chapters/sections/sec3-sintatic-gerador.tex}
+
+
+
+
+
+
+
