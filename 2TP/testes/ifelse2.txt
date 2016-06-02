@@ -6,7 +6,6 @@ BEGINNING
 	
 	IF ( x > y )
 	{
-	  max = x;
 	IF ( x > y )
 	{
 	  max = x;

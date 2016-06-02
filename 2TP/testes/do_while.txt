@@ -1,0 +1,15 @@
+VAR x, y, max;
+
+
+BEGINNING
+
+	
+
+	DO{
+	  max = x;
+	
+	}WHILE ( x > y );
+	
+	
+	
+END
