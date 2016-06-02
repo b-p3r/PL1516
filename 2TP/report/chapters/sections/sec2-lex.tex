@@ -1,15 +1,107 @@
 \subsection{Analisador léxico}
 \label{subsec:lexico:desenho}
 
+
+Na fase de construir o analisador léxico, tomou-se em conta a análise anterior
+da gramática e definiu-se para cada simbolo terminal uma expressão regular,
+e respetiva ação associada.
+
+
 \subsubsection{Expressões Regulares}
 \label{subsec:subsubsec:ers:desenho}
 
+Em primeira instância definiu-se o que era uma letra, um digito e, tudo o que
+será para ser rejeitado da seguinte forma:
+
+
 \begin{minted}{text}
-		\@[Ss][Tt][Rr][Ii][Nn][Gg]
-		\@[Pp][Rr][Ee][Aa][Mm][Bb][Ll][Ee]
-		\@[Cc][Oo][Mm][Mm][Ee][Nn][Tt]
+letra [A-Za-z]
+digito [0-9]
+lixo .|\n
 \end{minted}
 
-\subsubsection{Ficheiro \emph{Flex} com a especificação}
-\label{subsec:subsubsection:flex:desenho}
+
+Em seguida definiram-se as expressões para captura dos símbolos terminais, para
+serem usadas como \emph{tokens} no ficheiro \emph{YACC}, definiram-se da
+seguinte forma:
+
+\begin{itemize}
+	\item Captura de operadores de apenas um caractere; 
+\begin{minted}{text}
+[-/;,\[\]+\(\)\{\}\%=]  
+\end{minted}
+
+Com esta expressão regular são capturados os símbolos referentes às operações
+aditivas e multiplicativas, bem como caracteres usados para delimitar expressões
+e na construção de estruturas de controlo (chavetas e parêntesis). De igual
+modo, são capturados o símbolo unário de um número negativo, delimitadores de
+final de instruções (';'), separadores de declarações (','), elementos de declaração
+de \emph{arrays} (parêntesis retos) e o sinal de atribuição, que nesta
+linguagem é o sinal de igual. 
+
+A ação para esta expressão regular é devolver o valor do código ASCII-estendido
+de cada caractere capturado.
+
+
+	\item Captura de operadores de operações lógicas e relacionais.
+	\item 
+\begin{minted}{text}
+(OR)                      {return OR;}
+(<)                       {return L;}
+(>)                       {return G;}
+(<=)                      {return LEQ;}
+(>=)                      {return GEQ;}
+(==)                      {return EQ;}
+(!=)                      {return NEQ;}
+\end{minted}
+	\item 
+\begin{minted}{text}
+(BEGINNING)               {return BEGINNING;}
+(END)                     {return END;}
+\end{minted}
+	\item 
+\begin{minted}{text}
+(READ)                    {return READ;}
+(WRITE)                   {return WRITE;}
+\end{minted}
+	\item 
+\begin{minted}{text}
+(VAR)                     {return VAR;}
+(WHILE)                   {return WHILE;}
+(IF)                      {return IF;}
+(ELSE)                    {return ELSE;}
+(DO)                      {return DO;}
+\end{minted}
+	\item 
+\begin{minted}{text}
+\"[^"]+\"                 {yylval.val_string = strdup(yytext); return string;}
+\end{minted}
+	\item 
+\begin{minted}{text}
+{digito}+                 {yylval.val_nro = atoi(yytext); return num;}
+\end{minted}
+	\item 
+\begin{minted}{text}
+{letra}+                  {yylval.val_id= strdup(yytext); return id;}
+\end{minted}
+	\item 
+\begin{minted}{text}
+{lixo}                    {;}
+\end{minted}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
