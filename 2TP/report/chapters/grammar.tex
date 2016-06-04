@@ -8,14 +8,16 @@
 \alt <id> `[' <num> `]'
 \alt <id> `[' <num> `]' `[' <num> `]' 
 
-<Declarations> ::= 'VAR' <DeclarationsList> `;' 
+<Declarations> ::= `VAR' <DeclarationsList> `;' 
 
 <DeclarationsList> ::= <Declaration> 
 \alt <DeclarationsList> `,' <Declaration> 
 
-<Term> ::= <id>
-\alt <num>
-\alt <id> `[' <ExpAdditiv> `]'
+<Constant> ::= <num>
+
+
+<Factor> ::= <Constant>
+\alt <Variable>
 \alt <id> `[' <ExpAdditiv> `]' `[' <ExpAdditiv> `]'
 \alt `(' <Exp> `)'
 \alt `NOT' <Exp>
@@ -24,27 +26,28 @@
 \alt <id> `[' <ExpAdditiv> `]'
 \alt <id> `[' <ExpAdditiv> `]' `[' <ExpAdditiv> `]' 
  
-<ExMultipl> ::= <Term>
-\alt <ExMultipl> `*'  <Term>
-\alt <ExMultipl> `/' <Term>
-\alt <ExMultipl> `%' <Term>
-\alt <ExMultipl> `AND' <Term>
+<Term> ::= <Factor>
+\alt <Term> `*'  <Factor>
+\alt <Term> `/' <Factor>
+\alt <Term> `%' <Factor>
+\alt <Term> `AND' <Factor>
 
-<ExpAdditiv> ::= <ExMultipl> 
-\alt <ExpAdditiv> `+' <ExMultipl>
-\alt <ExpAdditiv> `-' <ExMultipl> 
-\alt <ExpAdditiv> `OR' <ExMultipl> 
+<ExpAdditiv> ::= <Term> 
+\alt <ExpAdditiv> `+' <Term>
+\alt <ExpAdditiv> `-' <Term> 
+\alt <ExpAdditiv> `OR' <Term> 
 
 
 <Exp> ::= <ExpAdditiv>             
-\alt `(' <ExpAdditiv> `>'  <ExpAdditiv> `)'
-\alt `(' <ExpAdditiv> `<'  <ExpAdditiv> `)'
-\alt `(' <ExpAdditiv> `>=' <ExpAdditiv> `)'
-\alt `(' <ExpAdditiv> `<=' <ExpAdditiv> `)'
-\alt `(' <ExpAdditiv> `==' <ExpAdditiv> `)'
-\alt `(' <ExpAdditiv> `!=' <ExpAdditiv> `)'
+\alt  <ExpAdditiv> `>'  <ExpAdditiv> 
+\alt  <ExpAdditiv> `<'  <ExpAdditiv> 
+\alt  <ExpAdditiv> `>=' <ExpAdditiv> 
+\alt  <ExpAdditiv> `<=' <ExpAdditiv> 
+\alt  <ExpAdditiv> `==' <ExpAdditiv> 
+\alt  <ExpAdditiv> `!=' <ExpAdditiv> 
 
-
+<Else> ::= <>
+\alt `ELSE' '{'<InstructionsList> '}'
 
 <Atribution> ::=  <Variable> `=' <ExpAdditiv> 
 
@@ -52,8 +55,7 @@
 \alt `READ'  <Variable> `;'
 \alt `WRITE' <ExpAdditiv> `;'                      
 \alt `WRITE' <string> `;'
-\alt `IF' `(' <Exp> `)' `{' <InstructionsList> `}' 
-\alt `IF' `(' <Exp> `)' `{' <InstructionsList> `}' `ELSE' `{' <InstructionsList> `}' 
+\alt `IF' `(' <Exp> `)' `{' <InstructionsList> `}' <Else>
 \alt `WHILE `(' <Exp> `)' `{' <InstructionsList> `}' 
 \alt `DO'`{' <InstructionsList> `}'`WHILE `(' <Exp> `)' `;' 
 

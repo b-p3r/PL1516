@@ -1,95 +1,99 @@
 \chapter{Análise do Problema}
 \label{cap:analise}
 
-O desafio deste projeto consiste na criação de uma linguagem de programação
-imperativa simples (LPIS) e respetivo compilador.  Para tal é necessário criar
-uma gramática em ???, definir símbolos terminais e não terminais, e desenvolver
-o analisador léxico. Adicionalmente, é necessário o desenvolvimento do
-analisador sintático, com base nas regras da gramática e tendo em conta
-a análise léxica. O compilador da linguagem irá incorporar ambas as análises
-supramencionadas, e procederá a uma análise de ações semânticas e á geração do
-código.  O código gerado será pseudo-código da maquina virtual VM, o analisador
-léxico será elaborado no Flex, e o Yacc será usado para a geração do código
-e análises sintática e semântica.   
-
 
 \section{Especificação dos requisitos}
 \label{sec:especificacao:analise}
 %Especificação dos requisitos (ver enunciado)
 
-A LPIS definida deve permitir determinadas operaçãos necessárias ao bom
-funcionamento de uma linguagem imperativa, especificamente:
+O desafio deste projeto consiste na criação de uma linguagem de programação
+imperativa simples (LPIS) e respetivo compilador.  Para tal é necessário criar
+uma gramática em \emph{Bauk-Naur Form}--BNF--, definir símbolos terminais e não
+terminais, e desenvolver o analisador léxico, seguido do desenvolvimento do
+analisador sintático, com base nas regras da gramática, tendo, de igual modo, em conta
+a análise léxica. O compilador da linguagem irá incorporar ambas as análises
+supramencionadas, e procederá a uma análise de ações semânticas e á geração do
+código.  O código gerado será pseudo-código da maquina virtual VM, o analisador
+léxico será elaborado no \emph{Flex}, e o YACC será usado para a geração do
+código e análises sintática e semântica.   
+
+
+\section{Pedidos}
+
+Para a linguagem alvo deste projeto, pede-se que, no mínimo, permita:
+
 
 \begin{itemize}
-\item declaração e manuseamento de variáveis atómicas do tipo inteiro que
-	permitam a realização de operaçãoes aritméticas, relacionais e lógicas;
-\item declararação e manuseamento variáveis estruturadas do tipo array de
+\item Declaração e manuseamento de variáveis atómicas do tipo inteiro que
+	permitam a realização de operações aritméticas, relacionais e lógicas;
+\item Declaração e manuseamento variáveis estruturadas do tipo \emph{array} de
 	inteiros, com 1 ou 2 dimensões, que permitam apenas operações de indexação;
-\item realização de instruções algorítmicas básicas como a atribuição de
+\item Realização de instruções algorítmicas básicas como a atribuição de
 	expressões a variáveis;
-\item leitura do standard input e escrita no standard output;
-\item realização de instruções de controlo do fluxo de execução que permitam
+\item Leitura do \emph{stdin} e escrita no \emph{stdout};
+\item Realização de instruções de controlo do fluxo de execução que permitam
 	aninhamento;
 \end{itemize}
 
 Opcionalmente, a linguagem definida deve ser capaz de definir e invocar
 subprogramas sem parâmetros, mas que possam retornar um resultado atómico.
 
-\newpage
+Pede-se também que, qualquer variável não pode ser redeclarada.
 
 \section{Dados}
 \label{sec:dados:analise}
 
-Uma linguagem imperativa completa deve de permitir pelo menos três estruturas de controlo:
+Uma linguagem imperativa completa deve de permitir pelo menos duas estruturas de controlo:
 
 \begin{itemize}
-\item IF()THEN\{\}ELSE\{\};
-\item WHILE()\{\};
-\item DO\{\}WHILE();
+	\item Estruturas de fluxo condicional (\emph{if then else});
+	\item Estruturas cíclicas (\emph{while});
 \end{itemize}
 
 Por uma questão de simplificação do código, poderá adicionalmente permitir
-a estrutura IF()THEN\{\}.\\
+a estrutura \emph{if then} e a estrutura \emph{do while}.
 
-De igual modo, permitindo a linguagem acesso a estruturas do tipo array,
-é necessário ter em conta que qualquer array, independentemente da dimensão,
-é representado em memória como um único array de uma dimensão. Contudo,
-é necessário establecer regras para o acesso a arrays uni e bidimensionais. Para
+De igual modo, permitindo a linguagem acesso a estruturas do tipo \emph{array},
+é necessário ter em conta que qualquer \emph{array}, independentemente da dimensão,
+é representado em memória como um único \emph{array} de uma dimensão. Contudo,
+é necessário estabelecer regras para o acesso a \emph{\emph{array}s} uni e bidimensionais. Para
 garantir a eficácia da linguagem, considerar-se-á que o acesso será feito em
-"row major" para arrays bidimensionais.\\
+\emph{row major} para \emph{\emph{array}s} bidimensionais.
 
-Genericamente, o acesso a um array pode ser representado por a fórmula $A[i] = b + w * (i - lb)$, sendo:
-
-\begin{itemize}
-\item b o endereço base;
-\item w o tamanho do elemento;
-\item i o índice do elemento;
-\item lb o limite inferior na memória;
-\end{itemize}
-
-No caso do acesso em questão, w = 1 e lb = 0, logo $A[i] = b + i$.\\\\
-
-Para um array bidimensional temos $A[i][j] = b + w [(i - lr) + N(j - lc)]$, onde:
+Genericamente, o acesso a um \emph{array} pode ser representado por a fórmula $A[i]
+= b + w * (i - lb)$, sendo:
 
 \begin{itemize}
-\item b é o endereço base;
-\item i é o índice da linha do elemento;
-\item j é o índice da coluna do elemento;
-\item w é o tamanho do elemento em bytes;
-\item lr é o limite inferior da linha;
-\item lc é o limite inferior da coluna;
-\item N é o número máximo de colunas;
+	\item \texttt{b} o endereço base;
+\item \texttt{w} o tamanho do elemento;
+\item \texttt{i} o índice do elemento;
+\item \texttt{lb} o limite inferior na memória;
 \end{itemize}
 
-Assumindo w = 1 e lr = lc = 0, temos $A[i][j] = b + i + N * j$.\\
+No caso do acesso em questão, $w = 1$ e $lb = 0$, logo $A[i] = b + i$.
+
+Para um \emph{array} bidimensional temos $A[i][j] = b + w [N(i - lr) + (j
+- lc)]$, onde:
+
+\begin{itemize}
+	\item \texttt{b} é o endereço base;
+\item \texttt{i} é o índice da linha do elemento;
+\item \texttt{j} é o índice da coluna do elemento;
+\item \texttt{w} é o tamanho do elemento em bytes;
+\item \texttt{lr} é o limite inferior da linha;
+\item \texttt{lc} é o limite inferior da coluna;
+\item \texttt{N} é o número máximo de linhas;
+\end{itemize}
+
+Assumindo $w = 1$ e $lr = lc = 0$, temos $A[i][j] = b + N*i + j$.
 
 \section{Relações}
 \label{sec:relacoes:analise}
 
 Para o cálculo das expressões é necessário ter em conta algumas propriedades de
 cada tipo de expressão. Ou seja, é necessário verificar os tipos atómicos
-(variáveis, constantes, elementos de arrays), que assumimos como inteiros, e os
-resultados das expressões por inferência. Assim:\\
+(variáveis, constantes, elementos de \emph{arrays}), que assumimos como
+inteiros, e os resultados das expressões por inferência. Assim:
 \begin{itemize}
 \item Para as expressões aritméticas (soma, subtração, multiplicação, divisão
 	inteira e módulo), bem como os elementos constituintes da expressão, o tipo
@@ -103,52 +107,47 @@ resultados das expressões por inferência. Assim:\\
 
 De notar que várias expressões podem ser compostas, cuja verificação estará
 descrita na análise semântica. Adicionalmente, existe uma relação de precedência
-das operações, bem como de fatores. Um factor é uma expressão aninhada, um // ou
+das operações, bem como de fatores. Um fator é uma expressão aninhada, um // ou
 uma variável. De igual modo, subprogramas e operações unárias? (uma vez que são
-funções) fazem parte deste conjunto. Consequentemente, um factor é prioritário
+funções) fazem parte deste conjunto. Consequentemente, um fator é prioritário
 em relação a todas as operações, uma vez que é o elemento atómico de uma
-expressão.\\
+expressão.
 
-Seguidamente temos os termos. Um termo é composto por operações multiplicativas
+Em seguida, temos os termos, que são compostos por operações multiplicativas
 entre fatores, sendo estas a multiplicação, a divisão inteira, e módulo. Poderá
-também ser incluida a operação lógica "AND", por razões posteriormente
-explicitadas. As expressões seguintes na escala de prioridades são as expressões
-aditivas (soma, subtração, //). Poderá ser incluida a operação lógica "OR", por
-razões que tal como a inclusão de "AND", serão posteriormente explicitadas. As
-expressões de menor prioridade são as expressões relacionais (>, <, >=, <=, ==
-E !=).\\
+também ser incluída a operação \emph{E LÓGICO}, por razões que
+posteriormente serão explicadas. As expressões seguintes na escala de
+prioridades são as expressões aditivas (soma e subtração). Poderá ser incluída
+a operação \emph{OU LÓGICO}, por razões que tal como a inclusão de
+\emph{E LÓGICO}, que serão posteriormente explicitadas. As expressões de menor
+prioridade são as expressões relacionais (\emph{menor}, \emph{maior},
+\emph{menor ou igual}, \emph{maior ou igual}, \emph{igualdade}
+e \emph{desigualdade}).
 
 Para a execução do programa é necessário definir as instruções e operações que
 o definem. O programa pode efetuar cálculos utilizando as expressões previamente
-mencionadas. No entanto, é necessário guardar o resultado. Nas linguagem imperativas, 
-a interação base é a atribuição, que pode ser atribuição do valor de uma expressão 
-a uma variável. Esta poderá ser uma variável atómica ou a posição de um array. 
-As restantes instruções terão por base estes cálculos de expressões e atribuições, 
-usando restrições de contrlo de fluxo, tais como "IF..THEN..ELSE..", "WHILE" 
-e "DO..WHILE..".\\
+mencionadas. No entanto, é necessário guardar o resultado. Nas linguagem
+imperativas, a interação base é a atribuição, que pode ser atribuição do valor
+de uma expressão a uma variável. Esta poderá ser uma variável atómica ou
+a posição de um \emph{array}.  As restantes instruções terão por base estes
+cálculos de expressões e atribuições, usando restrições de controlo de fluxo,
+tais como \emph{if then else}, \emph{while} e \emph{do while}.
 
-Devido á necessidade de armazenar o valor de expressões, torna-se necessário 
+Devido à necessidade de armazenar o valor de expressões, torna-se necessário 
 declarar as variáveis, alocando espaço em memória para as mesmas. As declarações 
 podem designar o nome da variável, o seu tipo, e o seu valor, não // redeclarações 
 da mesma variável. Neste projeto, considerar-se-á que todas as variáveis são globais, 
-ou seja, declaradas antes da execução do programa, e assumem número inteiro.\\   
+ou seja, declaradas antes da execução do programa, e assumem número inteiro.   
 
-Note-se que subprogramas podem ter ou não parâmetros,
+Para subprogramas, há que ter em conta que podem ter ou não parâmetros,
 e devolver ou não um valor. Visto que a alocação de memória é efetuada numa
-stack virtual, é necessário, no momento da sua //, criar uma frame no topo da
-stack com todas as variáveis locais declaradas, e parâmetros alocados em
-memória. Para identificar o programa principal, a linguagem usa um sistema de
-níveis, em que um nível assume o valor 0 para o programa principal ou o valor
-1 para subprogramas. Finalmente, o início e fim de cada programa ou subprograma
-deve estar devidamente assinalado.  
+\emph{stack} virtual, é necessário, no momento da sua //, criar uma \emph{frame}
+no topo da \emph{stack} com todas as variáveis locais declaradas, e parâmetros
+alocados em memória. Para identificar o programa principal, a linguagem usa um
+sistema de níveis, em que um nível assume o valor 0 para o programa principal ou
+o valor 1 para subprogramas. Finalmente, o início e fim de cada programa ou
+subprograma deve estar devidamente assinalado.  
 
- 
- 
- 
-
-
-
- 
 
 
 

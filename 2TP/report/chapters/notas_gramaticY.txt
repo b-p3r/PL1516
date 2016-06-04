@@ -1,0 +1,294 @@
+
+
+-> TERMO
+
+Term : Constant              
+{
+
+    $$.s=$1.s;
+
+    $$.val_type=$1.val_type;
+}
+| Variable
+{  
+    $$.s=$1.s;
+    $$.val_type=$1.val_type;
+
+}
+| '-''('Exp')'               
+{
+
+    if ( check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s pushi -1\nsub\n", $3.s );
+        $$.val_type=$3.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A condição não tem um valor inteiro!!" );
+        exit ( -1 );
+    }
+
+}
+| '(' Exp ')'                
+{
+
+    $$.s=$2.s;
+
+    $$.val_type=$2.val_type;
+
+
+}                          
+| NOT '(' Exp ')'            
+{
+
+    if ( check_type ( $3.val_type, Boolean ) )
+    {   $$.val_type=$3.val_type;
+        $$.s=$3.s;
+    }
+
+    else {
+        printf ( "Erro!! A condição não tem um valor booleano!!" );
+        exit ( -1 );
+    }
+
+}      
+
+
+-> EXP MULTIPLICATIVA
+
+
+ExMultipl : Term            
+{
+    $$.s=$1.s;
+    $$.val_type=$1.val_type;
+}
+|  ExMultipl '*' Term       
+{ 
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%smul\n", $1.s, $3.s );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}   
+|  ExMultipl '/' Term       
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%sdiv\n", $1.s, $3.s );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}  
+|  ExMultipl '%' Term       
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%smod\n", $1.s, $3.s );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}  
+|  ExMultipl AND Term       
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%smul\n", $1.s, $3.s );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}     
+
+
+-> EXP ADITIVA
+
+ExpAdditiv : ExMultipl      
+{
+
+    $$.s=$1.s;
+
+    $$.val_type=$1.val_type;
+
+
+}
+| ExpAdditiv '+' ExMultipl  
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%sadd  \n", $1.s, $3.s    );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}  
+| ExpAdditiv '-' ExMultipl  
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%ssub  \n", $1.s, $3.s    );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}  
+| ExpAdditiv OR  ExMultipl  
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%sadd  \n", $1.s, $3.s    );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+} 
+
+-> EXPRESSÃO
+
+Exp : ExpAdditiv            
+{
+
+    $$.s=$1.s;
+
+    $$.val_type=$1.val_type;
+
+
+}  
+|  ExpAdditiv L   ExpAdditiv
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%sinf  \n", $1.s, $3.s    );
+        $$.val_type=Boolean;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}  
+|  ExpAdditiv G   ExpAdditiv
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%ssup  \n", $1.s, $3.s    );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}  
+|  ExpAdditiv GEQ ExpAdditiv
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%ssupeq\n", $1.s, $3.s    );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}  
+|  ExpAdditiv LEQ ExpAdditiv
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%sinfeq\n", $1.s, $3.s    );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}  
+|  ExpAdditiv EQ  ExpAdditiv
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%sequal\n", $1.s, $3.s    );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}  
+|  ExpAdditiv NEQ ExpAdditiv
+{
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   asprintf ( &$$.s, "%s%sequal\nnot\n", $1.s, $3.s );
+        $$.val_type=$1.val_type;
+    }
+
+    else {
+        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        exit ( -1 );
+    }
+
+}  
+  
+
+-> ATRIBUIÇÃO
+                                    
+Atribution :  Variable '=' ExpAdditiv    {
+
+    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    {   printf ( "Erro!!Os tipo de elementos da atribuição não são iguais!\n" );
+        exit ( -1 );
+    }
+
+    if ( get_class ( $1.entry ) == Matrix || get_class ( $1.entry ) == Array )
+    {   asprintf ( &$$.s, "%s%sstoren\n", $1.s, $3.s );
+    }
+
+    else {
+        int address = get_address ( $1.entry );
+        asprintf ( &$$.s, "%s%sstoreg %d\n", $1.s, $3.s, address );
+    }
+
+}
+
+ 

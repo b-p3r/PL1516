@@ -116,7 +116,8 @@ Além destas bibliotecas, foram definidos novos tipos, enumerados,  no cabeçalh
 \begin{itemize}
 	\item \verb|CompoundInstruction|;
 Este tipo carateriza tipos de estruturas de controlo diferentes para acesso por
-índice aos \emph{arrays} multidimensionais, representam as diferentes
+índice aos \emph{arrays} multidimensionais, representam as difer
+entes
 \emph{stacks} para as \emph{labels}.   
 
 		\begin{itemize}
@@ -164,6 +165,146 @@ Este tipo carateriza tipos de estruturas de controlo diferentes para acesso por
 \input{report/fig/figura3.tex}
 
 \input{report/fig/figura4.tex}
+
+
+
+
+
+  typedef struct aux {
+        Type val_type;
+        char *s;
+    } Instr;
+    typedef struct auxvar {
+        Type val_type;
+        Entry *entry;
+        char *s;
+    } Var;
+
+
+  char   *add_label ( CompoundInstruction cpd )
+    {
+        push_label_stack ( status, cpd );
+        return push_label ( status, cpd );
+    }
+    void remove_label ( CompoundInstruction cpd )
+    {
+        pop_label ( status, cpd );
+        reset_label_stack ( status, cpd );
+        pop_label_stack ( status, cpd );
+    }
+
+
+%union{char * val_string; int val_nro; char* val_id;  Instr instr; Var var;}
+%token <val_id>id
+%token <val_nro>num
+%token <val_string>string
+%token BEGINNING
+%token END
+%token VAR
+%token G
+%token L
+%token GEQ
+%token LEQ
+%token EQ
+%token NEQ
+%token NOT
+%token AND
+%token OR
+%token READ
+%token WRITE
+%token IF
+%token ELSE
+%token WHILE
+%token DO
+%type<instr>Program
+%type<instr>Declarations
+%type<instr>Body
+%type<instr>InstructionsList
+%type<instr>Declaration
+%type<instr>DeclarationsList
+%type<instr>Else
+%type<instr>Constant
+%type<instr>Term
+%type<instr>ExpAdditiv
+%type<instr>ExMultipl
+%type<instr>Exp
+%type<instr>Atribution
+%type<instr>Instruction
+%type<var> Variable
+
+
+Program : Declarations Body     
+;
+Body : BEGINNING 
+;
+Declaration : id              
+
+| id '[' num ']'              
+
+| id '[' num ']' '[' num ']'  
+;
+Declarations : VAR DeclarationsList ';'       
+;
+
+
+DeclarationsList : Declaration             
+| DeclarationsList ',' Declaration         
+;
+
+Variable : id                 
+| id '[' ExpAdditiv ']'       
+| id '[' ExpAdditiv ']' '[' ExpAdditiv ']' 
+;
+
+Constant : num  
+         ;
+
+
+Factor : Constant              
+
+| Variable 
+| '(' '-' Exp')'               
+
+| '(' Exp ')'                
+
+| NOT '(' Exp ')'            
+;
+Term : Factor            
+|  Term '*' Factor       
+|  Term '/' Factor       
+|  Term '%' Factor       
+|  Term AND Factor       
+;                                             
+ExpAdditiv : Term      
+| ExpAdditiv '+' Term  
+| ExpAdditiv '-' Term  
+| ExpAdditiv OR  Term  
+;                                         
+Exp : ExpAdditiv            
+|  ExpAdditiv L   ExpAdditiv
+|  ExpAdditiv G   ExpAdditiv
+|  ExpAdditiv GEQ ExpAdditiv
+|  ExpAdditiv LEQ ExpAdditiv
+|  ExpAdditiv EQ  ExpAdditiv
+|  ExpAdditiv NEQ ExpAdditiv
+;                                      
+Atribution :  Variable '=' ExpAdditiv    
+;
+InstructionsList : Instruction           
+| InstructionsList Instruction           
+;
+Else :         
+|            
+ELSE '{'InstructionsList'}'  
+;
+Instruction : Atribution ';'           
+| READ  Variable ';'      
+| WRITE ExpAdditiv ';'    
+| WRITE string ';'        
+| IF '('  Exp ')' '{'InstructionsList '}' Else          
+| WHILE '(' Exp ')''{'InstructionsList '}'  
+| DO '{'InstructionsList'}' WHILE '(' Exp ')' ';' 
+;
 
 
 

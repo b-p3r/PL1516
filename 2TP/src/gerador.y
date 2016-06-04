@@ -65,9 +65,9 @@
 %type<instr>DeclarationsList
 %type<instr>Else
 %type<instr>Constant
-%type<instr>Term
+%type<instr>Factor
 %type<instr>ExpAdditiv
-%type<instr>ExMultipl
+%type<instr>Term
 %type<instr>Exp
 %type<instr>Atribution
 %type<instr>Instruction
@@ -219,7 +219,7 @@ Constant : num  {
 // *INDENT-OFF*
 }
          ;
-Term : Constant              
+Factor : Constant              
 {
 // *INDENT-ON*
     $$.s=$1.s;
@@ -272,12 +272,12 @@ Term : Constant
 // *INDENT-OFF*
 }                          
 ;
-ExMultipl : Term            
+Term : Factor            
 {
     $$.s=$1.s;
     $$.val_type=$1.val_type;
 }
-|  ExMultipl '*' Term       
+|  Term '*' Factor       
 { 
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -292,7 +292,7 @@ ExMultipl : Term
     }
 // *INDENT-OFF*
 }   
-|  ExMultipl '/' Term       
+|  Term '/' Factor       
 {
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -307,7 +307,7 @@ ExMultipl : Term
     }
 // *INDENT-OFF*
 }  
-|  ExMultipl '%' Term       
+|  Term '%' Factor       
 {
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -322,7 +322,7 @@ ExMultipl : Term
     }
 // *INDENT-OFF*
 }  
-|  ExMultipl AND Term       
+|  Term AND Factor       
 {
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -338,7 +338,7 @@ ExMultipl : Term
 // *INDENT-OFF*
 }  
 ;                                             
-ExpAdditiv : ExMultipl      
+ExpAdditiv : Term      
 {
 // *INDENT-ON*
     $$.s=$1.s;
@@ -347,7 +347,7 @@ ExpAdditiv : ExMultipl
 
 // *INDENT-OFF*
 }
-| ExpAdditiv '+' ExMultipl  
+| ExpAdditiv '+' Term  
 {
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -362,7 +362,7 @@ ExpAdditiv : ExMultipl
     }
 // *INDENT-OFF*
 }  
-| ExpAdditiv '-' ExMultipl  
+| ExpAdditiv '-' Term  
 {
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -377,7 +377,7 @@ ExpAdditiv : ExMultipl
     }
 // *INDENT-OFF*
 }  
-| ExpAdditiv OR  ExMultipl  
+| ExpAdditiv OR  Term  
 {
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
