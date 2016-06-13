@@ -12,7 +12,7 @@ LATEXMKBIBTEX=-bibtex
 
 
 
-all: gerador relatorio.pdf clean compress  
+all: gerador test relatorio.pdf clean compress  
 
 
 compiler: clean_exec gerador clean 
@@ -77,11 +77,11 @@ clean_exec:
 	rm -fr Tp2.zip
 
 
-#test: 
-#	./filter_exe2_2a < testes/ex3.bib > testes/resNorm.bib
-#	./filter_exe2_2b < testes/ex3.bib > testes/res_pretty_printing.txt
-#	./filter_exe2_3 "Tim Teitelbaum" < testes/ex4.bib > testes/res_dot.dot
-#	dot -Tpng testes/res_dot.dot -o testes/out.png
-
+test: 
+	./gerador < testes/testesPedidos/01codLpis.txt > testes/testesPedidos/01ass.txt
+	./gerador < testes/testesPedidos/02codLpis.txt > testes/testesPedidos/02ass.txt
+	./gerador < testes/testesPedidos/03codLpis.txt > testes/testesPedidos/03ass.txt
+	./gerador < testes/testesPedidos/04codLpis.txt > testes/testesPedidos/04ass.txt
+	./gerador < testes/testesPedidos/05codLpis.txt > testes/testesPedidos/05ass.txt
 
 
