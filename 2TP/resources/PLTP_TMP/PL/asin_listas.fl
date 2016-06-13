@@ -1,0 +1,115 @@
+%top{
+#define INICIO 1
+#define FIM 2
+#define VIRGULA 3
+#define NUMERO 4
+#define PALAVRA 5
+
+void reconheceTerminal(int terminal);
+void reconheceLista();
+void reconheceElem();
+void reconheceResto();
+void reconheceL();
+char *simboloToString(int simbolo);
+
+enum e_erro{NO_ERROR, ERROR_TERMINAL, ERROR_LISTA, ERROR_L, ERROR_ELEM, ERROR_RESTO};
+typedef enum e_erro ERRO;
+
+ERRO erro;
+int proxSimbolo;
+
+}
+
+%%
+
+\[          {return INICIO;}
+\]          {return FIM;}
+\,          {return VIRGULA;}
+[0-9]+      {return NUMERO;}
+[A-Za-z]+   {return PALAVRA;}
+
+(.|\n)      {}
+
+%%
+
+
+char *simboloToString(int simbolo){
+    char *res;
+    switch(simbolo){
+        case 1: res = "INICIO"; break;
+        case 2: res = "FIM"; break;
+        case 3: res = "VIRGULA"; break;
+        case 4: res = "NUMERO"; break;
+        case 5: res = "PALAVRA"; break;
+        default: res = "SIMB INVALIDO";
+    }
+    return res;
+}
+
+
+void reconheceTerminal(int terminal){
+    if(proxSimbolo==terminal){
+        printf("Terminal %s reconhecido!\n", simboloToString(terminal));
+        proxSimbolo =yylex();
+    }else{
+        erro = ERROR_TERMINAL;
+        printf("Erro ao reconhecer terminal! Esperado: %s Encontrado %s\n", simboloToString(terminal), simboloToString(proxSimbolo));
+    }
+}
+
+
+void reconheceLista(){
+    if(proxSimbolo == INICIO){
+        if(erro == NO_ERROR) reconheceTerminal(INICIO);
+        if(erro == NO_ERROR) reconheceL();
+        if(erro == NO_ERROR) reconheceTerminal(FIM);
+    }else{
+        erro = ERROR_LISTA;
+        printf("Erro ao reconhecer lista! Esperado: %s Encontrado: %s\n", simboloToString(INICIO), simboloToString(proxSimbolo));
+    }
+}
+
+void reconheceElem(){
+    int reconhecido =0;
+    if(proxSimbolo==PALAVRA && erro == NO_ERROR){ reconheceTerminal(PALAVRA); reconhecido = 1;}
+    if(proxSimbolo==NUMERO && erro == NO_ERROR) { reconheceTerminal(NUMERO); reconhecido =1;}
+    if(!reconhecido){
+        erro = ERROR_ELEM;
+        printf("Erro ao reconhecer elemento! Esperado: %s ou %s Encontrado: %s\n", simboloToString(NUMERO), simboloToString(PALAVRA), simboloToString(proxSimbolo));
+    }
+}
+
+void reconheceResto(){
+    if(proxSimbolo==FIM) return;
+    if(proxSimbolo==VIRGULA){
+        if(erro == NO_ERROR) reconheceTerminal(VIRGULA);
+        if(erro == NO_ERROR) reconheceElem();
+        if(erro == NO_ERROR) reconheceResto();
+    }else{
+        erro = ERROR_RESTO;
+        printf("Erro ao reconhecer resto! Esperado: %s ou %s Encontrado:%s\n", simboloToString(FIM), simboloToString(VIRGULA), simboloToString(proxSimbolo));
+    }
+}
+
+void reconheceL(){
+    if(proxSimbolo == PALAVRA || proxSimbolo == NUMERO){
+        if(erro == NO_ERROR) reconheceElem();
+        if(erro == NO_ERROR) reconheceResto();
+    }else{
+        erro = ERROR_L;
+        printf("Erro ao reconnhecer L! Esperado: %s ou %s Encontrado: %s\n", simboloToString(PALAVRA), simboloToString(NUMERO), simboloToString(proxSimbolo));
+    }
+}
+
+int yywrap(){
+    return 1;
+}
+
+int main(){
+    erro = NO_ERROR;
+    proxSimbolo = yylex();
+    reconheceLista(proxSimbolo);
+    printf("Fim leitura. Erro: %d (%d = sucesso)\n", erro, NO_ERROR);
+    return 0;
+}
+

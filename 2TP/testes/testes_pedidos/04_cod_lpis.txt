@@ -1,0 +1,50 @@
+VAR array [20], pos, n, x;
+
+BEGINNING
+pos = 0;
+READ n;
+
+WHILE (pos < n)
+{
+    READ x;
+    array [pos] = x;
+
+    pos = pos +1;
+
+}
+
+pos = 1;
+
+
+WHILE ( pos < n )
+{
+    IF (array[pos - 1] <= array[pos])
+    {
+        pos = pos +1;
+
+    }
+    ELSE
+    {
+        x = array[pos];
+        array[pos] = array[pos - 1];
+        array[pos - 1] = x;
+
+        pos = pos - 1;
+
+        IF( pos == 0)
+        {
+            pos = 1;
+        }
+
+    }
+
+}
+pos = 0;
+WHILE ( pos < n )
+{
+    WRITE array[pos];
+
+}
+
+
+END

@@ -1,0 +1,24 @@
+VAR id , id , id , id ; 
+
+BEGINNING 
+
+	WRITE string  ; 
+	READ id  ; 
+
+	id = num ; 
+	id = num ; 
+	id = num ; 
+
+	WHILE  ( id LE id ) 
+	{
+	WRITE string  ; 
+	READ id ; 
+	id = id  +  id  ; 
+
+	id = id  + num  ; 
+	
+	}
+	WRITE string  ; 
+	WRITE id ; 
+
+END
