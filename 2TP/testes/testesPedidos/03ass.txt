@@ -1,0 +1,35 @@
+pushi 0
+pushi 0
+start
+whileloop1:nop
+pushg 0
+pushi 0
+equal
+not
+jz whiledone1
+jz l1level1	
+pushg 0
+pushi 1
+storeg 0
+pushg 1
+pushi 0
+storeg 1
+pushs "Escreva um numero:"
+writes
+pushg 0
+read
+pushg 0
+writei
+pushg 1
+pushg 1
+pushi 1
+add  
+storeg 1
+l1level1:nop
+jump whileloop1
+whiledone1:nop
+pushs "Total de numeros pares lidos:"
+writes
+pushg 1
+writei
+stop

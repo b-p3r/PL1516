@@ -1,0 +1,27 @@
+pushi 0
+pushi 0
+pushi 0
+start
+jz l1level1	
+pushs "escreva x:"
+writes
+pushg 0
+read
+pushs "escreva y:"
+writes
+pushg 1
+read
+pushg 2
+pushg 0
+storeg 2
+jump l2level1
+l1level1:nop
+pushg 2
+pushg 1
+storeg 2
+l2level1:nop
+pushs "O maior numero e:"
+writes
+pushg 2
+writei
+stop

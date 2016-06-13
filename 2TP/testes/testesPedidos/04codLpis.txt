@@ -1,0 +1,48 @@
+VAR a[20], pos, n, x;
+
+BEGINNING
+	pos = 0;
+	READ n;
+
+	WHILE (pos < n)
+	{
+	READ x;
+	a[pos] = x;
+
+	pos = pos +1;
+	
+	}
+
+	pos = 1;
+
+
+	WHILE ( pos < n )
+	{
+	IF (a[pos - 1] <= a[pos])
+	{
+	pos = pos +1;
+	
+	}
+	ELSE
+	{
+	   x = a[pos];
+	   a[pos] = a[pos - 1];
+	   a[pos - 1] = x;
+
+	   pos = pos - 1;  
+              
+    	IF( pos == 0)
+        {
+     		pos = 1;
+        }
+  
+	}
+	
+	}
+        pos = 0;
+	WHILE ( pos < n )
+	{
+        WRITE a[pos];	
+
+	}
+END

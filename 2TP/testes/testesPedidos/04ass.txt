@@ -1,0 +1,100 @@
+pushn 20
+pushi 0
+pushi 0
+pushi 0
+start
+whileloop1:nop
+pushg 20
+pushg 21
+inf  
+jz whiledone1
+whileloop:nop
+pushg 20
+pushg 21
+inf  
+jz whiledone
+jz l1level1	
+jz l1level11	
+whileloop:nop
+pushg 20
+pushg 21
+inf  
+jz whiledone
+pushg 20
+pushi 0
+storeg 20
+pushg 21
+read
+pushg 22
+read
+pushgp
+pushg 0
+padd
+pushg 20
+pushg 22
+storen
+pushg 20
+pushg 20
+pushi 1
+add  
+storeg 20
+jump whileloop1
+whiledone1:nop
+pushg 20
+pushi 1
+storeg 20
+pushg 20
+pushg 20
+pushi 1
+add  
+storeg 20
+jump l2level1
+l1level1:nop
+pushg 22
+pushgp
+pushg 0
+padd
+pushg 20
+storeg 22
+pushgp
+pushg 0
+padd
+pushg 20
+pushgp
+pushg 0
+padd
+pushg 20
+pushi 1
+sub  
+storen
+pushgp
+pushg 0
+padd
+pushg 20
+pushi 1
+sub  
+pushg 22
+storen
+pushg 20
+pushg 20
+pushi 1
+sub  
+storeg 20
+pushg 20
+pushi 1
+storeg 20
+l1level11:nop
+l2level1:nop
+jump whileloop
+whiledone:nop
+pushg 20
+pushi 0
+storeg 20
+pushgp
+pushg 0
+padd
+pushg 20
+writei
+jump whileloop
+whiledone:nop
+stop

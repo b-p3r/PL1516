@@ -1,0 +1,115 @@
+pushn 50
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+start
+whileloop1:nop
+pushg 54
+pushg 56
+inf  
+jz whiledone1
+whileloop11:nop
+pushg 55
+pushg 57
+inf  
+jz whiledone11
+jz l1level1	
+pushg 53
+pushi 0
+storeg 53
+pushg 50
+pushi 0
+storeg 50
+pushg 52
+pushi 0
+storeg 52
+pushg 58
+pushi 0
+storeg 58
+pushg 59
+pushi 0
+storeg 59
+pushs "escreva o numero de linhas :"
+writes
+pushg 56
+read
+pushs "escreva o numero de colunas :"
+writes
+pushg 57
+read
+pushg 54
+pushi 0
+storeg 54
+pushg 55
+pushi 0
+storeg 55
+pushg 58
+read
+pushgp
+pushg 0
+padd
+pushg 54
+pushi 5
+mul
+add
+pushg 55
+pushg 58
+storen
+pushg 52
+pushg 52
+pushg 58
+add  
+storeg 52
+pushg 59
+pushg 59
+pushi 1
+add  
+storeg 59
+pushg 53
+pushg 58
+storeg 53
+l1level1:nop
+pushg 55
+pushg 55
+pushi 1
+add  
+storeg 55
+jump whileloop11
+whiledone11:nop
+pushg 54
+pushg 54
+pushi 1
+add  
+storeg 54
+jump whileloop1
+whiledone1:nop
+pushg 50
+pushg 52
+pushg 59
+div
+storeg 50
+pushg 51
+pushg 52
+pushg 59
+mod
+storeg 51
+pushs "A media tem um valor de :"
+writes
+pushg 50
+writei
+pushs "o resto tem um valor de :"
+writes
+pushg 51
+writei
+pushs "O maximo tem um valor de :"
+writes
+pushg 53
+writei
+stop
