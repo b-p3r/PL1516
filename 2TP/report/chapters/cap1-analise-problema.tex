@@ -8,7 +8,7 @@
 
 O desafio deste projeto consiste na criação de uma linguagem de programação
 imperativa simples (LPIS) e respetivo compilador.  Para tal é necessário criar
-uma gramática em \emph{Bauk-Naur Form}--BNF--, definir símbolos terminais e não
+uma gramática em \emph{Bakus-Naur Form}--BNF--, definir símbolos terminais e não
 terminais, e desenvolver o analisador léxico, seguido do desenvolvimento do
 analisador sintático, com base nas regras da gramática, tendo, de igual modo, em conta
 a análise léxica. O compilador da linguagem irá incorporar ambas as análises
@@ -127,7 +127,7 @@ e \emph{desigualdade}).
 Para a execução do programa é necessário definir as instruções e operações que
 o definem. O programa pode efetuar cálculos utilizando as expressões previamente
 mencionadas. No entanto, é necessário guardar o resultado. Nas linguagem
-imperativas, a interação base é a atribuição, que pode ser atribuição do valor
+imperativas, a instrução base é a atribuição, que pode ser atribuição do valor
 de uma expressão a uma variável. Esta poderá ser uma variável atómica ou
 a posição de um \emph{array}.  As restantes instruções terão por base estes
 cálculos de expressões e atribuições, usando restrições de controlo de fluxo,
@@ -135,17 +135,17 @@ tais como \emph{if then else}, \emph{while} e \emph{do while}.
 
 Devido à necessidade de armazenar o valor de expressões, torna-se necessário 
 declarar as variáveis, alocando espaço em memória para as mesmas. As declarações 
-podem designar o nome da variável, o seu tipo, e o seu valor, não // redeclarações 
+podem designar o nome da variável, o seu tipo, e o seu valor, não haver redeclarações 
 da mesma variável. Neste projeto, considerar-se-á que todas as variáveis são globais, 
 ou seja, declaradas antes da execução do programa, e assumem número inteiro.   
 
 Para subprogramas, há que ter em conta que podem ter ou não parâmetros,
 e devolver ou não um valor. Visto que a alocação de memória é efetuada numa
-\emph{stack} virtual, é necessário, no momento da sua //, criar uma \emph{frame}
+\emph{stack} virtual, é necessário, no momento da sua invocação, criar uma \emph{frame}
 no topo da \emph{stack} com todas as variáveis locais declaradas, e parâmetros
 alocados em memória. Para identificar o programa principal, a linguagem usa um
 sistema de níveis, em que um nível assume o valor 0 para o programa principal ou
-o valor 1 para subprogramas. Finalmente, o início e fim de cada programa ou
+o valor 1 para subprogramas. Por último, o início e fim de cada programa ou
 subprograma deve estar devidamente assinalado.  
 
 

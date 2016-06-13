@@ -2,17 +2,32 @@
 \label{subsec:gramatica:desenho}
 
 O conjunto dos símbolos terminais da gramática é o que se segue:
-
-T = {id, num, string, BEGINNING, END, VAR, NOT, AND, OR, READ, WRITE, IF,
-	WHILE, DO, ELSE,`[', `]', `;', `,', `(', `)', `*', `/', `\%', `{', `}', `+',
-`-', `<', `>', `>=', `<=', `==', `!=', `='}
-
+\begin{verbatim}
+ T =  { id,        num,    string  
+        BEGINNING, END,    VAR, 
+        NOT,       AND,    OR,  
+        READ,      WRITE,  IF, 
+        WHILE,     DO,   
+        ELSE,      `[',   `]',   
+        `;',       `,',   `(',   
+        `)',       `*',   `/',   
+        `\%',      `{',   `}',   
+        `+',       `-',   `<',   
+        `>',       `>=',  `<=', 
+        `==',      `!=',   `=' 
+      }
+\end{verbatim}
 
 O conjunto dos símbolos não-terminais da gramática é o que se segue:
 
-NT = {Program, Declarations, Body, InstructionsList, Declaration,
-DeclarationsList, Factor, ExpAdditiv, Exp, Variable, Term, Atribution,
-Instruction, Else, Constant }
+\begin{verbatim}
+NT = {Program,          Declarations, Body, 
+      InstructionsList, Declaration,  DeclarationsList, 
+      Factor,           ExpAdditiv,   Exp, 
+      Variable,         Term,         Atribution,
+      Instruction,      Else,         Constant 
+     }
+\end{verbatim}
 \subsubsection{Axioma}
 \label{subsec:subsubsec:axioma:desenho}
 
