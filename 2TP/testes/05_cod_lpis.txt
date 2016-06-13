@@ -6,9 +6,9 @@ BEGINNING
 	total = 0;
 	tmp = 0;
 	cont = 0;
-        WRITE "escreva o numero de linhas :"
+        WRITE "escreva o numero de linhas :";
 	READ n;
-        WRITE "escreva o numero de colunas :"
+        WRITE "escreva o numero de colunas :";
 	READ m;
 
 	i = 0;
@@ -46,3 +46,4 @@ BEGINNING
 	WRITE restomedia;
 	WRITE "O maximo tem um valor de :";
 	WRITE max;
+END

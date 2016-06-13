@@ -18,7 +18,7 @@ BEGINNING
 	counter = counter +1;
 	
 	}
-	WRITE "O valor total da soma e:"
+	WRITE "O valor total da soma e:";
 	WRITE sum;
 
 END
