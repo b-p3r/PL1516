@@ -550,9 +550,10 @@ Instruction : Atribution ';'           {$$.s=$1.s;}
 | READ  Variable ';'      
 {
 // *INDENT-ON*
-    int address = get_address ( $2.entry );
+    //int address = get_address ( $2.entry );
 
-    asprintf ( &$$.s,"%spushg %d\nread\n", $2.s, address );
+    //asprintf ( &$$.s,"%spushg %d\nread\n", $2.s, address );
+    asprintf ( &$$.s,"%sread\n", $2.s);
 
 // *INDENT-OFF*
 }
