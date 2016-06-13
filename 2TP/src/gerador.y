@@ -103,7 +103,7 @@ Declaration : id
 // *INDENT-ON*
     Entry *entry =  find_identifier ( status, $1 );
 
-    if ( entry )
+    if ( entry==NULL )
     {
        add_Array ( status, $1, Integer, Array, $3, Program );
        printf ( "pushn %d\n", $3 );
@@ -123,7 +123,7 @@ else
 // *INDENT-ON*
     Entry *entry =  find_identifier ( status, $1 );
 
-    if ( entry )
+    if ( entry==NULL )
     {
        add_Matrix ( status, $1, Integer, Matrix, $3*$6, $6, Program );
        printf ( "pushn %d\n", $3*$6 );
@@ -325,10 +325,10 @@ Term : Factor
 |  Term AND Factor       
 {
 // *INDENT-ON*
-    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    if ( check_type ( $1.val_type, Boolean ) &&check_type ( $3.val_type, Boolean ) )
     {
         asprintf ( &$$.s, "%s%smul\n", $1.s, $3.s );
-        $$.val_type=$1.val_type;
+        $$.val_type=Boolean;
     }
 
     else {
@@ -380,10 +380,10 @@ ExpAdditiv : Term
 | ExpAdditiv OR  Term  
 {
 // *INDENT-ON*
-    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
+    if ( check_type ( $1.val_type, Boolean ) &&check_type ( $3.val_type, Boolean ) )
     {
         asprintf ( &$$.s, "%s%sadd  \n", $1.s, $3.s    );
-        $$.val_type=$1.val_type;
+        $$.val_type=Boolean;
     }
 
     else {
