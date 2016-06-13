@@ -41,8 +41,7 @@ e a implementação do mecanismo de criação de \texttt{labels}.
 
 Adicionalmente, as estruturas de controlo devem ser verificadas para confirmar
 a sua devida utilização.  Por exemplo, se existem \texttt{breaks} fora de um
-\texttt{loop} ou \texttt{switch}. Na gramática desta linguagem não existem
-formas de //..
+\texttt{loop} ou \texttt{switch}. 
 
 Finalmente, é necessário considerar outro tipo de análise semântica: a análise
 semântica dinâmica.  Ao contrário da anterior, este tipo de análise não
@@ -50,14 +49,387 @@ semântica dinâmica.  Ao contrário da anterior, este tipo de análise não
 exemplos retirados da gramática da linguagem alvo deste projeto, que não serão
 considerados, visto que a máquina virtual VM já os inclui, como é o caso da
 divisão por zero, em que os valores retirados da pilha não têm o tipo esperado,
-ou acessos indefinidos a uma //? de código. Na especificação léxica da
+ou acessos indefinidos a uma ? de código. Na especificação léxica da
 linguagem, definiu-se que todos os números tomarão valores não negativos,
-e previu-se a existência de números negativos na gramática // a uma operação
-unária?.  Deste modo não é necessária a reespecificação? semântica estática de
+e previu-se a existência de números negativos na gramática  a uma operação
+unária?.  Deste modo não é necessária a especificação semântica estática de
 declarações de arrays com tamanho zero, resultados negativos em cálculos de
 índices e divisões por zero, uma vez que estes casos fazem parte da análise
 semântica dinâmica.
 
+
+
+\subsection{Análise Semântica Estática}
+\label{subsec:semantica:desenho}
+
+
+Program : Declarations Body   
+
+Nesta produção é imprimido no \emph{stdout}, o resultado dos blocos que vêm de
+baixo  da árvore sintática, através de \emph{Body}. 
+
+
+
+Body : BEGINNING 
+
+Esta produção tem uma regra intermédia, em que imprime no \emph{stdout}
+a \emph{string} `start'. A ação é para ser executada de imediato, aquando do
+reconhecimento da palavra reservada.
+
+
+InstructionsList END      
+
+O restante da produção, junta tudo dos blocos construídos a partir de baixo da
+árvore sintática, concatenando a \emph{string} `stop' no fim.\ O resultado vai
+para cima da árvore sintática.
+
+
+\subsection{Declarações}
+Declaration : id              
+Nesta produção é verificado se o identificador não existe. Se não existe
+o identificador é adicionado à tabela de identificadores, com o o tipo, classe
+(neste caso \emph{Variable}) e com o nível \emph{Program}. A \emph{string}
+`pushi 0' é impressa no \emph{stdout}.   
+
+
+
+| id '[' num ']'              
+Nesta produção é verificado se o identificador não existe. Se não existe
+o identificador é adicionado à tabela de identificadores, com o o tipo, classe
+(neste caso \emph{Array}) e com o nível \emph{Program} e com o seu tamanho. A \emph{string}
+`pushn' concatenada com o tamanho é impressa no \emph{stdout}.   
+
+   
+| id '[' num ']' '[' num ']'  
+Nesta produção é verificado se o identificador não existe. Se não existe
+o identificador é adicionado à tabela de identificadores, com o o tipo, classe
+(neste caso \emph{Matrix}) e com o nível \emph{Program} e com o seu tamanho,
+e o número de linhas. A \emph{string}
+`pushn' concatenada com o tamanho é impressa no \emph{stdout}.   
+
+  
+
+Declarations : VAR DeclarationsList ';'  
+
+Nesta produção o valor do bloco construído de baixo da árvore é passado para
+cima.
+
+
+  
+
+DeclarationsList : Declaration             
+
+Nesta produção o valor do bloco construído de baixo da árvore é passado para
+cima.
+
+
+
+| DeclarationsList ',' Declaration         
+
+Nesta produção o valor do bloco construído de baixo da árvore é passado para
+cima, após juntar o que vem do lado da mão direita com o que vem do lado da mão
+esquerda.
+
+
+Variable : id                 
+
+Nesta produção é verificado se o identificador existe. Se existe
+o endereço é obtido da tabela de identificadores. A \emph{string}
+`pushg' concatenada com o endereço é impressa é juntada ao bloco.
+O tipo inteiro é passado para o nível acima da árvore sintática.
+Caso contrário, é lançado um erro.
+
+
+| id '[' ExpAdditiv ']'       
+
+Nesta produção é verificado se o identificador existe. Se existe
+o endereço é obtido da tabela de identificadores. A \emph{string}
+`pushgp' concatenada com o enedereço, mais a \emph{string} `padd' é junta ao
+bloco..
+Caso contrário, é lançado um erro.
+
+
+| id '[' ExpAdditiv ']' '[' ExpAdditiv ']' 
+
+Nesta produção é verificado se o identificador existe. Se existe
+o endereço é obtido da tabela de identificadores. A \emph{string}
+`pushgp' concatenada com o enedereço, mais as \emph{strings} `padd', onde o que
+vem das espressões é adicionado ao bloco, seguido de `pushi'com o número de
+linhas seguido de `mul' e `add' seguindo o algoritmo de calculo de endereços em
+\emph{row major}. 
+O tipo inteiro é passado para o nível acima da árvore sintática, juntamente com
+ o apontador para o valor da entrada da tabela de identificadores. 
+Caso contrário, é lançado um erro.
+
+
+
+Constant : num 
+
+Nesta produção é criada a \emph{string} `pushi' concatenada com o valor numérico
+para cima na árvore  sintática. O tipo também é passado para cima, como um tipo
+inteiro.
+
+
+
+\subsubsection{Fator} 
+
+Factor : Constant              
+
+Nesta produção os valores das instruções geradas são passadas para
+\emph{Factor}, herdando assim as propriedades de uma constante (tipo
+e instruções geradas).
+
+
+| Variable
+
+Nesta produção, tal como nas constantes os valores são passados para
+\emph{Variable}. Note-se que o tipo de \emph{Variable} é um triplo, ou seja
+passa as instruções geradas, o tipo e um apontador para a entrada resolvida no
+nível abaixo da árvore sintática.  
+ 
+| '('  '-'Exp')'               
+
+Para a operação unária negativa de números inteiros, é necessário verificar se
+o valor da expressão é do tipo inteiro. Caso contrário, há uma erro. A ação
+semântica passa por obter da árvore sintática, todas as instruções geradas,
+e depois gerar a \emph{string} `pushi -1sub'. O tipo da operação é passado
+para o nível superior da árvore sintática.
+
+| '(' Exp ')'                
+
+Nesta produção, tanto os valores de tipo e instruções são passadas de baixo para
+cima da árvore sintática.
+
+                         
+| NOT '(' Exp ')'            
+
+
+Para a operação unária negativa de números inteiros, é necessário verificar se
+o valor da expressão é do tipo booleano. Caso contrário, há uma erro. A ação
+semântica passa por obter da árvore sintática, todas as instruções geradas,
+e depois gerar a \emph{string} `not'. O tipo da operação é passado
+para o nível superior da árvore sintática.
+     
+
+
+\subsubsection{Termo} 
+
+
+Term : Factor            
+
+Á semelhança de outras produções, os valores do tipo e instruções são passados
+de baixo para cima da árvore sintática. Portanto um termo herda as propriedades
+de um fator.
+
+|  Term '*' Factor       
+
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `mul', juntando esta ao restante bloco de instruções. 
+O tipo que é passado para o nível acima é um  inteiro.
+  
+|  Term '/' Factor       
+
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `div', juntando esta ao restante bloco de instruções. 
+O tipo que é passado para o nível acima é um  inteiro.
+ 
+|  Term '%' Factor       
+
+
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `mod', juntando esta ao restante bloco de instruções. 
+O tipo que é passado para o nível acima é um inteiro.
+|  Term AND Factor       
+
+
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `mul', juntando esta ao restante bloco de instruções. 
+O tipo que é passado para o nível acima é um  booleano.
+-> EXP ADITIVA
+
+ExpAdditiv : Term      
+
+
+Nesta produção os valores das instruções geradas são passadas para
+\emph{ExpAdditiv}, herdando assim as propriedades de uma constante (tipo
+e instruções geradas).
+
+| ExpAdditiv '+' Term  
+
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `add', juntando esta ao restante bloco de instruções. 
+O tipo que é passado para o nível acima é um  inteiro.
+
+| ExpAdditiv '-' Term  
+
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `sub', juntando esta ao restante bloco de instruções. 
+O tipo que é passado para o nível acima é um inteiro..
+
+  
+| ExpAdditiv OR  Term  
+
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `add', juntando esta ao restante bloco de instruções. 
+O tipo que é passado para o nível acima é um  booleano.
+
+\subsubsection{Expressão}
+
+Exp : ExpAdditiv            
+
+Nesta produção, tanto os valores de tipo e instruções são passadas de baixo para
+cima da árvore sintática.
+ 
+|  ExpAdditiv L   ExpAdditiv
+
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `inf', juntando esta ao restante bloco de instruções. O tipo que
+é passado para o nível acima é um  booleano.
+
+|  ExpAdditiv G   ExpAdditiv
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `sup', juntando esta ao restante bloco de instruções. O tipo que
+é passado para o nível acima é um  booleano.
+
+
+  
+|  ExpAdditiv GEQ ExpAdditiv
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `supeq', juntando esta ao restante bloco de instruções. O tipo que
+é passado para o nível acima é um  booleano.
+
+
+|  ExpAdditiv LEQ ExpAdditiv
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `infeq', juntando esta ao restante bloco de instruções. O tipo que
+é passado para o nível acima é um  booleano.
+
+
+|  ExpAdditiv EQ  ExpAdditiv
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar
+a \emph{string} `equal', juntando esta ao restante bloco de instruções. O tipo que
+é passado para o nível acima é um  booleano.
+
+|  ExpAdditiv NEQ ExpAdditiv
+Nesta  produção, em ambos os membros da operação de multiplicação, os tipos são
+verificados, ou seja, se ambos são do tipo inteiro. Caso contrário, há um erro.
+As instruções que vem de ambos os membros geradas, logo antes de se gerar as
+\emph{string} com as \emph{strings} `equal' e `not' concatenadas, juntando esta
+ao restante bloco de instruções. O tipo que é passado para o nível acima é um
+booleano.
+
+\subsubsection{Atribuição}
+                                    
+Atribution :  Variable '=' ExpAdditiv  
+
+Nesta produção são verificados os tipos, tanto da expressão inteira como da
+variável. Se forem ambos do tipo inteiro executam a ação, caso contrário gera-se
+uma erro.\ Após a verificação é verificada a categoria da variável, que vem na
+informação da entrada por apontador, vinda de baixo da árvore sintática. Se
+a categoria for um \emph{array} ou uma matriz, junta ao bloco a \emph{string}
+`storen'. Caso contrário  obtém o endereço do valor da entrada e junta ao bloco
+a \emph{string} `storen' concatenada com o endereço da variável da \emph{stack}.  
+
+
+
+\subsubsection{Instruções}
+
+InstructionsList : Instruction           
+
+Nesta produção, o bloco da instrução é passado para cima da árvore sintática.
+
+
+| InstructionsList Instruction          
+
+Nesta produção, o bloco da instrução é construído com base do que vem do lado da
+mão direita, com o lado da mão esquerda, passando para cima da árvore sintática,
+o resultado.
+
+
+
+Instruction : Atribution ';'           
+Nesta produção, o bloco da atribuição é passado para cima da árvore sintática.
+
+| READ  Variable ';'      
+
+Nesta produção, é obtido de \emph{Variable}, o endereço da \emph{stack} de uma
+variável. Após obter de cima da árvore sintática, as instruções geradas a 
+\emph{string} `pushg \%d read'  com o endereço
+da \emph{stack} virtual é adcionada ao bloco.
+
+| WRITE ExpAdditiv ';'    
+
+Nesta produção é verificado o tipo da expressão inteira. Caso for do tipo
+inteiro, executa a ação. Caso contrário, lança um erro.
+Após obter de cima da árvore sintática o bloco de intruções anteriores,
+concatena a este a \emph{string} `writei'. 
+
+| WRITE string ';'        
+
+A ação nesta produção, é concatenar a \emph{string} `writes' ao bloco.
+
+
+| IF '('  Exp ')' 
+
+Esta produção tem uma regra intermédia. O tipo da expressão é avaliado se é
+booleano. Caso contrário é lançado um erro. A ação é juntar o que vem de
+\emph{Exp}, juntar ao que vem de cima, e depois criar a \emph{label} `jz
+l1level' concatenada com a \emph{string} que vem da intrução \texttt{add\_label}. 
+
+'{' InstructionsList '}' Else          
+
+No final desta produção, o que vem da \emph{InstructioonList}  e que vem do
+\emph{Else} é passado para cima da árvore sintática. 
+
+| WHILE '(' Exp ')' 
+
+Esta produção tem uma regra intermédia. O tipo da expressão é avaliado se é
+booleano. Caso contrário é lançado um erro. A ação é 
+imprimir a \emph{string} `whileloop' conancatenado com o resultado da função
+\texttt{add\_label},  juntar o que vem de \emph{Exp}, juntar ao que vem de cima,
+e depois criar a \emph{label} `jz whiledone' concatenada com a \emph{string} que
+vem da instrução \texttt{get\_label}. 
+
+
+'{' InstructionsList '}'  
+No final desta produção, obtido o valor atual da \emph{stack} de contadores,
+guardado numa variável temporária, sendo removida o \emph{label} da
+\emph{string}. Depois é junto o que o vem de \emph{InstructionsList}, mais
+o valor guardado da variável temporária, concatenado com \emph{jump whileloop}
+e o \emph{whileloop}. Em seguida é removido um nível da \emph{stack}       
+
+
+| DO '{' InstructionsList '}' WHILE '(' Exp ')' ';' 
+
+Else :         
+
+
+|            
+ELSE '{' InstructionsList '}'          
 
 
 

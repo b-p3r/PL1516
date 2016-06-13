@@ -2,7 +2,7 @@
 
 -> TERMO
 
-Term : Constant              
+Factor : Constant              
 {
 
     $$.s=$1.s;
@@ -57,12 +57,12 @@ Term : Constant
 -> EXP MULTIPLICATIVA
 
 
-ExMultipl : Term            
+Term : Factor            
 {
     $$.s=$1.s;
     $$.val_type=$1.val_type;
 }
-|  ExMultipl '*' Term       
+|  Term '*' Factor       
 { 
 
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -76,7 +76,7 @@ ExMultipl : Term
     }
 
 }   
-|  ExMultipl '/' Term       
+|  Term '/' Factor       
 {
 
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -90,7 +90,7 @@ ExMultipl : Term
     }
 
 }  
-|  ExMultipl '%' Term       
+|  Term '%' Factor       
 {
 
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -104,7 +104,7 @@ ExMultipl : Term
     }
 
 }  
-|  ExMultipl AND Term       
+|  Term AND Factor       
 {
 
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -122,7 +122,7 @@ ExMultipl : Term
 
 -> EXP ADITIVA
 
-ExpAdditiv : ExMultipl      
+ExpAdditiv : Term      
 {
 
     $$.s=$1.s;
@@ -131,7 +131,7 @@ ExpAdditiv : ExMultipl
 
 
 }
-| ExpAdditiv '+' ExMultipl  
+| ExpAdditiv '+' Term  
 {
 
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -145,7 +145,7 @@ ExpAdditiv : ExMultipl
     }
 
 }  
-| ExpAdditiv '-' ExMultipl  
+| ExpAdditiv '-' Term  
 {
 
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
@@ -159,7 +159,7 @@ ExpAdditiv : ExMultipl
     }
 
 }  
-| ExpAdditiv OR  ExMultipl  
+| ExpAdditiv OR  Term  
 {
 
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
