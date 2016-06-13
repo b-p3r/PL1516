@@ -1,50 +1,48 @@
-VAR array [20], pos, n, x;
+VAR a[20], pos, n, x;
 
 BEGINNING
-pos = 0;
-READ n;
+	pos = 0;
+	READ n;
 
-WHILE (pos < n)
-{
-    READ x;
-    array [pos] = x;
+	WHILE (pos < n)
+	{
+	READ x;
+	a[pos] = x;
 
-    pos = pos +1;
+	pos = pos +1;
+	
+	}
 
-}
-
-pos = 1;
+	pos = 1;
 
 
-WHILE ( pos < n )
-{
-    IF (array[pos - 1] <= array[pos])
-    {
-        pos = pos +1;
+	WHILE ( pos < n )
+	{
+	IF (a[pos - 1] <= a[pos])
+	{
+	pos = pos +1;
+	
+	}
+	ELSE
+	{
+	   x = a[pos];
+	   a[pos] = a[pos - 1];
+	   a[pos - 1] = x;
 
-    }
-    ELSE
-    {
-        x = array[pos];
-        array[pos] = array[pos - 1];
-        array[pos - 1] = x;
-
-        pos = pos - 1;
-
-        IF( pos == 0)
+	   pos = pos - 1;  
+              
+    	IF( pos == 0)
         {
-            pos = 1;
+     		pos = 1;
         }
+  
+	}
+	
+	}
+        pos = 0;
+	WHILE ( pos < n )
+	{
+        WRITE a[pos];	
 
-    }
-
-}
-pos = 0;
-WHILE ( pos < n )
-{
-    WRITE array[pos];
-
-}
-
-
+	}
 END
