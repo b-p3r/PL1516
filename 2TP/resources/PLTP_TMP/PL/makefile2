@@ -1,0 +1,9 @@
+all: calculadora
+
+calculadora: calculadora.fl calculadora.y
+	 	flex calculadora.fl
+	 	yacc calculadora.y
+		gcc -o calculadora y.tab.c
+
+clean: 
+	rm -f calculadora y.tab.c lex.yy.c

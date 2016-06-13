@@ -1,0 +1,21 @@
+VAR x, y, max;
+
+
+BEGINNING
+
+	
+	WHILE ( x > y )
+	{
+	WHILE ( x > y )
+	{
+	IF ( x > y )
+	{
+	  max = x;
+	
+	}
+	
+	}
+	
+	}
+	
+END

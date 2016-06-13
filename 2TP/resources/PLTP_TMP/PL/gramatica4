@@ -1,0 +1,97 @@
+Program -> Declarations Body .
+
+Body -> 'BEGIN' InstructionList 'END'.
+
+## Declarações
+Declaration -> id
+| id '[' num ']'
+| id '[' num ']' '[' num ']' .
+
+Declarations -> 'VAR' DeclarationsList  .
+
+DeclarationsList -> Declaration ';'
+| Declaration ',' DeclarationsList .
+
+
+Term -> id
+| num
+| id '[' Exp ']'
+| id '[' Exp ']' '[' Exp ']'
+| '(' Exp ')'.
+
+Variable -> id
+| id '[' Exp ']'
+| id '[' Exp ']' '[' Exp ']' .
+ 
+
+
+
+
+## Expressões
+
+# Expressões Multiplicativas
+ExMultipl -> Term
+| ExMultipl '*'  Term
+| ExMultipl '/' Term
+| ExMultipl '%' Term.
+
+# Expressões Aditivas
+ExpAdditiv -> ExMultipl 
+| ExpAdditiv '+' ExMultipl
+| ExpAdditiv '-' ExMultipl .
+
+ExpArithmetic -> ExpAdditiv .
+
+
+# Expressões Relacionais
+ExpRelational -> ExpArithmetic               ##JJ: 4 ∈ ExpRel
+| '(' ExpArithmetic '>' ExpArithmetic ')'
+| '(' ExpArithmetic '<' ExpArithmetic ')'
+| '(' ExpArithmetic '>=' ExpArithmetic ')'
+| '(' ExpArithmetic '<=' ExpArithmetic ')'
+| '(' ExpArithmetic '==' ExpArithmetic ')'
+| '(' ExpArithmetic '!=' ExpArithmetic ')'.
+
+
+
+
+# Expressões Negação Lógica              
+ExpLogicalNOT ->'NOT' ExpRelational | ExpRelational.
+
+
+# Expressões E Lógico
+ExpLogicalAND -> ExpLogicalNOT               ##JJ: dá-me um exemplo destas!
+| '(' ExpLogicalAND 'AND' ExpLogicalNOT ')' .
+
+ExpLogicalOR -> ExpLogicalAND
+| ExpLogicalOR 'OR' ExpLogicalAND  .
+
+# Expressões OU Lógico
+
+# Lista de Expressões     ## JJ: Exp é uma lista de expressoes lógica?
+ExpLogic -> ExpLogicalOR.
+Exp -> ExpLogic 
+|  ExpLogic  Exp .
+
+
+## Fim Expressões
+
+## Instruções
+# Atribuição
+Atribution ->  Variable '=' Exp .
+
+Instruction -> Atribution ';' 
+| 'READ' Variable ';'
+| 'WRITE' Variable ';'                      #JJ: atalvez enriquecer... write x, "+", y, "=",x+y
+## De momento está assim para simplificar. Caso consiga trabalhar em condições com Exp, passa a WRITE Exp e READ EXP.
+| 'WRITE' string ';'
+| 'IF' '(' Exp ')' '{' InstructionsList '}' 
+| 'IF' '(' Exp ')' '{' InstructionsList '}' 'ELSE' '{' InstructionsList '}' 
+| 'WHILE '(' Exp ')' '{' InstructionsList '}' 
+| 'DO''{' InstructionsList '}''WHILE '(' Exp ')' ';' .
+
+
+InstructionList -> Instruction
+| InstructionList Instruction  . ## Alterado para LHS
+
+

@@ -1,0 +1,44 @@
+# Type a grammar here:
+Lisp -> Term.
+
+Term -> pal
+| num
+| '(' Exp ')'.
+
+ExMultipl -> Term
+| ExMultipl '*'  Term
+| ExMultipl '/' Term
+| ExMultipl '%' Term.
+
+ExpAdditiv -> ExMultipl 
+| ExpAdditiv '+' ExMultipl
+| ExpAdditiv '-' ExMultipl .
+
+ExpArithmetic -> ExpAdditiv Cont .
+
+ExpRelational -> ExpArithmetic
+| ExpArithmetic '>' ExpArithmetic
+| ExpArithmetic '<' ExpArithmetic
+| ExpArithmetic '>=' ExpArithmetic
+| ExpArithmetic '<=' ExpArithmetic
+| ExpArithmetic '==' ExpArithmetic
+| ExpArithmetic '!=' ExpArithmetic.
+
+
+
+#ExpLogicalNOT -> ExpRelational 
+#| '!' ExpLogicalNOT.
+
+ExpLogicalAND -> ExpRelational 
+| ExpLogicalAND 'x' ExpLogicalNOT .
+
+ExpLogicalOR -> ExpLogicalAND
+| ExpLogicalOR '||' ExpLogicalOR  .
+
+
+Exp -> ExpLogicalAND Cont .
+
+Cont -> | Exp .
+
+
+

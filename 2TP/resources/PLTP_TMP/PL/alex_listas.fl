@@ -1,0 +1,33 @@
+%top{
+#define INICIO 1
+#define FIM 2
+#define VIRGULA 3
+#define NUMERO 4
+#define PALAVRA 5
+}
+
+%%
+
+\[          {return INICIO;}
+\]          {return FIM;}
+\,          {return VIRGULA;}
+[0-9]+      {return NUMERO;}
+[A-Za-z]+   {return PALAVRA;}
+
+(.|\n)      {}
+
+%%
+
+int yywrap(){
+    return 1;
+}
+
+int main(){
+    int s;
+    while(s = yylex()){
+        printf("%d ", s);
+    }
+    printf("\n");
+    return 0;
+}
+

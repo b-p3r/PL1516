@@ -1,0 +1,31 @@
+        pushi 0
+        pushi 0
+start
+        pushs "xxxxxxxxx?"
+        writes
+        read
+        atoi
+        storeg 0
+        pushs "yyyyyyyyyy?"
+        writes
+        read
+        atoi
+        storeg 1
+
+ciclo:
+        pushg 0
+        pushg 1
+        supeq
+        jz fim
+am:
+        pushg 0
+        pushg 1
+        sub
+        storeg 0
+        jump ciclo
+fim:
+        pushs "resultado: "
+        writes
+        pushg 0
+        writei
+        stop

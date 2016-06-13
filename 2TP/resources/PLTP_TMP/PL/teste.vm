@@ -1,0 +1,134 @@
+// line 6: inta := 4, intb, intc := 6 -> integer
+pushi 4
+
+pushi 0
+
+pushi 6
+
+// line 7: c := [1,2,3], vector -> array size 8
+pushi 1
+pushi 2
+pushi 3
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+
+// line 8: flag := false -> boolean
+pushi 0
+
+start
+
+// line 13: inta = -3 + intc * (7 + c[1])
+pushi -3
+pushg 2
+pushi 7
+pushgp
+pushi 3
+padd
+pushi 1
+pushi 1
+mul
+dup 1
+check 0,7
+loadn
+add
+mul
+add
+storeg 0
+
+
+// line 14: writeln(c)
+pushs "]"
+pushg 10
+stri
+pushs ","
+pushg 9
+stri
+pushs ","
+pushg 8
+stri
+pushs ","
+pushg 7
+stri
+pushs ","
+pushg 6
+stri
+pushs ","
+pushg 5
+stri
+pushs ","
+pushg 4
+stri
+pushs ","
+pushg 3
+stri
+pushs "["
+concat
+concat
+concat
+concat
+concat
+concat
+concat
+concat
+concat
+concat
+concat
+concat
+concat
+concat
+concat
+concat
+writes
+
+
+// line 15: c[5] = 1
+pushgp
+pushi 3
+padd
+pushi 5
+pushi 1
+mul
+dup 1
+check 0,7
+pushi 1
+storen
+
+// line 19: bool = !((inta == intb) || (inta != intc) && (c[1] < 6)) || flag
+pushg 0
+pushg 1
+equal
+pushg 0
+pushg 2
+equal
+not
+pushgp
+pushi 3
+padd
+pushi 1
+pushi 1
+mul
+dup 1
+check 0,7
+loadn
+pushi 6
+inf
+and
+or
+not
+pushg 20
+or
+storeg 19
+
+stop

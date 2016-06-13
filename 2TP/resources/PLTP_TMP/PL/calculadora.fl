@@ -1,0 +1,28 @@
+%option noyywrap
+%option yylineno
+
+
+%%
+
+[a-z]					{
+						yylval.s = strdup(yytext);
+						return var;
+						}
+
+[0-9]+(\.[0-9]+)? 		{
+						yylval.s = strdup(yytext);
+						return num;
+						}
+[-!?=+*/()\n]			{return yytext[0];}
+[ \t]					{}
+
+<*>.                    {yyerror("Caracter desconhecido\n");}
+
+%%
+
+/*
+int main(){
+
+    return 0;
+}
+*/

@@ -1,0 +1,29 @@
+VAR id , id ; 
+
+BEGINNING
+
+	id = num ; 
+	id = num ; 
+
+
+	WHILE  ( id NEQ num )
+	{
+
+	WRITE string ; 
+	READ id ; 
+
+	  IF ( id % num == num )
+	  {
+	   WRITE id ; 
+	   id = id + num ; 
+	  }
+
+
+
+
+	}
+
+	WRITE string ; 
+	WRITE id ; 
+
+END
