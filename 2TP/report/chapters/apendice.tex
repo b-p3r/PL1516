@@ -5,312 +5,122 @@
 \refstepcounter{part} 
 
 \chapter{Gramática para linguagem criada}\footnote{A gramática está na notação
-	\emph{Bauk-Naur Form}}
+	\emph{Backus-Naur Form}}
 \label{appendix:a}
 \input{./report/chapters/grammar.tex}
 \chapter{Código do analisador léxico do \emph{Flex}}
 \label{appendix:b}
-%\begin{longlisting}
-%	\inputminted{html}{testes/res_html.html}
-%	\caption{Resultado do \emph{output} da aplicação do filtro na Parte 1}
-%	\label{listing:b}
-%\end{longlisting}
+\begin{longlisting}
+	\inputminted{c}{src/gerador.l}
+	\caption{Código do analisador léxico}
+\label{listing:b}
+\end{longlisting}
 
 \chapter{Código do analisador sintático e tradutor do \emph{YACC}}
 \label{appendix:c}
-%\begin{longlisting}
-%	\inputminted{html}{testes/res_html.html}
-%	\caption{Resultado do \emph{output} da aplicação do filtro na Parte 1}
-%	\label{listing:c}
-%\end{longlisting}
+\begin{longlisting}
+	\inputminted{c}{src/gerador.y}
+	\caption{Código do analisador sintático}
+\label{listing:c}
+\end{longlisting}
 
 \chapter{Código gerado a partir do tradutor do \emph{YACC}, para os exemplos
 pedidos}
 \label{appendix:d}
 \section{Maior de três números}
 \label{appendix:d:sec:d1}
-VAR x, y, max;
 
-
-BEGINNING
-
-	WRITE "escreva x:";
-	READ x;
-	WRITE "escreva y:";
-	READ y;
+\subsection{LPIS}
+\begin{longlisting}
+	\inputminted{text}{testes/testesPedidos/01codLpis.txt}
 	
-	IF ( x > y )
-	{
-	  max = x;
-	
-	}
-	ELSE
-	{
-	  max = y;
-	
-	}
-	
-	WRITE "O maior numero e:";
-	WRITE max;
-	
-END
+\end{longlisting}
+%verbatiminput{testes/testesPedidos/01codLpis.txt}
 
 
+\subsection{VM}
+\begin{longlisting}
+	\inputminted{text}{testes/testesPedidos/01ass.txt}
+	
+\end{longlisting}
+%verbatiminput{testes/testesPedidos/01ass.txt}
 
-pushi 0
-pushi 0
-pushi 0
-start
-jz l1level1	
-pushs "escreva x:"
-writes
-pushg 0
-pushg 0
-read
-pushs "escreva y:"
-writes
-pushg 1
-pushg 1
-read
-pushg 2
-pushg 0
-storeg 2
-jump l2level1
-l1level1:nop
-pushg 2
-pushg 1
-storeg 2
-l2level1:nop
-pushs "O maior numero e:"
-writes
-pushg 2
-writei
-stop
 
 
 \section{Somatório de \texttt{N} números}
 \label{appendix:d:sec:d2}
-VAR n, current, sum, counter;
-
-BEGINNING 
-
-	WRITE "Escreva o total de numeros :";
-	READ n;
-
-	current = 0;
-	sum = 0;
-	counter = 0;
-
-	WHILE (counter < n)
-	{
-	WRITE "Escreva um numero:";
-	READ current;
-	sum = sum + current;
-
-	counter = counter +1;
+\subsection{LPIS}
+\begin{longlisting}
+	\inputminted{text}{testes/testesPedidos/02codLpis.txt}
 	
-	}
-	WRITE "O valor total da soma e:"
-	WRITE sum;
-
-END
+\end{longlisting}
+%verbatiminput{testes/testesPedidos/02codLpis.txt}
 
 
+\subsection{VM}
+\begin{longlisting}
+	\inputminted{text}{testes/testesPedidos/02ass.txt}
+	
+\end{longlisting}
+%verbatiminput{testes/testesPedidos/02ass.txt}
 
 
 \section{Sequência de pares de \texttt{N} números dados}
 \label{appendix:d:sec:d3}
-VAR current, counter;
+\subsection{LPIS}
+\begin{longlisting}
+	\inputminted{text}{testes/testesPedidos/03codLpis.txt}
+	
+\end{longlisting}
+%verbatiminput{testes/testesPedidos/03codLpis.txt}
 
-BEGINNING
-
-	current = 1;
-	counter = 0;
-
-
-	WHILE (current != 0)
-	{
-
-	WRITE "Escreva um numero:";
-	READ current;
-
-	  IF(current % 2 == 0)
-	  {
-	   WRITE current;
-	   counter = counter +1;
-	  }
+\subsection{VM}
+\begin{longlisting}
+	\inputminted{text}{testes/testesPedidos/03ass.txt}
+	
+\end{longlisting}
+%verbatiminput{testes/testesPedidos/03ass.txt}
 
 
-
-
-	}
-
-	WRITE "Total de numeros pares lidos:";
-	WRITE counter;
-
-END
-
-
-
-pushi 0
-pushi 0
-start
-whileloop1:nop
-pushg 0
-pushi 0
-equal
-not
-jz whiledone1
-jz l1level1	
-pushg 0
-pushi 1
-storeg 0
-pushg 1
-pushi 0
-storeg 1
-pushs "Escreva um numero:"
-writes
-pushg 0
-pushg 0
-read
-pushg 0
-writei
-pushg 1
-pushg 1
-pushi 1
-add  
-storeg 1
-l1level1:nop
-jump whileloop1
-whiledone1:nop
-pushs "Total de numeros pares lidos:"
-writes
-pushg 1
-writei
-stop
 
 
 \section{Ordenação de \emph{array} de tamanho \texttt{N}--\emph{Insertion Sort}}
 \label{appendix:d:sec:d4}
-VAR a[20], pos, n, x;
-
-BEGINNING
-	pos = 0;
-	READ n;
-
-	WHILE (pos < n)
-	{
-	READ x;
-	a[pos] = x;
-
-	pos = pos +1;
+\subsection{LPIS}
+\begin{longlisting}
+	\inputminted{text}{testes/testesPedidos/04codLpis.txt}
 	
-	}
+\end{longlisting}
+%verbatiminput{testes/testesPedidos/04codLpis.txt}
 
-	pos = 1;
-
-
-	WHILE ( pos < n )
-	{
-	IF (a[pos - 1] <= a[pos])
-	{
-	pos = pos +1;
+\subsection{VM}
+\begin{longlisting}
+	\inputminted{text}{testes/testesPedidos/04ass.txt}
 	
-	}
-	ELSE
-	{
-	   x = a[pos];
-	   a[pos] = a[pos - 1];
-	   a[pos - 1] = x;
-
-	   pos = pos - 1;  
-              
-    	IF( pos == 0)
-        {
-     		pos = 1;
-        }
-  
-	}
-	
-	}
-        pos = 0;
-	WHILE ( pos < n )
-	{
-        WRITE a[pos];	
-
-	}
-END
-
+\end{longlisting}
+%verbatiminput{testes/testesPedidos/04ass.txt}
 
 \section{Média e máximo de uma matriz \texttt{[N][M]}}
 \label{appendix:d:sec:d5}
+\subsection{LPIS}
+\begin{longlisting}
+	\inputminted{text}{testes/testesPedidos/05codLpis.txt}
+\end{longlisting}
+%verbatiminput{testes/testesPedidos/05codLpis.txt}
 
-VAR matriz [10] [5], media, restomedia, total, max, i, j, n , m, tmp, cont;
-
-BEGINNING
-	max = 0;
-	media = 0;
-	total = 0;
-	tmp = 0;
-	cont = 0;
-        WRITE "escreva o numero de linhas :"
-	READ n;
-        WRITE "escreva o numero de colunas :"
-	READ m;
-
-	i = 0;
-
-	WHILE (i < n)
-	{
+\subsection{VM}
+\begin{longlisting}
+	\inputminted{text}{testes/testesPedidos/05ass.txt}
 	
-	        j = 0;
-		WHILE(j < m)
-		{
-	         READ tmp;
-                 
-		 matriz[i][j] = tmp;
-		 total = total + tmp;
-		 cont = cont + 1;
+\end{longlisting}
+%verbatiminput{testes/testesPedidos/05ass.txt}
 
-		IF(tmp > max)
-		{
-		max  = tmp;
-				       
-		}
-			
-                j = j + 1;		
-		}
-	
-	i = i + 1;
-	}
-
-	media = total/cont;
-	restomedia = total \% cont;
-
-	WRITE "A media tem um valor de :";
-	WRITE media;
-	WRITE "o resto tem um valor de :";
-	WRITE restomedia;
-	WRITE "O maximo tem um valor de :";
-	WRITE max;
-END
 
 
 %\begin{longlisting}
 %	\inputminted{html}{testes/res_html.html}
 %	\caption{Resultado do \emph{output} da aplicação do filtro na Parte 1}
-%	\label{listing:d5}
-%\end{longlisting}
-
-
-\section{Cálculo de uma potência com determinada base e expoente--função
-	\texttt{potencia(Base,Exp)}}
-\label{appendix:d:sec:d6}
-
-%\begin{longlisting}
-%	\inputminted{html}{testes/res_html.html}
-%	\caption{Resultado do \emph{output} da aplicação do filtro na Parte 1}
-%	\label{listing:d6}
+%\label{listing:d6}
 %\end{longlisting}
 
 
