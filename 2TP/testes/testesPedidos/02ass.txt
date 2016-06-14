@@ -1,44 +1,39 @@
-pushi 0
-pushi 0
-pushi 0
-pushi 0
+	pushi 0
+	pushi 0
+	pushi 0
+	pushi 0
 start
-whileloop1:nop
-pushg 3
-pushg 0
-inf  
-jz whiledone1
-pushs "Escreva o total de numeros :"
-writes
-pushg 0
-read
-pushg 1
-pushi 0
-storeg 1
-pushg 2
-pushi 0
-storeg 2
-pushg 3
-pushi 0
-storeg 3
-pushs "Escreva um numero:"
-writes
-pushg 1
-read
-pushg 2
-pushg 2
-pushg 1
-add  
-storeg 2
-pushg 3
-pushg 3
-pushi 1
-add  
-storeg 3
-jump whileloop1
-whiledone1:nop
-pushs "O valor total da soma e:"
-writes
-pushg 2
-writei
+	pushs "Escreva o total de numeros :"
+	writes
+	read
+	atoi
+	storeg 0
+	pushi 0
+	storeg 1
+	pushi 0
+	storeg 2
+	pushi 0
+	storeg 3
+wloop1: nop
+	pushg 3
+	pushg 0
+	inf  
+	pushs "Escreva um numero:"
+	writes
+	read
+	atoi
+	storeg 1
+	pushg 2
+	pushg 1
+	add  
+	storeg 2
+	pushg 3
+	pushi 1
+	add  
+	storeg 3
+	jz wloop1
+	pushs "O valor total da soma e:"
+	writes
+	pushg 2
+	writei
 stop
