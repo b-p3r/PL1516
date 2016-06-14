@@ -76,7 +76,8 @@
 %%
 Program : Declarations Body    {printf("%s", $2.s);} 
 ;
-Body : BEGINNING {printf("start\n");} InstructionsList END      {asprintf(&$$.s, "%sstop\n", $3.s);}
+Body : BEGINNING {printf("start\n");} InstructionsList END      {asprintf(&$$.s,
+     "%sstop\n", $3.s);}
 ;
 Declaration : id              
 {
@@ -85,7 +86,7 @@ Declaration : id
 
     if ( entry == NULL )
     {
-        printf ( "pushi 0\n" );
+        printf ( "\tpushi 0\n" );
         add_Variable ( status, $1, Integer, Variable, Program );
         $$.val_type = Integer;
     }
@@ -106,7 +107,7 @@ Declaration : id
     if ( entry==NULL )
     {
        add_Array ( status, $1, Integer, Array, $3, Program );
-       printf ( "pushn %d\n", $3 );
+       printf ( "\tpushn %d\n", $3 );
        $$.val_type = Integer;
     }
 
@@ -126,7 +127,7 @@ else
     if ( entry==NULL )
     {
        add_Matrix ( status, $1, Integer, Matrix, $3*$6, $6, Program );
-       printf ( "pushn %d\n", $3*$6 );
+       printf ( "\tpushn %d\n", $3*$6 );
        $$.val_type = Integer;
     }
 
@@ -152,8 +153,8 @@ Variable : id
 
     if ( entry )
     {
-        int address = get_address ( entry );
-        asprintf ( &$$.s, "pushg %d\n", address );
+        //int address = get_address ( entry );
+        //asprintf ( &$$.s, "\t ");
         $$.val_type=Integer;
         $$.entry=entry;
     }
@@ -174,7 +175,7 @@ Variable : id
     if ( entry )
     {
        int address = get_address ( entry );
-       asprintf ( &$$.s, "pushgp\npushg %d\npadd\n%s",address, $3.s );
+       asprintf ( &$$.s, "\tpushgp\n\tpushg %d\n\tpadd\n%s",address, $3.s );
        $$.val_type=Integer;
        $$.entry=entry;
     }
@@ -195,7 +196,7 @@ else
     {
        int address = get_address ( entry );
        int nRows = get_nRows ( entry );
-       asprintf ( &$$.s, "pushgp\npushg %d\npadd\n%spushi %d\nmul\nadd\n%s",
+       asprintf ( &$$.s, "\tpushgp\n\tpushg %d\n\tpadd\n%s\tpushi %d\n\tmul\n\tadd\n%s",
                   address, $3.s, nRows, $6.s );
        $$.val_type=Integer;
        $$.entry=entry;
@@ -212,7 +213,7 @@ else
 ;
 Constant : num  {
 // *INDENT-ON*
-    asprintf ( &$$.s, "pushi %d\n", $1 );
+    asprintf ( &$$.s, "\tpushi %d\n", $1 );
 
     $$.val_type = Integer;
 
@@ -228,7 +229,16 @@ Factor : Constant
 }
 | Variable {
     // *INDENT-ON*
-    $$.s=$1.s;
+    if ( get_class ( $1.entry ) == Matrix || get_class ( $1.entry ) == Array )
+    {
+        asprintf ( &$$.s, "%s\tloadn\n", $1.s);
+    }
+
+    else {
+        int address = get_address ( $1.entry );
+        asprintf ( &$$.s, "\tpushg %d\n",  address );
+    }
+    //$$.s=$1.s;
     $$.val_type=$1.val_type;
 // *INDENT-OFF*
 }
@@ -237,7 +247,7 @@ Factor : Constant
 // *INDENT-ON*
     if ( check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s pushi -1\nsub\n", $3.s );
+        asprintf ( &$$.s, "%s\tpushi -1\n\tsub\n", $3.s );
         $$.val_type=$3.val_type;
     }
 
@@ -282,7 +292,7 @@ Term : Factor
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%smul\n", $1.s, $3.s );
+        asprintf ( &$$.s, "%s%s\tmul\n", $1.s, $3.s );
         $$.val_type=$1.val_type;
     }
 
@@ -297,7 +307,7 @@ Term : Factor
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%sdiv\n", $1.s, $3.s );
+        asprintf ( &$$.s, "%s%s\tdiv\n", $1.s, $3.s );
         $$.val_type=$1.val_type;
     }
 
@@ -312,7 +322,7 @@ Term : Factor
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%smod\n", $1.s, $3.s );
+        asprintf ( &$$.s, "%s%s\tmod\n", $1.s, $3.s );
         $$.val_type=$1.val_type;
     }
 
@@ -327,7 +337,7 @@ Term : Factor
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Boolean ) &&check_type ( $3.val_type, Boolean ) )
     {
-        asprintf ( &$$.s, "%s%smul\n", $1.s, $3.s );
+        asprintf ( &$$.s, "%s%s\tmul\n", $1.s, $3.s );
         $$.val_type=Boolean;
     }
 
@@ -352,7 +362,7 @@ ExpAdditiv : Term
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%sadd  \n", $1.s, $3.s    );
+        asprintf ( &$$.s, "%s%s\tadd  \n", $1.s, $3.s    );
         $$.val_type=$1.val_type;
     }
 
@@ -367,7 +377,7 @@ ExpAdditiv : Term
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%ssub  \n", $1.s, $3.s    );
+        asprintf ( &$$.s, "%s%s\tsub  \n", $1.s, $3.s    );
         $$.val_type=$1.val_type;
     }
 
@@ -382,7 +392,7 @@ ExpAdditiv : Term
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Boolean ) &&check_type ( $3.val_type, Boolean ) )
     {
-        asprintf ( &$$.s, "%s%sadd  \n", $1.s, $3.s    );
+        asprintf ( &$$.s, "%s%s\tadd  \n", $1.s, $3.s    );
         $$.val_type=Boolean;
     }
 
@@ -407,7 +417,7 @@ Exp : ExpAdditiv
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%sinf  \n", $1.s, $3.s    );
+        asprintf ( &$$.s, "%s%s\tinf  \n", $1.s, $3.s    );
         $$.val_type=Boolean;
     }
 
@@ -422,7 +432,7 @@ Exp : ExpAdditiv
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%ssup  \n", $1.s, $3.s    );
+        asprintf ( &$$.s, "%s%s\tsup  \n", $1.s, $3.s    );
         $$.val_type=Boolean;
     }
 
@@ -437,7 +447,7 @@ Exp : ExpAdditiv
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%ssupeq\n", $1.s, $3.s    );
+        asprintf ( &$$.s, "%s%s\tsupeq\n", $1.s, $3.s    );
         $$.val_type=Boolean;
     }
 
@@ -452,7 +462,7 @@ Exp : ExpAdditiv
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%sinfeq\n", $1.s, $3.s    );
+        asprintf ( &$$.s, "%s%s\tinfeq\n", $1.s, $3.s    );
         $$.val_type=Boolean;
     }
 
@@ -467,7 +477,7 @@ Exp : ExpAdditiv
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%sequal\n", $1.s, $3.s    );
+        asprintf ( &$$.s, "%s%s\tequal\n", $1.s, $3.s    );
         $$.val_type=Boolean;
     }
 
@@ -482,7 +492,7 @@ Exp : ExpAdditiv
 // *INDENT-ON*
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
-        asprintf ( &$$.s, "%s%sequal\nnot\n", $1.s, $3.s );
+        asprintf ( &$$.s, "%s%s\tequal\n\tnot\n", $1.s, $3.s );
         $$.val_type=Boolean;
     }
 
@@ -503,12 +513,12 @@ Atribution :  Variable '=' ExpAdditiv    {
 
     if ( get_class ( $1.entry ) == Matrix || get_class ( $1.entry ) == Array )
     {
-        asprintf ( &$$.s, "%s%sstoren\n", $1.s, $3.s );
+        asprintf ( &$$.s, "%s%s\tstoren\n", $1.s, $3.s );
     }
 
     else {
         int address = get_address ( $1.entry );
-        asprintf ( &$$.s, "%s%sstoreg %d\n", $1.s, $3.s, address );
+        asprintf ( &$$.s, "%s\tstoreg %d\n", $3.s, address );
     }
 // *INDENT-OFF*
 }
@@ -519,11 +529,11 @@ InstructionsList : Instruction           {$$.s=$1.s;}
 Else :         {
 // *INDENT-ON*
 
-    pop_label ( status,if_inst );
+    ///pop_label ( status,if_inst );
 
-    asprintf ( &$<instr>$.s, "l1level%s:nop\n", get_label ( status,if_inst ) );
+    asprintf ( &$<instr>$.s, "then%s: nop\n", get_label ( status,if_inst ) );
 
-    remove_label ( if_inst );
+
 
 // *INDENT-OFF*
 } 
@@ -532,14 +542,15 @@ ELSE '{' InstructionsList '}'          {
 // *INDENT-ON*
     char *tmp1 = add_label ( else_inst );
 
-    char *tmp2 = get_label ( status,if_inst );
+    //char *tmp2 = get_label ( status,if_inst );
+    char *tmp2 = get_label ( status, if_inst );
 
-    remove_label ( else_inst );
+    //remove_label ( if_inst );
 
 
     char *tmp = get_label ( status,else_inst );
 
-    asprintf ( &$$.s, "jump l2level%s\nl1level%s:nop\n%sl2level%s:nop\n", tmp1,
+    asprintf ( &$$.s, "\tjump else%s\nthen%s: nop\n%selse%s: nop\n", tmp1,
     tmp2, $3.s,  tmp );
 
     remove_label ( else_inst );
@@ -549,11 +560,19 @@ ELSE '{' InstructionsList '}'          {
 Instruction : Atribution ';'           {$$.s=$1.s;}
 | READ  Variable ';'      
 {
+    if ( get_class ( $2.entry ) == Matrix || get_class ( $2.entry ) == Array )
+    {
+        asprintf ( &$$.s, "%s\tread\n\tatoi\n\tstoren\n", $2.s);
+    }
+
+    else {
+        int address = get_address ( $2.entry );
+        asprintf ( &$$.s, "\tread\n\tatoi\n\tstoreg %d\n", address);
+    }
 // *INDENT-ON*
     //int address = get_address ( $2.entry );
 
-    //asprintf ( &$$.s,"%spushg %d\nread\n", $2.s, address );
-    asprintf ( &$$.s,"%sread\n", $2.s);
+    //asprintf ( &$$.s,"%s\tpushg %d\n\tread\n", $2.s, address );
 
 // *INDENT-OFF*
 }
@@ -562,11 +581,11 @@ Instruction : Atribution ';'           {$$.s=$1.s;}
 // *INDENT-ON*
     if ( check_type ( $2.val_type, Integer ) )
     {
-        asprintf ( &$$.s,"%swritei\n", $2.s );
+        asprintf ( &$$.s,"%s\twritei\n", $2.s );
     }
 
     else {
-        printf ( "erro!! Não é possível escrever valores booleanos" );
+        printf ( "Erro!! Não é possível escrever valores booleanos" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -574,60 +593,45 @@ Instruction : Atribution ';'           {$$.s=$1.s;}
 | WRITE string ';'        
 {
 // *INDENT-ON*
-    asprintf ( &$$.s,"pushs %s\nwrites\n", $2 );
+    asprintf ( &$$.s,"\tpushs %s\n\twrites\n", $2 );
 
 // *INDENT-OFF*
 }
-| IF '('  Exp ')' 
+| IF { add_label( if_inst); } '('  Exp ')' '{' InstructionsList '}' 
+Else          
 {
-// *INDENT-ON*
-    if ( check_type ( $3.val_type, Boolean ) )
+    if ( check_type ( $4.val_type, Boolean ) )
     {
-        asprintf ( &$<instr>$.s,"%s", $3.s );
-        printf ( "jz l1level%s\t\n", add_label ( if_inst ) );
+       asprintf ( &$$.s,"%s\tjz then%s\n%s%s", $4.s, get_label
+       ( status, if_inst), $7.s,$9.s);
+        //printf ( "\tjz then%s\n", add_label ( if_inst ) );
+        //asprintf ( &$<instr>$.s,"%s", $3.s );
+        //printf ( "\tjz then%s\n", add_label ( if_inst ) );
+        remove_label ( if_inst );
     }
 
     else {
         printf ( "Erro!! A condição não tem um valor booleano!!" );
         exit ( -1 );
     }
-// *INDENT-OFF*
-}
-'{' InstructionsList '}' 
-Else          
-{
 // *INDENT-ON*
-    asprintf ( &$$.s,"%s%s", $7.s,$9.s );
+    //asprintf ( &$$.s,"%s%s", $7.s,$9.s );
 
 // *INDENT-OFF*
 } 
-| WHILE '(' Exp ')' { 
+| WHILE '(' Exp ')' '{' InstructionsList '}'  
+{ 
 // *INDENT-ON*
     if ( check_type ( $3.val_type, Boolean ) )
     {
-        printf ( "whileloop%s:nop\n", add_label ( while_inst ) );
-        asprintf ( &$<instr>$.s,"%s", $3.s );
-        printf ( "%sjz whiledone%s\n", $3.s, get_label ( status,while_inst ) );
-    }
+        char *tmp = add_label ( while_inst );
+        asprintf ( &$$.s,"wloop%s: nop\n%s%s\tjz wloop%s\n", tmp, $3.s,  $6.s, tmp );
+        remove_label ( while_inst );
 
-    else {
+    } else {
         printf ( "Erro!! A condição não tem um valor booleano!!" );
         exit ( -1 );
     }
-// *INDENT-OFF*
-}                      
-'{' InstructionsList '}'  
-{  
-// *INDENT-ON*
-    char *tmp =  get_label ( status,while_inst );
-
-    pop_label ( status,while_inst );
-
-    asprintf ( &$<instr>$.s, "%sjump whileloop%s\nwhiledone%s:nop\n", $7.s,
-    tmp,  tmp );
-
-    remove_label ( while_inst );
-
 // *INDENT-OFF*
 }
 | DO '{' InstructionsList '}' WHILE '(' Exp ')' ';' 
@@ -637,7 +641,7 @@ Else
     if ( check_type ( $7.val_type, Boolean ) )
     {
         char *tmp = add_label ( do_while_inst );
-        asprintf ( &$$.s,"loop%s:nop\n%s%sjz loop%s\t\n", tmp, $3.s,  $7.s, tmp );
+        asprintf ( &$$.s,"loop%s: nop\n%s%s\tjz loop%s\n", tmp, $3.s,  $7.s, tmp );
         remove_label ( do_while_inst );
 
     } else {
