@@ -105,11 +105,11 @@ Declaration : id
     Entry *entry =  find_identifier ( status, $1 );
 
     if ( entry==NULL )
-    {
-       add_Array ( status, $1, Integer, Array, $3, Program );
-       printf ( "\tpushn %d\n", $3 );
-       $$.val_type = Integer;
-    }
+{
+add_Array ( status, $1, Integer, Array, $3, Program );
+    printf ( "\tpushn %d\n", $3 );
+    $$.val_type = Integer;
+}
 
 else
 {
@@ -125,11 +125,11 @@ else
     Entry *entry =  find_identifier ( status, $1 );
 
     if ( entry==NULL )
-    {
-       add_Matrix ( status, $1, Integer, Matrix, $3*$6, $6, Program );
-       printf ( "\tpushn %d\n", $3*$6 );
-       $$.val_type = Integer;
-    }
+{
+add_Matrix ( status, $1, Integer, Matrix, $3*$6, $3, Program );
+    printf ( "\tpushn %d\n", $3*$6 );
+    $$.val_type = Integer;
+}
 
 else
 {
@@ -174,17 +174,17 @@ Variable : id
 
     if ( entry )
     {
-       int address = get_address ( entry );
-       asprintf ( &$$.s, "\tpushgp\n\tpushg %d\n\tpadd\n%s",address, $3.s );
-       $$.val_type=Integer;
-       $$.entry=entry;
+    int address = get_address ( entry );
+        asprintf ( &$$.s, "\tpushgp\n\tpushg %d\n\tpadd\n%s",address, $3.s );
+        $$.val_type=Integer;
+        $$.entry=entry;
     }
-
-else
-{
-    printf ( "Erro!! Variável não está declarada!\n" );
-    exit ( -1 );
-}
+    
+    else
+    {
+        printf ( "Erro!! Variável não está declarada!\n" );
+        exit ( -1 );
+    }
 
 // *INDENT-OFF*
 }
@@ -194,19 +194,19 @@ else
 
     if ( entry )
     {
-       int address = get_address ( entry );
-       int nRows = get_nRows ( entry );
-       asprintf ( &$$.s, "\tpushgp\n\tpushg %d\n\tpadd\n%s\tpushi %d\n\tmul\n\tadd\n%s",
-                  address, $3.s, nRows, $6.s );
-       $$.val_type=Integer;
-       $$.entry=entry;
+    int address = get_address ( entry );
+    int nRows = get_nRows ( entry );
+    asprintf ( &$$.s, "\tpushgp\n\tpushg %d\n\tpadd\n\tpushi %d\n%s\tmul\n%s\tadd\n",
+               address, nRows, $3.s, $6.s );
+    $$.val_type=Integer;
+    $$.entry=entry;
     }
-
-else
-{
-    printf ( "Erro!! Variável não está declarada!\n" );
-    exit ( -1 );
-}
+    
+    else
+    {
+        printf ( "Erro!! Variável não está declarada!\n" );
+        exit ( -1 );
+    }
 
 // *INDENT-OFF*
 }    
@@ -231,7 +231,7 @@ Factor : Constant
     // *INDENT-ON*
     if ( get_class ( $1.entry ) == Matrix || get_class ( $1.entry ) == Array )
     {
-        asprintf ( &$$.s, "%s\tloadn\n", $1.s);
+        asprintf ( &$$.s, "%s\tloadn\n", $1.s );
     }
 
     else {
@@ -531,7 +531,7 @@ Else :         {
 
     ///pop_label ( status,if_inst );
 
-    asprintf ( &$<instr>$.s, "then%s: nop\n", get_label ( status,if_inst ) );
+    asprintf ( &$$.s, "then%s:\tnop\n", get_label ( status,if_inst ) );
 
 
 
@@ -550,7 +550,7 @@ ELSE '{' InstructionsList '}'          {
 
     char *tmp = get_label ( status,else_inst );
 
-    asprintf ( &$$.s, "\tjump else%s\nthen%s: nop\n%selse%s: nop\n", tmp1,
+    asprintf ( &$$.s, "\tjump else%s\nthen%s:\tnop\n%selse%s:\tnop\n", tmp1,
     tmp2, $3.s,  tmp );
 
     remove_label ( else_inst );
@@ -569,11 +569,6 @@ Instruction : Atribution ';'           {$$.s=$1.s;}
         int address = get_address ( $2.entry );
         asprintf ( &$$.s, "\tread\n\tatoi\n\tstoreg %d\n", address);
     }
-// *INDENT-ON*
-    //int address = get_address ( $2.entry );
-
-    //asprintf ( &$$.s,"%s\tpushg %d\n\tread\n", $2.s, address );
-
 // *INDENT-OFF*
 }
 | WRITE ExpAdditiv ';'    
@@ -600,6 +595,7 @@ Instruction : Atribution ';'           {$$.s=$1.s;}
 | IF { add_label( if_inst); } '('  Exp ')' '{' InstructionsList '}' 
 Else          
 {
+// *INDENT-ON*
     if ( check_type ( $4.val_type, Boolean ) )
     {
        asprintf ( &$$.s,"%s\tjz then%s\n%s%s", $4.s, get_label
@@ -614,7 +610,7 @@ Else
         printf ( "Erro!! A condição não tem um valor booleano!!" );
         exit ( -1 );
     }
-// *INDENT-ON*
+
     //asprintf ( &$$.s,"%s%s", $7.s,$9.s );
 
 // *INDENT-OFF*
@@ -625,7 +621,7 @@ Else
     if ( check_type ( $3.val_type, Boolean ) )
     {
         char *tmp = add_label ( while_inst );
-        asprintf ( &$$.s,"wloop%s: nop\n%s%s\tjz wloop%s\n", tmp, $3.s,  $6.s, tmp );
+        asprintf ( &$$.s,"wloop%s:\tnop\n%s\tjz wdone%s\n%s\tjump wloop%s\nwdone%s:\tnop\n", tmp, $3.s, tmp, $6.s, tmp, tmp );
         remove_label ( while_inst );
 
     } else {
@@ -641,7 +637,7 @@ Else
     if ( check_type ( $7.val_type, Boolean ) )
     {
         char *tmp = add_label ( do_while_inst );
-        asprintf ( &$$.s,"loop%s: nop\n%s%s\tjz loop%s\n", tmp, $3.s,  $7.s, tmp );
+        asprintf ( &$$.s,"doloop%s:\tnop\n%s%s\tjz dodone%s\tjump doloop%s\n\tdodone%s:\tnop\n\n", tmp, $3.s,  $7.s, tmp,tmp, tmp );
         remove_label ( do_while_inst );
 
     } else {
