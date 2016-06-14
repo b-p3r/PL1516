@@ -14,10 +14,11 @@ start
 	storeg 2
 	pushi 0
 	storeg 3
-wloop1: nop
+wloop1:	nop
 	pushg 3
 	pushg 0
 	inf  
+	jz wdone1
 	pushs "Escreva um numero:"
 	writes
 	read
@@ -31,7 +32,8 @@ wloop1: nop
 	pushi 1
 	add  
 	storeg 3
-	jz wloop1
+	jump wloop1
+wdone1:	nop
 	pushs "O valor total da soma e:"
 	writes
 	pushg 2

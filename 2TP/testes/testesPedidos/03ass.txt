@@ -5,11 +5,12 @@ start
 	storeg 0
 	pushi 0
 	storeg 1
-wloop1: nop
+wloop1:	nop
 	pushg 0
 	pushi 0
 	equal
 	not
+	jz wdone1
 	pushs "Escreva um numero:"
 	writes
 	read
@@ -27,8 +28,9 @@ wloop1: nop
 	pushi 1
 	add  
 	storeg 1
-then1: nop
-	jz wloop1
+then1:	nop
+	jump wloop1
+wdone1:	nop
 	pushs "Total de numeros pares lidos:"
 	writes
 	pushg 1

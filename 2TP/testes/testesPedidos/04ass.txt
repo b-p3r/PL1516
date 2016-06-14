@@ -8,10 +8,11 @@ start
 	read
 	atoi
 	storeg 21
-wloop1: nop
+wloop1:	nop
 	pushg 20
 	pushg 21
 	inf  
+	jz wdone1
 	read
 	atoi
 	storeg 22
@@ -25,13 +26,15 @@ wloop1: nop
 	pushi 1
 	add  
 	storeg 20
-	jz wloop1
+	jump wloop1
+wdone1:	nop
 	pushi 1
 	storeg 20
-wloop2: nop
+wloop2:	nop
 	pushg 20
 	pushg 21
 	inf  
+	jz wdone2
 	pushgp
 	pushg 0
 	padd
@@ -51,7 +54,7 @@ wloop2: nop
 	add  
 	storeg 20
 	jump else1
-then11: nop
+then11:	nop
 	pushgp
 	pushg 0
 	padd
@@ -88,20 +91,23 @@ then11: nop
 	jz then11
 	pushi 1
 	storeg 20
-then11: nop
-else1: nop
-	jz wloop2
+then11:	nop
+else1:	nop
+	jump wloop2
+wdone2:	nop
 	pushi 0
 	storeg 20
-wloop3: nop
+wloop3:	nop
 	pushg 20
 	pushg 21
 	inf  
+	jz wdone3
 	pushgp
 	pushg 0
 	padd
 	pushg 20
 	loadn
 	writei
-	jz wloop3
+	jump wloop3
+wdone3:	nop
 stop

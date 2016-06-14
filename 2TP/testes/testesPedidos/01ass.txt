@@ -19,10 +19,10 @@ start
 	pushg 0
 	storeg 2
 	jump else1
-then1: nop
+then1:	nop
 	pushg 1
 	storeg 2
-else1: nop
+else1:	nop
 	pushs "O maior numero e:"
 	writes
 	pushg 2
