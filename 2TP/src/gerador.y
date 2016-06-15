@@ -10,7 +10,6 @@
 #include "./src/types.h"
     int yylex();
     int yylineno;
-    int is_only_if = 0;
     typedef struct aux {
         Type val_type;
         char *s;
@@ -93,7 +92,7 @@ Declaration : id
 
     else
     {
-        printf ( "Erro!! Variável já existe!\n" );
+        yyerror( "Variável já existe\n" );
         exit ( -1 );
     }
 
@@ -105,15 +104,15 @@ Declaration : id
     Entry *entry =  find_identifier ( status, $1 );
 
     if ( entry==NULL )
-{
-add_Array ( status, $1, Integer, Array, $3, Program );
-    printf ( "\tpushn %d\n", $3 );
-    $$.val_type = Integer;
-}
+    {
+    add_Array ( status, $1, Integer, Array, $3, Program );
+        printf ( "\tpushn %d\n", $3 );
+        $$.val_type = Integer;
+    }
 
 else
 {
-    printf ( "Erro!! Variável já existe!\n" );
+    yyerror( "Variável já existe\n" );
     exit ( -1 );
 }
 
@@ -133,7 +132,7 @@ add_Matrix ( status, $1, Integer, Matrix, $3*$6, $3, Program );
 
 else
 {
-    printf ( "Erro!! Variável já existe!\n" );
+    yyerror( "Variável já existe\n" );
     exit ( -1 );
 }
 
@@ -151,7 +150,7 @@ Variable : id
 // *INDENT-ON*
     Entry *entry =  find_identifier ( status, $1 );
 
-    if ( entry )
+    if ( entry&&get_class(entry)==Variable)
     {
         //int address = get_address ( entry );
         //asprintf ( &$$.s, "\t ");
@@ -161,7 +160,7 @@ Variable : id
 
     else
     {
-        printf ( "Erro!! Variável não está declarada!\n" );
+        yyerror( "Variável não está declarada" );
         exit ( -1 );
     }
 
@@ -172,7 +171,7 @@ Variable : id
 // *INDENT-ON*
     Entry *entry =  find_identifier ( status, $1 );
 
-    if ( entry )
+    if ( entry&&get_class(entry)==Array)
     {
     int address = get_address ( entry );
         asprintf ( &$$.s, "\tpushgp\n\tpushg %d\n\tpadd\n%s",address, $3.s );
@@ -182,7 +181,7 @@ Variable : id
     
     else
     {
-        printf ( "Erro!! Variável não está declarada!\n" );
+        yyerror( "Variável não está declarada" );
         exit ( -1 );
     }
 
@@ -192,7 +191,7 @@ Variable : id
 // *INDENT-ON*
     Entry *entry =  find_identifier ( status, $1 );
 
-    if ( entry )
+    if ( entry&&get_class(entry)==Matrix)
     {
     int address = get_address ( entry );
     int nRows = get_nRows ( entry );
@@ -204,7 +203,7 @@ Variable : id
     
     else
     {
-        printf ( "Erro!! Variável não está declarada!\n" );
+        yyerror( "Variável não está declarada" );
         exit ( -1 );
     }
 
@@ -252,7 +251,7 @@ Factor : Constant
     }
 
     else {
-        printf ( "Erro!! A condição não tem um valor inteiro!!" );
+        yyerror( "A condição não tem um valor inteiro" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -276,7 +275,7 @@ Factor : Constant
     }
 
     else {
-        printf ( "Erro!! A condição não tem um valor booleano!!" );
+        yyerror( "A condição não tem um valor booleano" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -297,7 +296,7 @@ Term : Factor
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -312,7 +311,7 @@ Term : Factor
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -327,7 +326,7 @@ Term : Factor
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -342,7 +341,7 @@ Term : Factor
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -367,7 +366,7 @@ ExpAdditiv : Term
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -382,7 +381,7 @@ ExpAdditiv : Term
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -397,7 +396,7 @@ ExpAdditiv : Term
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -422,7 +421,7 @@ Exp : ExpAdditiv
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -437,7 +436,7 @@ Exp : ExpAdditiv
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -452,7 +451,7 @@ Exp : ExpAdditiv
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -467,7 +466,7 @@ Exp : ExpAdditiv
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -482,7 +481,7 @@ Exp : ExpAdditiv
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -497,7 +496,7 @@ Exp : ExpAdditiv
     }
 
     else {
-        printf ( "Erro!! A expressão não tem elementos do mesmo tipo !!" );
+        yyerror( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -505,21 +504,23 @@ Exp : ExpAdditiv
 ;                                      
 Atribution :  Variable '=' ExpAdditiv    {
 // *INDENT-ON*
-    if ( !check_type ( $1.val_type, Integer ) || !check_type ( $3.val_type, Integer ) )
+    if ( check_type ( $1.val_type, Integer )&& check_type ( $3.val_type, Integer ) )
     {
-        printf ( "Erro!!Os tipo de elementos da atribuição não são iguais!\n" );
+         if ( get_class ( $1.entry ) == Matrix || get_class ( $1.entry ) == Array )
+         {
+             asprintf ( &$$.s, "%s%s\tstoren\n", $1.s, $3.s );
+         }
+
+         else {
+             int address = get_address ( $1.entry );
+             asprintf ( &$$.s, "%s\tstoreg %d\n", $3.s, address );
+         }
+    }else {
+        yyerror( "Os tipo de elementos da atribuição não são iguais" );
         exit ( -1 );
     }
 
-    if ( get_class ( $1.entry ) == Matrix || get_class ( $1.entry ) == Array )
-    {
-        asprintf ( &$$.s, "%s%s\tstoren\n", $1.s, $3.s );
-    }
 
-    else {
-        int address = get_address ( $1.entry );
-        asprintf ( &$$.s, "%s\tstoreg %d\n", $3.s, address );
-    }
 // *INDENT-OFF*
 }
 ;
@@ -580,7 +581,7 @@ Instruction : Atribution ';'           {$$.s=$1.s;}
     }
 
     else {
-        printf ( "Erro!! Não é possível escrever valores booleanos" );
+        yyerror( "Não é possível escrever valores booleanos" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -607,7 +608,7 @@ Else
     }
 
     else {
-        printf ( "Erro!! A condição não tem um valor booleano!!" );
+         yyerror( "A condição não tem um valor booleano");
         exit ( -1 );
     }
 
@@ -625,7 +626,7 @@ Else
         remove_label ( while_inst );
 
     } else {
-        printf ( "Erro!! A condição não tem um valor booleano!!" );
+        yyerror( "A condição não tem um valor booleano" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -641,7 +642,7 @@ Else
         remove_label ( do_while_inst );
 
     } else {
-        printf ( "Erro!! A condição não tem um valor booleano!!" );
+        yyerror( "A condição não tem um valor booleano" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -652,7 +653,8 @@ Else
 #include "lex.yy.c"
 int yyerror ( char *mensagem )
 {
-    printf ( "Erro sintático %d: %s em %s\n", yylineno, mensagem, yytext );
+
+    printf ( "Erro sintático %d: %s em %s\n", yylineno, mensagem, yytext);
     return 0;
 }
 
