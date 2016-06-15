@@ -1,112 +1,107 @@
-   pushn 20
-   pushi 0
-   pushi 0
-   pushi 0
+	pushn 20
+	pushi 0
+	pushi 0
+	pushi 0
 start
-  pushi 0
-  storeg 21
-  read
-  atoi
-  storeg 22
-loop0: nop
-  pushg 21
-  pushg 22
-  inf
-  jz done0
-  read
-  storeg 23
-  pushgp
-  pushi 0
-  padd
-  pushg 23
-  pushi 21
-  pushi 1
-  add
-  storeg 21
-  jump loop0
-done0: nop
-  pushi 1
-  storeg 21
-loop1 : nop
-  pushg 21
-  pushg 22
-  inf
-  jz done1
-     pushgp
-     pushi 0
-     padd
-     pushg 22
-     sub
-     loadn
-     pushg 21
-     loadn
-     infeq
-     jz else10
-     pushg 21
-     pushi 1
-     add
-     jump done10
-     else10: nop
-     //x = array[pos]
-     pushgp 
-     pushi 0
-     padd
-     pushg 21
-     loadn
-     storeg 23
-     //array[pos] = array[pos -1]
-     //array[pos -1]
-     pushgp
-     pushi 0
-     padd
-     pushg 21
-     pushi 1
-     sub
-     loadn
-     //array[pos]
-     pushgp
-     pushi 0
-     padd
-     pushg 21
-     storen 
-     //array[pos -1] = x
-     pushgp
-     pushi 0
-     padd
-     pushg 21
-     pushi 1
-     sub
-     pushg 23
-     storen
-     //pos = pos -1
-     pushg 23
-     pushg 21
-     pushi 1
-     sub
-     storeg 21
-         pushg 21
-         pushi 0
-         equal
-         jz done100
-         pushi 1
-         storeg 21
-        done100: nop
-    done10: nop
-jump loop1
-done1: nop
-pushi 0
-storeg 21
-loop2: nop
-pushg 21
-pushg 22
-jz done2
-pushg
-pushi 0
-padd
-pushgp 21
-loadn
-writi
-jump loop2
-done2: nop
+	pushi 0
+	storeg 20
+	read
+	atoi
+	storeg 21
+wloop0:	nop
+	pushg 20
+	pushg 21
+	inf
+	jz wdone0
+	read
+	atoi
+	storeg 22
+	pushgp
+	pushi 0
+	padd
+	pushg 22
+	pushi 20
+	pushi 1
+	add
+	storeg 20
+	jump wloop0
+wdone0:	nop
+	pushi 1
+	storeg 20
+wloop1:	nop
+	pushg 20
+	pushg 21
+	inf
+	jz wdone1
+	pushgp
+	pushi 0
+	padd
+	pushg 21
+	sub
+	loadn
+	pushg 20
+	loadn
+	infeq
+	jz else10
+	pushg 20
+	pushi 1
+	add
+	jump wdone10
+else10:	nop
+	pushgp 
+	pushi 0
+	padd
+	pushg 20
+	loadn
+	storeg 22
+	pushgp
+	pushi 0
+	padd
+	pushg 20
+	pushi 1
+	sub
+	loadn
+	pushgp
+	pushi 0
+	padd
+	pushg 20
+	storen 
+	pushgp
+	pushi 0
+	padd
+	pushg 20
+	pushi 1
+	sub
+	pushg 22
+	storen
+	pushg 22
+	pushg 20
+	pushi 1
+	sub
+	storeg 20
+	pushg 20
+	pushi 0
+	equal
+	jz wdone100
+	pushi 1
+	storeg 20
+wdone100:	nop
+wdone10:	nop
+	jump wloop1
+wdone1:	nop
+	pushi 0
+	storeg 20
+wloop2:	nop
+	pushg 20
+	pushg 21
+	jz wdone2
+	pushg
+	pushi 0
+	padd
+	pushgp 20
+	loadn
+	writei
+	jump wloop2
+wdone2:	nop
 stop
 
