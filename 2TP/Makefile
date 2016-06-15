@@ -13,10 +13,10 @@ LATEXMKBIBTEX=-bibtex
 .SILENT: testError
 .PHONY: testError
 
-all: gerador test testError relatorio.pdf clean compress  
+all: gerador test test_error relatorio.pdf clean compress  
 
 
-compiler: cleanExec gerador clean 
+compiler: clean_exec gerador clean 
 
 
 
@@ -48,12 +48,12 @@ gerador: program_status.o hash_table.o entry.o ./src/gerador.l ./src/gerador.y
 	bison -v -t -d ./src/gerador.y
 	$(CC) $(CFLAGS)  program_status.o hash_table.o entry.o gerador.tab.c -o gerador
 
-hashTable.o: ./src/hash_table.h ./src/hash_table.c
+hash_table.o: ./src/hash_table.h ./src/hash_table.c
 	 $(CC) $(CFLAGS) -c ./src/hash_table.c -o \
- hashTable.o
+ hash_table.o
 
 
-programStatus.o: ./src/program_status.h ./src/program_status.c
+program_status.o: ./src/program_status.h ./src/program_status.c
 	 $(CC) $(CFLAGS) -c ./src/program_status.c -o program_status.o
 
 entry.o: ./src/entry.h ./src/entry.c
@@ -71,7 +71,7 @@ clean:
 	rm -rf src/y.tab.c
 	#rm -rf ./doc
 
-cleanExec:
+clean_exec:
 	@echo "A eliminar executáveis...."
 	rm -rf gerador
 	rm -fr pl15TP2Gr07.pdf
@@ -86,7 +86,7 @@ test:
 	./gerador < testes/testesPedidos/04codLpis.txt > testes/testesPedidos/04ass.txt
 	./gerador < testes/testesPedidos/05codLpis.txt > testes/testesPedidos/05ass.txt
 
-testError: 
+test_error: 
 	@echo "Efetuar testes com erros"
 	./gerador < testes/outrosTestes/controlo/doWhileAninhado.txt > testes/outrosTestes/controlo/resDoWhileAninhado.txt
 	./gerador < testes/outrosTestes/controlo/ifsAninhados.txt > testes/outrosTestes/controlo/resIfsAninhados.txt
