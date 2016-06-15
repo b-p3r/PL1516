@@ -48,13 +48,13 @@ wloop2:	nop
 	pushg 20
 	loadn
 	infeq
-	jz then11
+	jz then1
 	pushg 20
 	pushi 1
 	add  
 	storeg 20
 	jump else1
-then11:	nop
+then1:	nop
 	pushgp
 	pushg 0
 	padd
