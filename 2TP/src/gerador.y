@@ -239,22 +239,6 @@ Factor : Constant
     $$.val_type=$1.val_type;
 // *INDENT-OFF*
 }
-| '-''('Exp')'               
-{
-// *INDENT-ON*
-    if ( check_type ( $3.val_type, Integer ) )
-    {
-        asprintf ( &$$.s, "%s\tpushi -1\n\tsub\n", $3.s );
-        $$.val_type=$3.val_type;
-    }
-
-    else
-    {
-        yyerror ( "A condição não tem um valor inteiro" );
-        exit ( -1 );
-    }
-// *INDENT-OFF*
-}
 | '(' Exp ')'                
 {
 // *INDENT-ON*
@@ -262,22 +246,6 @@ Factor : Constant
 
     $$.val_type=$2.val_type;
 
-// *INDENT-OFF*
-}                          
-| NOT '(' Exp ')'            
-{
-// *INDENT-ON*
-    if ( check_type ( $3.val_type, Boolean ) )
-    {
-        $$.val_type=$3.val_type;
-        $$.s=$3.s;
-    }
-
-    else
-    {
-        yyerror ( "A condição não tem um valor booleano" );
-        exit ( -1 );
-    }
 // *INDENT-OFF*
 }                          
 ;
@@ -488,22 +456,6 @@ Exp : ExpAdditiv
     if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
     {
         asprintf ( &$$.s, "%s%s\tequal\n", $1.s, $3.s    );
-        $$.val_type=Boolean;
-    }
-
-    else
-    {
-        yyerror ( "A expressão não tem elementos do mesmo tipo " );
-        exit ( -1 );
-    }
-// *INDENT-OFF*
-}  
-|  ExpAdditiv NEQ ExpAdditiv
-{
-// *INDENT-ON*
-    if ( check_type ( $1.val_type, Integer ) &&check_type ( $3.val_type, Integer ) )
-    {
-        asprintf ( &$$.s, "%s%s\tequal\n\tnot\n", $1.s, $3.s );
         $$.val_type=Boolean;
     }
 

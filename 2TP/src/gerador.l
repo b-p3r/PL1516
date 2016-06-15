@@ -16,8 +16,6 @@ lixo .|\n
 (<=)                      {return LEQ;}
 (>=)                      {return GEQ;}
 (==)                      {return EQ;}
-(!=)                      {return NEQ;}
-(NOT)                     {return NOT;}
 (BEGINNING)               {return BEGINNING;}
 (END)                     {return END;}
 (READ)                    {return READ;}
