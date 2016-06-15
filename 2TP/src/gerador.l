@@ -5,7 +5,7 @@
 letra [A-Za-z]
 digito [0-9]
 lixo .|\n
-
+%option yylineno
 %%
 
 [-/;,\[\]+\(\)\{\}\%=]    {return (yytext[0]);}
