@@ -1,0 +1,16 @@
+VAR x, y;
+
+
+BEGINNING
+
+	
+
+	WHILE ( x ){
+	
+	  y = x;
+	
+	}
+	
+	
+	
+END

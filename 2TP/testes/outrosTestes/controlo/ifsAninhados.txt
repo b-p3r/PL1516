@@ -1,0 +1,22 @@
+VAR x, y;
+
+
+BEGINNING
+
+	
+	IF ( x > y )
+	{
+	    IF ( x > y )
+	    {
+	      y = x;
+	    
+	    }
+	
+	}
+	ELSE
+	{
+	  y = x;
+	
+	}
+	
+END

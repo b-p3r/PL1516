@@ -1,0 +1,20 @@
+	pushi 0
+	pushi 0
+start
+doloop2:	nop
+doloop1:	nop
+	pushg 0
+	storeg 1
+	pushg 0
+	pushg 1
+	sup  
+	jz dodone1	jump doloop1
+	dodone1:	nop
+
+	pushg 0
+	pushg 1
+	sup  
+	jz dodone2	jump doloop2
+	dodone2:	nop
+
+stop

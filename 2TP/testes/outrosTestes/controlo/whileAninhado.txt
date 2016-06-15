@@ -3,13 +3,11 @@ VAR x, y, max;
 
 BEGINNING
 
-	
 	WHILE ( x > y )
 	{
 	WHILE ( x > y )
 	{
-	  max = x;
-	
+	  y = x;
 	
 	}
 	

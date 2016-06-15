@@ -1,0 +1,21 @@
+	pushi 0
+	pushi 0
+	pushi 0
+start
+wloop2:	nop
+	pushg 0
+	pushg 1
+	sup  
+	jz wdone2
+wloop1:	nop
+	pushg 0
+	pushg 1
+	sup  
+	jz wdone1
+	pushg 0
+	storeg 1
+	jump wloop1
+wdone1:	nop
+	jump wloop2
+wdone2:	nop
+stop

@@ -1,0 +1,12 @@
+VAR x, y;
+
+
+BEGINNING
+
+	
+ IF( x AND (x > y))
+ x=y;
+ }
+	
+	
+END

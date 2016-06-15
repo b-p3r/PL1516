@@ -1,0 +1,12 @@
+VAR x, y;
+
+
+BEGINNING
+
+	
+ IF(x OR (x < 1)){
+ x=y;
+ }
+	
+	
+END

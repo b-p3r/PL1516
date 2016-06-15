@@ -1,0 +1,4 @@
+	pushi 0
+	pushi 0
+start
+Erro sintático 11: A condição não tem um valor booleano em ;

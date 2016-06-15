@@ -1,0 +1,4 @@
+	pushi 0
+	pushi 0
+start
+Erro sintático 7: syntax error em 2

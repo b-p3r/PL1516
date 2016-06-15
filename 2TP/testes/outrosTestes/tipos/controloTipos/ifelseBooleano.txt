@@ -1,0 +1,16 @@
+VAR x, y;
+
+
+BEGINNING
+
+	
+
+	IF ( x ){
+	
+	  y = x;
+	
+	}
+	
+	
+	
+END

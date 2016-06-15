@@ -1,0 +1,4 @@
+	pushi 0
+	pushi 0
+start
+Erro sintático 7: Os tipo de elementos da atribuição não são iguais em ;

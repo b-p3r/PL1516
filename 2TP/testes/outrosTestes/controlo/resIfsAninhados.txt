@@ -1,0 +1,20 @@
+	pushi 0
+	pushi 0
+start
+	pushg 0
+	pushg 1
+	sup  
+	jz then11
+	pushg 0
+	pushg 1
+	sup  
+	jz then11
+	pushg 0
+	storeg 1
+then11:	nop
+	jump else1
+then11:	nop
+	pushg 0
+	storeg 1
+else1:	nop
+stop

@@ -1,0 +1,10 @@
+VAR x, x, y;
+
+
+BEGINNING
+
+	
+ x = y;
+	
+	
+END

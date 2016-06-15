@@ -1,0 +1,12 @@
+VAR x, y;
+
+
+BEGINNING
+
+	
+ IF(x * 2 / (x > y)){
+ x=y;
+ }
+	
+	
+END

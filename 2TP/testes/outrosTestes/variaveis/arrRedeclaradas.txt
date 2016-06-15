@@ -1,0 +1,10 @@
+VAR x, x[10], y;
+
+
+BEGINNING
+
+	
+ x[1] = y;
+	
+	
+END

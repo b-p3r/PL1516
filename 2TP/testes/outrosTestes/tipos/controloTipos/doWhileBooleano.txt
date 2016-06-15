@@ -1,0 +1,15 @@
+VAR x, y;
+
+
+BEGINNING
+
+	
+
+	DO{
+	  y = x;
+	
+	}WHILE ( y );
+	
+	
+	
+END

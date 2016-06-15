@@ -1,0 +1,10 @@
+VAR x, y;
+
+
+BEGINNING
+
+	
+ x = (x > y);
+	
+	
+END
