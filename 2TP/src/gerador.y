@@ -92,7 +92,7 @@ Declaration : id
 
     else
     {
-        yyerror( "Variável já existe\n" );
+        yyerror ( "Variável já existe\n" );
         exit ( -1 );
     }
 
@@ -106,15 +106,15 @@ Declaration : id
     if ( entry==NULL )
     {
     add_Array ( status, $1, Integer, Array, $3, Program );
-        printf ( "\tpushn %d\n", $3 );
-        $$.val_type = Integer;
+    printf ( "\tpushn %d\n", $3 );
+    $$.val_type = Integer;
     }
-
-else
-{
-    yyerror( "Variável já existe\n" );
-    exit ( -1 );
-}
+    
+    else
+    {
+        yyerror ( "Variável já existe\n" );
+        exit ( -1 );
+    }
 
 // *INDENT-OFF*
 }   
@@ -124,17 +124,17 @@ else
     Entry *entry =  find_identifier ( status, $1 );
 
     if ( entry==NULL )
-{
-add_Matrix ( status, $1, Integer, Matrix, $3*$6, $3, Program );
+    {
+    add_Matrix ( status, $1, Integer, Matrix, $3*$6, $3, Program );
     printf ( "\tpushn %d\n", $3*$6 );
     $$.val_type = Integer;
-}
+    }
 
-else
-{
-    yyerror( "Variável já existe\n" );
-    exit ( -1 );
-}
+    else
+    {
+        yyerror ( "Variável já existe\n" );
+        exit ( -1 );
+    }
 
 // *INDENT-OFF*
 }   
@@ -150,17 +150,15 @@ Variable : id
 // *INDENT-ON*
     Entry *entry =  find_identifier ( status, $1 );
 
-    if ( entry&&get_class(entry)==Variable)
+    if ( entry&&get_class ( entry ) ==Variable )
     {
-        //int address = get_address ( entry );
-        //asprintf ( &$$.s, "\t ");
         $$.val_type=Integer;
         $$.entry=entry;
     }
 
     else
     {
-        yyerror( "Variável não está declarada" );
+        yyerror ( "Variável não está declarada" );
         exit ( -1 );
     }
 
@@ -171,17 +169,17 @@ Variable : id
 // *INDENT-ON*
     Entry *entry =  find_identifier ( status, $1 );
 
-    if ( entry&&get_class(entry)==Array)
+    if ( entry&&get_class ( entry ) ==Array )
     {
     int address = get_address ( entry );
-        asprintf ( &$$.s, "\tpushgp\n\tpushg %d\n\tpadd\n%s",address, $3.s );
-        $$.val_type=Integer;
-        $$.entry=entry;
+    asprintf ( &$$.s, "\tpushgp\n\tpushg %d\n\tpadd\n%s",address, $3.s );
+    $$.val_type=Integer;
+    $$.entry=entry;
     }
     
     else
     {
-        yyerror( "Variável não está declarada" );
+        yyerror ( "Variável não está declarada" );
         exit ( -1 );
     }
 
@@ -191,21 +189,21 @@ Variable : id
 // *INDENT-ON*
     Entry *entry =  find_identifier ( status, $1 );
 
-    if ( entry&&get_class(entry)==Matrix)
-    {
-    int address = get_address ( entry );
+    if ( entry&&get_class ( entry ) ==Matrix )
+{
+int address = get_address ( entry );
     int nRows = get_nRows ( entry );
     asprintf ( &$$.s, "\tpushgp\n\tpushg %d\n\tpadd\n\tpushi %d\n%s\tmul\n%s\tadd\n",
                address, nRows, $3.s, $6.s );
     $$.val_type=Integer;
     $$.entry=entry;
-    }
-    
-    else
-    {
-        yyerror( "Variável não está declarada" );
-        exit ( -1 );
-    }
+}
+
+else
+{
+    yyerror ( "Variável não está declarada" );
+    exit ( -1 );
+}
 
 // *INDENT-OFF*
 }    
@@ -233,11 +231,11 @@ Factor : Constant
         asprintf ( &$$.s, "%s\tloadn\n", $1.s );
     }
 
-    else {
+    else
+    {
         int address = get_address ( $1.entry );
         asprintf ( &$$.s, "\tpushg %d\n",  address );
     }
-    //$$.s=$1.s;
     $$.val_type=$1.val_type;
 // *INDENT-OFF*
 }
@@ -250,8 +248,9 @@ Factor : Constant
         $$.val_type=$3.val_type;
     }
 
-    else {
-        yyerror( "A condição não tem um valor inteiro" );
+    else
+    {
+        yyerror ( "A condição não tem um valor inteiro" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -274,8 +273,9 @@ Factor : Constant
         $$.s=$3.s;
     }
 
-    else {
-        yyerror( "A condição não tem um valor booleano" );
+    else
+    {
+        yyerror ( "A condição não tem um valor booleano" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -295,8 +295,9 @@ Term : Factor
         $$.val_type=$1.val_type;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -310,8 +311,9 @@ Term : Factor
         $$.val_type=$1.val_type;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -325,8 +327,9 @@ Term : Factor
         $$.val_type=$1.val_type;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -340,8 +343,9 @@ Term : Factor
         $$.val_type=Boolean;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -365,8 +369,9 @@ ExpAdditiv : Term
         $$.val_type=$1.val_type;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else 
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -380,8 +385,9 @@ ExpAdditiv : Term
         $$.val_type=$1.val_type;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else 
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -395,8 +401,9 @@ ExpAdditiv : Term
         $$.val_type=Boolean;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else 
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -420,8 +427,9 @@ Exp : ExpAdditiv
         $$.val_type=Boolean;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else 
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -435,8 +443,9 @@ Exp : ExpAdditiv
         $$.val_type=Boolean;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else 
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -450,8 +459,9 @@ Exp : ExpAdditiv
         $$.val_type=Boolean;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else 
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -465,8 +475,9 @@ Exp : ExpAdditiv
         $$.val_type=Boolean;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else 
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -480,8 +491,9 @@ Exp : ExpAdditiv
         $$.val_type=Boolean;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -495,8 +507,9 @@ Exp : ExpAdditiv
         $$.val_type=Boolean;
     }
 
-    else {
-        yyerror( "A expressão não tem elementos do mesmo tipo " );
+    else
+    {
+        yyerror ( "A expressão não tem elementos do mesmo tipo " );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -504,23 +517,24 @@ Exp : ExpAdditiv
 ;                                      
 Atribution :  Variable '=' ExpAdditiv    {
 // *INDENT-ON*
-    if ( check_type ( $1.val_type, Integer )&& check_type ( $3.val_type, Integer ) )
+    if ( check_type ( $1.val_type, Integer ) && check_type ( $3.val_type, Integer ) )
     {
-         if ( get_class ( $1.entry ) == Matrix || get_class ( $1.entry ) == Array )
-         {
-             asprintf ( &$$.s, "%s%s\tstoren\n", $1.s, $3.s );
-         }
+        if ( get_class ( $1.entry ) == Matrix || get_class ( $1.entry ) == Array ) {
+            asprintf ( &$$.s, "%s%s\tstoren\n", $1.s, $3.s );
 
-         else {
-             int address = get_address ( $1.entry );
-             asprintf ( &$$.s, "%s\tstoreg %d\n", $3.s, address );
-         }
-    }else {
-        yyerror( "Os tipo de elementos da atribuição não são iguais" );
+        }
+    else
+    {
+            int address = get_address ( $1.entry );
+            asprintf ( &$$.s, "%s\tstoreg %d\n", $3.s, address );
+        }
+
+    }
+    else
+    {
+        yyerror ( "Os tipo de elementos da atribuição não são iguais" );
         exit ( -1 );
     }
-
-
 // *INDENT-OFF*
 }
 ;
@@ -530,29 +544,23 @@ InstructionsList : Instruction           {$$.s=$1.s;}
 Else :         {
 // *INDENT-ON*
 
-    ///pop_label ( status,if_inst );
 
     asprintf ( &$$.s, "then%s:\tnop\n", get_label ( status,if_inst ) );
-
-
 
 // *INDENT-OFF*
 } 
 |            
-ELSE '{' InstructionsList '}'          { 
+Else { add_label ( else_inst );  }'{' InstructionsList '}'          { 
 // *INDENT-ON*
-    char *tmp1 = add_label ( else_inst );
+    char *else_lbl = get_label ( status, else_inst );
 
-    //char *tmp2 = get_label ( status,if_inst );
-    char *tmp2 = get_label ( status, if_inst );
+    remove_label ( if_inst );
 
-    //remove_label ( if_inst );
+    char *if_lbl = get_label ( status, if_inst );
 
 
-    char *tmp = get_label ( status,else_inst );
-
-    asprintf ( &$$.s, "\tjump else%s\nthen%s:\tnop\n%selse%s:\tnop\n", tmp1,
-    tmp2, $3.s,  tmp );
+    asprintf ( &$$.s, "\tjump else%s\nthen%s:\tnop\n%selse%s:\tnop\n", else_lbl,
+    if_lbl, $4.s,  else_lbl );
 
     remove_label ( else_inst );
 
@@ -566,7 +574,8 @@ Instruction : Atribution ';'           {$$.s=$1.s;}
         asprintf ( &$$.s, "%s\tread\n\tatoi\n\tstoren\n", $2.s);
     }
 
-    else {
+    else
+    {
         int address = get_address ( $2.entry );
         asprintf ( &$$.s, "\tread\n\tatoi\n\tstoreg %d\n", address);
     }
@@ -580,8 +589,9 @@ Instruction : Atribution ';'           {$$.s=$1.s;}
         asprintf ( &$$.s,"%s\twritei\n", $2.s );
     }
 
-    else {
-        yyerror( "Não é possível escrever valores booleanos" );
+    else
+    {
+        yyerror ( "Não é possível escrever valores booleanos" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -599,20 +609,18 @@ Else
 // *INDENT-ON*
     if ( check_type ( $4.val_type, Boolean ) )
     {
-       asprintf ( &$$.s,"%s\tjz then%s\n%s%s", $4.s, get_label
-       ( status, if_inst), $7.s,$9.s);
-        //printf ( "\tjz then%s\n", add_label ( if_inst ) );
-        //asprintf ( &$<instr>$.s,"%s", $3.s );
-        //printf ( "\tjz then%s\n", add_label ( if_inst ) );
+        asprintf ( &$$.s,"%s\tjz then%s\n%s%s", $4.s, get_label
+        ( status, if_inst ), $7.s,$9.s );
         remove_label ( if_inst );
     }
 
-    else {
-         yyerror( "A condição não tem um valor booleano");
+    else
+    {
+        yyerror ( "A condição não tem um valor booleano" );
         exit ( -1 );
     }
 
-    //asprintf ( &$$.s,"%s%s", $7.s,$9.s );
+
 
 // *INDENT-OFF*
 } 
@@ -625,8 +633,10 @@ Else
         asprintf ( &$$.s,"wloop%s:\tnop\n%s\tjz wdone%s\n%s\tjump wloop%s\nwdone%s:\tnop\n", tmp, $3.s, tmp, $6.s, tmp, tmp );
         remove_label ( while_inst );
 
-    } else {
-        yyerror( "A condição não tem um valor booleano" );
+    }
+    else
+    {
+        yyerror ( "A condição não tem um valor booleano" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -641,8 +651,10 @@ Else
         asprintf ( &$$.s,"doloop%s:\tnop\n%s%s\tjz dodone%s\tjump doloop%s\n\tdodone%s:\tnop\n\n", tmp, $3.s,  $7.s, tmp,tmp, tmp );
         remove_label ( do_while_inst );
 
-    } else {
-        yyerror( "A condição não tem um valor booleano" );
+    }
+    else
+    {
+        yyerror ( "A condição não tem um valor booleano" );
         exit ( -1 );
     }
 // *INDENT-OFF*
@@ -653,8 +665,7 @@ Else
 #include "lex.yy.c"
 int yyerror ( char *mensagem )
 {
-
-    printf ( "Erro sintático %d: %s em %s\n", yylineno, mensagem, yytext);
+    printf ( "Erro sintático %d: %s em %s\n", yylineno, mensagem, yytext );
     return 0;
 }
 
@@ -666,13 +677,9 @@ int main()
     if ( status==NULL )
         return -1;
 
-    push_label_stack ( status, if_inst );
-    push_label_stack ( status, else_inst );
     push_label_stack ( status, while_inst );
     push_label_stack ( status, do_while_inst );
     yyparse();
-    pop_label_stack ( status, if_inst );
-    pop_label_stack ( status, else_inst );
     pop_label_stack ( status, while_inst );
     pop_label_stack ( status, do_while_inst );
     return 0;
