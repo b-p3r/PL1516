@@ -4,7 +4,7 @@ start
 	pushg 0
 	pushg 1
 	sup  
-	jz then11
+	jz then1
 	pushg 0
 	pushg 1
 	sup  
@@ -13,7 +13,7 @@ start
 	storeg 1
 then11:	nop
 	jump else1
-then11:	nop
+then1:	nop
 	pushg 0
 	storeg 1
 else1:	nop
