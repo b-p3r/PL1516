@@ -1,4 +1,8 @@
 1TP/report/* linguist-documentation
 2TP/report/* linguist-documentation
-* linguist-vendored
-*.tex linguist-vendored=false
+1TP/exemplos/* linguist-vendored
+1TP/notas/* linguist-vendored
+1TP/testes/* linguist-vendored
+2TP/resources/* linguist-vendored
+2TP/testes/* linguist-vendored
+2TP/
