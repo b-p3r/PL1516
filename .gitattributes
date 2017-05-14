@@ -1,2 +1,4 @@
 1TP/report/* linguist-documentation
 2TP/report/* linguist-documentation
+* linguist-vendored
+*.tex linguist-vendored=false
